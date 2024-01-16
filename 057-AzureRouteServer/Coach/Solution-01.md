@@ -18,7 +18,7 @@
 - Create a Azure Network Gateway in Hub VNet with SKU supporting Active/Active and BGP.
 - Setup VNet peering between spokes and hub VNet.
 - Setup Local Network Gateway reprenting simulated on-prem branch. 
-- Deploy the Cisco CSR template (provided in the challange section) to simulate a branch office (on-premises). The said template also creates a "datacenter" VNet. 
+- Deploy the Cisco CSR template (provided in the challenge section) to simulate a branch office (on-premises). The said template also creates a "datacenter" VNet. 
 - Setup 2-tunnels to one active/active virtual network gateway created earlier.
 - Deploy Cisco CSR template (provided in the challange section) to setup a central NVA (used as a BGP/Security NVA). 
 - Deploy VMs in all VNets (including Branch).
