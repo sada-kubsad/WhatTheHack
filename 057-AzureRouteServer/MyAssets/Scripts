@@ -42,6 +42,7 @@ export vpngwpip2=20.150.143.81
 export hubnva1=20.163.50.108
 export onpremVM=20.150.221.163
 
+cat ~/.ssh/id_rsa.pub on your local machine and upload the public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
 ssh azureuser@$datacenter -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ssh azureuser@$hubvm
 ssh azureuser@$spoke1vm
