@@ -38,7 +38,7 @@ az vm get-instance-view -g wthars -n  onpremVM      | grep -i power
 Connecting to VMs:
 -----------
 export datacenter=$(az network public-ip show -n datacenter-pip -g wthars --query ipAddress -o tsv)
-export onpremVM=$(az network public-ip show -n onpremVM-pip -g wthars --query ipAddress -o tsv)
+export onpremVM=$(az network public-ip show -n onpremVM-ip -g wthars --query ipAddress -o tsv)
 export hubvm=$(az network public-ip show -n hubvm-pip -g wthars --query ipAddress -o tsv)
 export hubnva1=$(az network public-ip show -n hub-nva1-pip -g wthars --query ipAddress -o tsv)
 export routeserver==$(az network public-ip show -n routeserverip -g wthars --query ipAddress -o tsv)
