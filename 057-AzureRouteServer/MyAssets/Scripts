@@ -48,7 +48,7 @@ ssh azureuser@$datacenter -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-h
 ssh azureuser@$hubvm
 ssh azureuser@$spoke1vm
 ssh azureuser@$spoke2vm
-ssh sada@$onpremVM
+ssh azureuser@$onpremVM
 
 Troubleshooting the VPN Gateway:
 Packet Capture URL: 
