@@ -1,3 +1,7 @@
+Set Default resource group:
+---------------------------
+az config set defaults.group=wthbgp
+
 Show Effective Routes on VMs: 
 ----------------------------
 az network nic show-effective-route-table  -g wthbgp -o table -n testvm1937
@@ -93,6 +97,9 @@ supersecretPSK@123
 
 
 FOR CSR-NVAs, access through serial console instead of SSH
+
+Check Connection status:
+------------------------
 
 
 Learnings:
