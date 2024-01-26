@@ -42,7 +42,16 @@ export vpngwpip2=20.150.143.81
 export hubnva1=20.163.50.108
 export onpremVM=20.150.221.163
 
+export datacenter=$(az network public-ip show -n datacenter-nva -g $rg --query ipAddress -o tsv)
+export hubvm=$(az network public-ip show -n hubvm -g $rg --query ipAddress -o tsv)
+export spoke1vm=$(az network public-ip show -n spoke1-vm -g $rg --query ipAddress -o tsv)
+export spoke2vm=$(az network public-ip show -n spoke2-vm -g $rg --query ipAddress -o tsv)
+export hubnva1=$(az network public-ip show -n hub-nva1 -g $rg --query ipAddress -o tsv)
+export onpremVM=$(az network public-ip show -n onpremVM -g $rg --query ipAddress -o tsv)
+
 cat ~/.ssh/id_rsa.pub on your local machine and upload the public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
+My public key is:
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCY12aVXmISdwgxsWUEw7AeUdSfl9db16/dMDDDkNlhBYDeNVALZD0NncYOa8Fa/l4GHN0+2jfPuUPnQtVJwdLXUynQuMmPOQ384jhe8VzV0vd3JZW8GAxf6EZVye50ZduWl7cX/vM9OyeuAcESSwC3tuSfk8WwTijW7nvczW1z5dDuAPq6ceO3MaPe5uBy3ZaC5xhvGfPAKdbKvNXTGbNOQ/QnVsAhYAWWVVkiOILtVqxqs/p+sEHsDGDM0a/o1Qjo/M8xHKEmsbfp8VyzmXATD455H/80tnmN6KwyzYZNIP/5DDscyEhthDqxJ/p9Qd1kb42DAFO6g6dSKLuufzAJ
 
 ssh azureuser@$datacenter -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ssh azureuser@$hubvm
