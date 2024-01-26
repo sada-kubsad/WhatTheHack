@@ -35,7 +35,6 @@ az vm start  -g wthbgp -n csr5-nva  > /dev/null 2>&1 &
 
 Stop Deallocate All VMs:
 -------------------------
-Do I need to stop the VM before Deallocating to preserve OS updates? Check Tomorrow!!!!
 az vm deallocate -g wthbgp -n testvm1  > /dev/null 2>&1 & 
 az vm deallocate -g wthbgp -n testvm2  > /dev/null 2>&1 & 
 az vm deallocate -g wthbgp -n testvm3  > /dev/null 2>&1 & 
@@ -44,6 +43,17 @@ az vm deallocate -g wthbgp -n testvm5  > /dev/null 2>&1 &
 az vm deallocate -g wthbgp -n csr3-nva  > /dev/null 2>&1 & 
 az vm deallocate -g wthbgp -n csr4-nva  > /dev/null 2>&1 & 
 az vm deallocate -g wthbgp -n csr5-nva  > /dev/null 2>&1 & 
+
+Check the status of VMSs:
+-------------------------
+az vm get-instance-view -g wthars -n testvm1    | grep -i power
+az vm get-instance-view -g wthars -n  testvm2   | grep -i power
+az vm get-instance-view -g wthars -n  testvm3   | grep -i power
+az vm get-instance-view -g wthars -n  testvm4   | grep -i power
+az vm get-instance-view -g wthars -n  testvm5   | grep -i power
+az vm get-instance-view -g wthars -n  csr3-nva  | grep -i power
+az vm get-instance-view -g wthars -n  csr4-nva  | grep -i power
+az vm get-instance-view -g wthars -n  csr5-nva  | grep -i power
 
 Connect to VMS:
 ---------------
