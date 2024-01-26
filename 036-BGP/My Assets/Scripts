@@ -1,10 +1,10 @@
 Show Effective Routes on VMs: 
 ----------------------------
-az network nic show-effective-route-table  -g wthbgp -o table -n testvm1359
-az network nic show-effective-route-table  -g wthbgp -o table -n testvm2396
-az network nic show-effective-route-table  -g wthbgp -o table -n  testvm3162 
-az network nic show-effective-route-table  -g wthbgp -o table -n  testvm4402 
-az network nic show-effective-route-table  -g wthbgp -o table -n testvm528 
+az network nic show-effective-route-table  -g wthbgp -o table -n testvm1937
+az network nic show-effective-route-table  -g wthbgp -o table -n testvm2701
+az network nic show-effective-route-table  -g wthbgp -o table -n  testvm3790 
+az network nic show-effective-route-table  -g wthbgp -o table -n  testvm4585 
+az network nic show-effective-route-table  -g wthbgp -o table -n testvm5840 
 
 
 On-Prem:
