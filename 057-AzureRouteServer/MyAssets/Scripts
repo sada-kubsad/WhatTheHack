@@ -2,6 +2,10 @@
 
  az login --use-device-code --tenant  a4613e8b-9f97-40ec-8f69-fd2a2d2243fa
 
+Set Default resource group:
+---------------------------
+az config set defaults.group=wthbgp
+
 Start All VMs:
 --------------
 az vm start  -g wthars -n datacenter-nva  > /dev/null 2>&1 & 
