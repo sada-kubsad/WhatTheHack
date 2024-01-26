@@ -276,9 +276,10 @@ az network routeserver peering list-learned-routes -n nva --routeserver rs -g $r
 
 Troubleshooting:
 ----------------
-VPN Gateway:
-------------
-Perform a gateway reset by going to Portal > Gateway > Reset
+Capture VPN Gateway traffic:
+---------------------------
+SAS URL: 
+https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-26T22:49:11Z&se=2029-01-27T06:49:11Z&spr=https&sv=2022-11-02&sr=c&sig=2asxutgpNRHD4xVyyK%2FpT4xhhWQ0kOzyRuY9Wi4JI6g%3D
 
 
 
