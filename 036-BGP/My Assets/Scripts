@@ -80,7 +80,14 @@ ssh labadmin@$testvm1
 supersecretPSK@123
 
 Using SSH key: 
-ssh labadmin@testvm1
+ssh labadmin@$testvm1
+ssh labadmin@$testvm2
+ssh labadmin@$testvm3
+ssh labadmin@$testvm4
+ssh labadmin@$csr3nva
+ssh labadmin@$csr4nva
+ssh labadmin@$csr5nva
+
 
 FOR CSR-NVAs, access through serial console instead of SSH
 
