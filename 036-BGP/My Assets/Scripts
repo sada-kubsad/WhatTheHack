@@ -1,17 +1,17 @@
 Show Effective Routes on VMs: 
 ----------------------------
-az network nic show-effective-route-table -g $rg -o table -n testvm1359
-az network nic show-effective-route-table  -g $rg -o table -n testvm2396
-az network nic show-effective-route-table  -g $rg -o table -n  testvm3162 
-az network nic show-effective-route-table  -g $rg -o table -n  testvm4402 
-az network nic show-effective-route-table  -g $rg -o table -n testvm528 
+az network nic show-effective-route-table  -g wthbgp -o table -n testvm1359
+az network nic show-effective-route-table  -g wthbgp -o table -n testvm2396
+az network nic show-effective-route-table  -g wthbgp -o table -n  testvm3162 
+az network nic show-effective-route-table  -g wthbgp -o table -n  testvm4402 
+az network nic show-effective-route-table  -g wthbgp -o table -n testvm528 
 
 
 On-Prem:
 --------
-az network nic show-effective-route-table  -g $rg -o table -n csr3-nvaVMNic
-az network nic show-effective-route-table  -g $rg -o table -n csr4-nvaVMNic
-az network nic show-effective-route-table  -g $rg -o table -n csr5-nvaVMNic
+az network nic show-effective-route-table  -g wthbgp -o table -n csr3-nvaVMNic
+az network nic show-effective-route-table  -g wthbgp -o table -n csr4-nvaVMNic
+az network nic show-effective-route-table  -g wthbgp -o table -n csr5-nvaVMNic
 
 
 
@@ -107,7 +107,7 @@ with active/active
 
 
     Not working:
-    az network public-ip show -g $rg -n testvm3-pip
-    az network public-ip show -g $rg -n testvm3-ip
+    az network public-ip show -g wthbgp -n testvm3-pip
+    az network public-ip show -g wthbgp -n testvm3-ip
     Working:
-     az network public-ip show -g $rg -n testvm3-ip
+     az network public-ip show -g wthbgp -n testvm3-ip
