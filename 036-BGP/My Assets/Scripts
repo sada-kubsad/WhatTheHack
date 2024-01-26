@@ -100,7 +100,7 @@ FOR CSR-NVAs, access through serial console instead of SSH
 
 Check Connection status:
 ------------------------
-
+az network vpn-connection list -o table
 
 Learnings:
 -----------
