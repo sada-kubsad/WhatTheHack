@@ -1,4 +1,5 @@
 Show Effective Routes on VMs: 
+----------------------------
 az network nic show-effective-route-table -g $rg -o table -n testvm1359
 az network nic show-effective-route-table  -g $rg -o table -n testvm2396
 az network nic show-effective-route-table  -g $rg -o table -n  testvm3162 
@@ -7,6 +8,7 @@ az network nic show-effective-route-table  -g $rg -o table -n testvm528
 
 
 On-Prem:
+--------
 az network nic show-effective-route-table  -g $rg -o table -n csr3-nvaVMNic
 az network nic show-effective-route-table  -g $rg -o table -n csr4-nvaVMNic
 az network nic show-effective-route-table  -g $rg -o table -n csr5-nvaVMNic
