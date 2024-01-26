@@ -75,8 +75,12 @@ csr3nva=$(az network public-ip show -n csr3-pip -g $rg --query ipAddress -o tsv)
 csr4nva=$(az network public-ip show -n csr4-pip -g $rg --query ipAddress -o tsv)
 csr5nva=$(az network public-ip show -n csr5-pip -g $rg --query ipAddress -o tsv)
 
+Using Username Password:
 ssh labadmin@$testvm1
 supersecretPSK@123
+
+Using SSH key: 
+ssh labadmin@testvm1
 
 FOR CSR-NVAs, access through serial console instead of SSH
 
