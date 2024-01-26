@@ -66,14 +66,14 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCY12aVXmISdwgxsWUEw7AeUdSfl9db16/dMDDDkNlh
 
 Username/password for access is labadmin/supersecretPSK@123
 
-export testvm1=$(az network public-ip show -n testvm1-ip -g $rg --query ipAddress -o tsv)
-export testvm2=$(az network public-ip show -n testvm2-ip -g $rg --query ipAddress -o tsv)
-export testvm3=$(az network public-ip show -n testvm3-ip -g $rg --query ipAddress -o tsv)
-export testvm4=$(az network public-ip show -n testvm4-ip -g $rg --query ipAddress -o tsv)
-export testvm5=$(az network public-ip show -n testvm5-ip -g $rg --query ipAddress -o tsv)
-export csr3nva=$(az network public-ip show -n csr3-pip -g $rg --query ipAddress -o tsv)
-export csr4nva=$(az network public-ip show -n csr4-pip -g $rg --query ipAddress -o tsv)
-export csr5nva=$(az network public-ip show -n csr5-pip -g $rg --query ipAddress -o tsv)
+export testvm1=$(az network public-ip show -n testvm1-ip -g wthbgp --query ipAddress -o tsv)
+export testvm2=$(az network public-ip show -n testvm2-ip -g wthbgp --query ipAddress -o tsv)
+export testvm3=$(az network public-ip show -n testvm3-ip -g wthbgp --query ipAddress -o tsv)
+export testvm4=$(az network public-ip show -n testvm4-ip -g wthbgp --query ipAddress -o tsv)
+export testvm5=$(az network public-ip show -n testvm5-ip -g wthbgp --query ipAddress -o tsv)
+export csr3nva=$(az network public-ip show -n csr3-pip -g wthbgp --query ipAddress -o tsv)
+export csr4nva=$(az network public-ip show -n csr4-pip -g wthbgp --query ipAddress -o tsv)
+export csr5nva=$(az network public-ip show -n csr5-pip -g wthbgp --query ipAddress -o tsv)
 
 Using Username Password:
 ssh labadmin@$testvm1
