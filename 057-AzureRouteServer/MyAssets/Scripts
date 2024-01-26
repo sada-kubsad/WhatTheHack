@@ -4,7 +4,7 @@
 
 Set Default resource group:
 ---------------------------
-az config set defaults.group=wthbgp
+az config set defaults.group=wthars
 
 Start All VMs:
 --------------
