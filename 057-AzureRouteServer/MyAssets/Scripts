@@ -37,12 +37,15 @@ az vm get-instance-view -g wthars -n  onpremVM      | grep -i power
 
 Connecting to VMs:
 -----------
-export datacenter=$(az network public-ip show -n datacenter-nva -g wthars --query ipAddress -o tsv)
-export hubvm=$(az network public-ip show -n hubvm -g wthars --query ipAddress -o tsv)
-export spoke1vm=$(az network public-ip show -n spoke1-vm -g wthars --query ipAddress -o tsv)
-export spoke2vm=$(az network public-ip show -n spoke2-vm -g wthars --query ipAddress -o tsv)
-export hubnva1=$(az network public-ip show -n hub-nva1 -g wthars --query ipAddress -o tsv)
-export onpremVM=$(az network public-ip show -n onpremVM -g wthars --query ipAddress -o tsv)
+export datacenter=$(az network public-ip show -n datacenter-pip -g wthars --query ipAddress -o tsv)
+export onpremVM=$(az network public-ip show -n onpremVM-pip -g wthars --query ipAddress -o tsv)
+export hubvm=$(az network public-ip show -n hubvm-pip -g wthars --query ipAddress -o tsv)
+export hubnva1=$(az network public-ip show -n hub-nva1-pip -g wthars --query ipAddress -o tsv)
+export routeserver==$(az network public-ip show -n routeserverip -g wthars --query ipAddress -o tsv)
+export spoke1vm=$(az network public-ip show -n spoke1-vm-pip -g wthars --query ipAddress -o tsv)
+export spoke2vm=$(az network public-ip show -n spoke2-vm-pip -g wthars --query ipAddress -o tsv)
+
+
 
 cat ~/.ssh/id_rsa.pub on your local machine and upload the public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
 My public key is:
