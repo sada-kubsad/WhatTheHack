@@ -67,7 +67,13 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCY12aVXmISdwgxsWUEw7AeUdSfl9db16/dMDDDkNlh
 Username/password for access is labadmin/supersecretPSK@123
 
 testvm1=$(az network public-ip show -n testvm1-ip -g $rg --query ipAddress -o tsv)
+testvm2=$(az network public-ip show -n testvm2-ip -g $rg --query ipAddress -o tsv)
+testvm3=$(az network public-ip show -n testvm3-ip -g $rg --query ipAddress -o tsv)
+testvm4=$(az network public-ip show -n testvm4-ip -g $rg --query ipAddress -o tsv)
+testvm5=$(az network public-ip show -n testvm5-ip -g $rg --query ipAddress -o tsv)
 csr3nva=$(az network public-ip show -n csr3-pip -g $rg --query ipAddress -o tsv)
+csr4nva=$(az network public-ip show -n csr4-pip -g $rg --query ipAddress -o tsv)
+csr5nva=$(az network public-ip show -n csr5-pip -g $rg --query ipAddress -o tsv)
 
 ssh labadmin@$testvm1
 supersecretPSK@123
