@@ -37,15 +37,6 @@ az vm get-instance-view -g wthars -n  onpremVM      | grep -i power
 
 Connecting to VMs:
 -----------
-export datacenter=20.169.37.236   
-export hubvm=20.25.188.243   
-export spoke1vm=20.125.116.231  
-export spoke2vm=20.106.98.98    
-export vpngwppip1=20.106.103.241  
-export vpngwpip2=20.150.143.81  
-export hubnva1=20.163.50.108
-export onpremVM=20.150.221.163
-
 export datacenter=$(az network public-ip show -n datacenter-nva -g wthars --query ipAddress -o tsv)
 export hubvm=$(az network public-ip show -n hubvm -g wthars --query ipAddress -o tsv)
 export spoke1vm=$(az network public-ip show -n spoke1-vm -g wthars --query ipAddress -o tsv)
