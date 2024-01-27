@@ -36,7 +36,7 @@ az vm get-instance-view -g wthars -n  hub-nva1      | grep -i power
 az vm get-instance-view -g wthars -n  onpremVM      | grep -i power
 
 Connecting to VMs:
------------
+------------------
 export datacenter=$(az network public-ip show -n datacenter-pip -g wthars --query ipAddress -o tsv)
 export onpremVM=$(az network public-ip show -n onpremVM-ip -g wthars --query ipAddress -o tsv)
 export hubvm=$(az network public-ip show -n hubvm-pip -g wthars --query ipAddress -o tsv)
@@ -57,9 +57,6 @@ ssh azureuser@$spoke1vm
 ssh azureuser@$spoke2vm
 ssh azureuser@$onpremVM
 
-Troubleshooting the VPN Gateway:
-Packet Capture URL: 
-https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-19T22:03:40Z&se=2024-10-04T05:03:40Z&spr=https&sv=2022-11-02&sr=c&sig=2nnpy9hJgco9fV1%2F9M676IJqkYgOy1ykE%2FwRdysWgsM%3D
 
 
 Onprem CISCO device BGP config:
@@ -278,9 +275,8 @@ Troubleshooting:
 ----------------
 Capture VPN Gateway traffic:
 ---------------------------
-SAS URL: 
+Packet Capture URL - SAS URL: 
 https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-26T22:49:11Z&se=2029-01-27T06:49:11Z&spr=https&sv=2022-11-02&sr=c&sig=2asxutgpNRHD4xVyyK%2FpT4xhhWQ0kOzyRuY9Wi4JI6g%3D
-
 
 
 TCP Dump on Cisco:
