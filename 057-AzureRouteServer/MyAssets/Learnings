@@ -1,6 +1,6 @@
-Onprem, I added a VM to help with looking at the routes associated with the NIC. 
+I added a VM Onprem so that I can look at the effective routes associated with the NIC. 
 Problem: 
-  From the newly added on-prem VM (IP 172.16.1.68) in the diagram in the attached PDF,I could not ping to the Hub VM. 
+  From the newly added on-prem VM aka datacenter VM (IP 172.16.1.68) in the diagram in  attached PDF,I could not ping to the Hub VM. 
   I can however ping from on-prem VM aka datacenter VM to the HUB VM and would see request and response ICMP messages processed in the Hub VM, but responses from Hub VM not getting back to on-prem VM aka datacenter VM. 
   I can however ping from the on-prem (aka datacenter) NVA to the hub VMs.
 Cause: 
