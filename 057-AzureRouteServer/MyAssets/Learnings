@@ -11,3 +11,8 @@ Cause:
 Solution:
   Add a static route on the on-prem Cisco NVA:
 #ip route 172.16.1.64 255.255.255.0 172.16.1.1
+
+
+Cannot do:
+(config)#ip route 172.16.1.0 255.255.255.0  172.16.1.10
+%Invalid next hop address (it's this router)
