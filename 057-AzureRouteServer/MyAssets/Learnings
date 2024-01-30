@@ -16,3 +16,5 @@ Solution:
 Cannot do:
 (config)#ip route 172.16.1.0 255.255.255.0  172.16.1.10
 %Invalid next hop address (it's this router)
+Nor:
+datacenter-nva(config)#ip route 172.16.1.0 255.255.255.0  GigabitEthernet1
