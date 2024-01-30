@@ -10,4 +10,4 @@ Cause:
 
 Solution:
   Add a static route on the on-prem Cisco NVA:
-#ip route 172.16.1.64/28 172.16.1.1
+#ip route 172.16.1.64 255.255.255.0 172.16.1.1
