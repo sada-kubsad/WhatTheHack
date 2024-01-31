@@ -285,6 +285,7 @@ https://www.cisco.com/c/en/us/support/docs/ios-nx-os-software/ios-embedded-packe
 See section: "Cisco IOS-XE Configuration Example" in link above
 
 monitor capture CAP interface Tunnel0 both
+monitor capture CAP interface Tunnel1 both
 monitor capture CAP match ipv4 protocol 1 any any limit pps 1000000
 monitor capture CAP start
 monitor capture CAP stop
