@@ -18,3 +18,15 @@ Cannot do:
 %Invalid next hop address (it's this router)
 Nor:
 datacenter-nva(config)#ip route 172.16.1.0 255.255.255.0  GigabitEthernet1
+
+
+Add BGP Routes to Cisco NVA:
+----------------------------
+datacenter-nva#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+datacenter-nva(config)#router bgp 65501
+datacenter-nva(config-router)#network 172.16.1.0 ma
+datacenter-nva(config-router)#network 172.16.1.0 mask 255.255.255.0
+datacenter-nva(config-router)#end
+datacenter-nva#clear ip bgp * sof
+datacenter-nva#ping 172.16.1.68
