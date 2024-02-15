@@ -48,8 +48,11 @@ export spoke2vm=$(az network public-ip show -n spoke2-vm-pip -g wthars --query i
 
 
 cat ~/.ssh/id_rsa.pub on your local machine and upload the public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
-My public key is:
+My public key on OfficeVM-2 is:
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCY12aVXmISdwgxsWUEw7AeUdSfl9db16/dMDDDkNlhBYDeNVALZD0NncYOa8Fa/l4GHN0+2jfPuUPnQtVJwdLXUynQuMmPOQ384jhe8VzV0vd3JZW8GAxf6EZVye50ZduWl7cX/vM9OyeuAcESSwC3tuSfk8WwTijW7nvczW1z5dDuAPq6ceO3MaPe5uBy3ZaC5xhvGfPAKdbKvNXTGbNOQ/QnVsAhYAWWVVkiOILtVqxqs/p+sEHsDGDM0a/o1Qjo/M8xHKEmsbfp8VyzmXATD455H/80tnmN6KwyzYZNIP/5DDscyEhthDqxJ/p9Qd1kb42DAFO6g6dSKLuufzAJ
+
+My public key on OfficeLaptop3 is:
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHlKCxf99c1BXhOP006ipDp673csCc65pbUl8fnJ7fyHQrSCVTXb1iI0x8FdJpcXlOhNYhVh3zwB0Zse3mrS0HixlK5dkjj4OpjeWVW3Yw8IicmyMR2kR9fC9K8RblL9hXVF6JuUvAPhRN/1v/HW1HYgbpGLsGlYVp0SGL2hOqAlfVCGPep6x8RtVP7sHAG1CG5ww3koE0F4fTLqN8Qin+utdbIJicb9Wc2EFIxTuvn1BMiTajsaGv2wOVEU2MIFBhrqtIrx/0cDiu//n6F7cYwf0e7X5hcxXI/C/DvDWb9e2VxEuEglGNjgPdX0TKseOqf5S+vBnn3XIz7pdO80I6lv7L93WumbEPS/KEdOGy6UDxRPK9CfczEwwupJp268XFSnz4mMXEUIhBtsoEaRgYmRZFRIJ2RKHauN3D7KftaSrchUXY1VjfZsTDIDFgwEdEVJDR+hyRviL+FCkdeEpClNjcn/iUmaTZkj2TyGGcyz1iiBv1G1dfNzPalXjNXFc= sada@OfficeLaptop
 
 ssh azureuser@$datacenter -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ssh azureuser@$hubvm
