@@ -147,5 +147,5 @@ az network vnet subnet update -g $rg -n MySubnet --vnet-name MyVNet --route-tabl
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
 
 ### General RouteTable commands:
-az network route-table list -g $rg
+az network route-table list -g $rg -o Table
 
