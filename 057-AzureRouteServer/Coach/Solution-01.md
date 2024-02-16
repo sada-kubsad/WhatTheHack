@@ -122,3 +122,25 @@ echo "Creating Hub to Spoke2 Networking Peering"
 az network vnet peering create -n hubtospoke2 -g $rg --vnet-name $vnet_name --remote-vnet $spoke2_name --allow-vnet-access --allow-forwarded-traffic --allow-gateway-transit -o none
 echo "Creating Spoke2 to Hub Networking Peering"
 az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --remote-vnet $vnet_name --allow-vnet-access --allow-forwarded-traffic --use-remote-gateways -o none
+
+
+## Routing Table Scripts:
+### BranchVMSubnetToHubSpokeVNet
+az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
+az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
+
+### GWSubnetToHub
+az network route-table create -g $rg -n GWSubnetToHub
+az network route-table route create -g $rg --route-table-name GWSubnetToHub -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
+
+### HubVMSubnetToSpokesAndBranch
+az network route-table create -g $rg -n HubVMSubnetToSpokesAndBranch
+az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
+
+### SpokeVMSubnetToOtherSpokeandBranch
+az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
+az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
+
+### General RouteTable commands:
+az network route-table list -g $rg
+
