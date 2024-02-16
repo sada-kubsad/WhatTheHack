@@ -23,7 +23,7 @@
 - Deploy Cisco CSR template (Student/Resources/centralnva.md provided in the challenge section) to setup a central NVA (used as a BGP/Security NVA). 
 - Deploy VMs in all VNets (including Branch).
 - Create Route Tables (UDRs) to steer traffic via NVAs for,
-   - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR applaince).
+   - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
    (This is required because branch VNet is really Azure vNet (think of SDN)).
    - GW subnet, route to Hub, next hop Central NVA (Outside Interface). 
    - Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface).
