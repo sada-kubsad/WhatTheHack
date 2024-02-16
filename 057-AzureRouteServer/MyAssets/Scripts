@@ -40,7 +40,7 @@ Connecting to VMs:
 export datacenter=$(az network public-ip show -n datacenter-pip -g wthars --query ipAddress -o tsv)
 export onpremVM=$(az network public-ip show -n onpremVM-ip -g wthars --query ipAddress -o tsv)
 export hubvm=$(az network public-ip show -n hubvm-pip -g wthars --query ipAddress -o tsv)
-export hubnva1=$(az network public-ip show -n hub-nva1-pip -g wthars --query ipAddress -o tsv)
+export hubnva=$(az network public-ip show -n hub-nva1-pip -g wthars --query ipAddress -o tsv)
 export routeserver=$(az network public-ip show -n routeserverip -g wthars --query ipAddress -o tsv)
 export spoke1vm=$(az network public-ip show -n spoke1-vm-pip -g wthars --query ipAddress -o tsv)
 export spoke2vm=$(az network public-ip show -n spoke2-vm-pip -g wthars --query ipAddress -o tsv)
@@ -56,6 +56,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHlKCxf99c1BXhOP006ipDp673csCc65pbUl8fnJ7f
 
 ssh azureuser@$datacenter -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ssh azureuser@$hubvm
+ssh azureuser@$hubvmnva
 ssh azureuser@$spoke1vm
 ssh azureuser@$spoke2vm
 ssh azureuser@$onpremVM
