@@ -127,18 +127,23 @@ az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --
 ## Routing Table Scripts:
 ### BranchVMSubnetToHubSpokeVNet
 az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
+az network vnet subnet update -g $rg -n MySubnet --vnet-name MyVNet --route-table BranchVMSubnetToHubSpokeVNet
 az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
+
 
 ### GWSubnetToHub
 az network route-table create -g $rg -n GWSubnetToHub
+az network vnet subnet update -g $rg -n MySubnet --vnet-name MyVNet --route-table GWSubnetToHub
 az network route-table route create -g $rg --route-table-name GWSubnetToHub -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
 
 ### HubVMSubnetToSpokesAndBranch
 az network route-table create -g $rg -n HubVMSubnetToSpokesAndBranch
+az network vnet subnet update -g $rg -n MySubnet --vnet-name MyVNet --route-table HubVMSubnetToSpokesAndBranch
 az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
 
 ### SpokeVMSubnetToOtherSpokeandBranch
 az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
+az network vnet subnet update -g $rg -n MySubnet --vnet-name MyVNet --route-table SpokeVMSubnetToOtherSpokeandBranch
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.100.4
 
 ### General RouteTable commands:
