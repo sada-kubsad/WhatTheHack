@@ -56,7 +56,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHlKCxf99c1BXhOP006ipDp673csCc65pbUl8fnJ7f
 
 ssh azureuser@$datacenter -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ssh azureuser@$hubvm
-ssh azureuser@$hubvmnva
+ssh azureuser@$hubnva
 ssh azureuser@$spoke1vm
 ssh azureuser@$spoke2vm
 ssh azureuser@$onpremVM
