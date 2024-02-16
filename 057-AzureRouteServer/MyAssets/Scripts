@@ -2,6 +2,8 @@
 
 az login --use-device-code --tenant  a4613e8b-9f97-40ec-8f69-fd2a2d2243fa
 az login --tenant a4613e8b-9f97-40ec-8f69-fd2a2d2243fa
+az account set -s  0276702b-8348-4d6a-8aa2-f34cb186ad09
+export rg=wthars
 
 Set Default resource group:
 ---------------------------
