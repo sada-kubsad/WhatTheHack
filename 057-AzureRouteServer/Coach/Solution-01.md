@@ -25,7 +25,7 @@
 - Create Route Tables (UDRs) to steer traffic via NVAs for,
    - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
    (This is required because branch VNet is really Azure vNet (think of SDN)).
-   - GW subnet, route to Hub, next hop Central NVA (-Outside Interface-). 
+   - GW subnet, route to Hub, next hop Central NVA (__Outside Interface__). 
    - Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface).
    - Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface).
 - Verify all traffic is going through the Central Network Virtual Appliance:
