@@ -166,9 +166,11 @@ az network vnet subnet update -g $rg --vnet-name spoke1 -n vm --route-table Spok
 az network vnet subnet update -g $rg --vnet-name spoke2 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
 ```
 #### If you put the below quad 0 route, it will break internet connectivity and will not be able to ssh into the vm
+~
 ```bash
-~az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToOtherSpokeandBranch --address-prefix 0.0.0.0/0 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4~
+az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToOtherSpokeandBranch --address-prefix 0.0.0.0/0 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 ```
+~
 #### Instead use the following:
 ```bash
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke1 --address-prefix 10.1.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
