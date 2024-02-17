@@ -31,8 +31,8 @@
       - GW subnet, route to Spokes, next hop Central NVA.
       - Hub VM subnet, route to Spokes and Branch, next hop Central NVA.
       - Spoke VM subnet, route to the other spoke and branch, next hop Central NVA.
-   - According to [this pattern](https://github.com/sada-kubsad/azure-networking-patterns?tab=readme-ov-file#single-nva-on-premises-to-azure) the above routes follow this pattern:
-      - GW ubnet, route to Spokes VNET CIDR, next hop Central NVA
+   - The above routes follow [this pattern](https://github.com/sada-kubsad/azure-networking-patterns?tab=readme-ov-file#single-nva-on-premises-to-azure):
+      - GW subnet, route to Spoke's VNET CIDR, next hop Central NVA
       - Every Spoke subnet, route to anywhere (0/0), next hop Central NVA 
 - Verify all traffic is going through the Central Network Virtual Appliance:
    - spoke-to-spoke
