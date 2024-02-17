@@ -125,7 +125,7 @@ echo "Creating Spoke2 to Hub Networking Peering"
 az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --remote-vnet $vnet_name --allow-vnet-access --allow-forwarded-traffic --use-remote-gateways -o none
 
 
-## Routing Table Scripts:
+**## Routing Table Scripts:**
 ### BranchVMSubnetToHubSpokeVNet: Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance):
 az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
 az network vnet subnet update -g $rg --vnet-name datacenter -n vm --route-table BranchVMSubnetToHubSpokeVNet
