@@ -186,12 +186,6 @@ az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOth
 ```
 
 ## How to verify all traffic is going through the Central NVA:
-Capture VPN Gateway traffic:
----------------------------
-Packet Capture URL - SAS URL: 
-https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-26T22:49:11Z&se=2029-01-27T06:49:11Z&spr=https&sv=2022-11-02&sr=c&sig=2asxutgpNRHD4xVyyK%2FpT4xhhWQ0kOzyRuY9Wi4JI6g%3D
-
-
 TCP Dump on Cisco:
 -------------------
 See section: [Cisco IOS-XE Configuration Example](https://www.cisco.com/c/en/us/support/docs/ios-nx-os-software/ios-embedded-packet-capture/116045-productconfig-epc-00.html)
@@ -204,3 +198,10 @@ monitor capture CAP start
 monitor capture CAP stop
 show monitor capture CAP buffer brief
 no monitor capture CAP
+```
+
+Capture on VPN Gateway:
+----------------------
+Packet Capture URL - SAS URL: 
+https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-26T22:49:11Z&se=2029-01-27T06:49:11Z&spr=https&sv=2022-11-02&sr=c&sig=2asxutgpNRHD4xVyyK%2FpT4xhhWQ0kOzyRuY9Wi4JI6g%3D
+
