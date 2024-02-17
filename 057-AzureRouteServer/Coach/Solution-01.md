@@ -202,6 +202,7 @@ no monitor capture CAP
 
 Capture on VPN Gateway:
 ----------------------
+```
 Packet Capture URL - SAS URL: 
 https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-26T22:49:11Z&se=2029-01-27T06:49:11Z&spr=https&sv=2022-11-02&sr=c&sig=2asxutgpNRHD4xVyyK%2FpT4xhhWQ0kOzyRuY9Wi4JI6g%3D
-
+```
