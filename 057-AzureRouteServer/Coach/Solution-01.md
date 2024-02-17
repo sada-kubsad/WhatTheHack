@@ -24,12 +24,16 @@
    - Note: no CSR configurations required on the Central NVA. I've tested it to work out of the box!
 - Deploy VMs in all VNets (including Branch).
 - Create Route Tables (UDRs) to steer traffic via NVAs for,
-   - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
-   (This is required because branch VNet is really Azure vNet (think of SDN)).
-   - GW subnet, route to Hub, next hop Central NVA.
-   - GW subnet, route to Spokes, next hop Central NVA.
-   - Hub VM subnet, route to Spokes and Branch, next hop Central NVA.
-   - Spoke VM subnet, route to the other spoke and branch, next hop Central NVA.
+   - Original Recomendation:
+      - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
+         (This is required because branch VNet is really Azure vNet (think of SDN)).
+      - GW subnet, route to Hub, next hop Central NVA.
+      - GW subnet, route to Spokes, next hop Central NVA.
+      - Hub VM subnet, route to Spokes and Branch, next hop Central NVA.
+      - Spoke VM subnet, route to the other spoke and branch, next hop Central NVA.
+   - According to [this pattern](https://github.com/sada-kubsad/azure-networking-patterns?tab=readme-ov-file#single-nva-on-premises-to-azure) the above routes follow this pattern:
+      - GW ubnet, route to Spokes VNET CIDR, next hop Central NVA
+      - Every Spoke subnet, route to anywhere (0/0), next hop Central NVA 
 - Verify all traffic is going through the Central Network Virtual Appliance:
    - spoke-to-spoke
    - spokes-to-onprem
