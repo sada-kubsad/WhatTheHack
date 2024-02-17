@@ -168,9 +168,39 @@ az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOth
 ```
 
 ## Will these Routing Table Scripts work?:
-### GWSubnetToHub: GW subnet, route to Hub, next hop Central NVA (Inside Interface):
+### GWSubnetToSpokes: GW subnet, route to Spokes, next hop Central NVA:
 ```bash
+
 ```
-### SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface):
+### SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA:
+#### A quad zero route can be attached to Spoke 1 and Spoke 2 to direct all traffic to the Central NVA
 ```bash
+az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
+az network vnet subnet update -g $rg --vnet-name spoke1 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
+az network vnet subnet update -g $rg --vnet-name spoke2 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
+
+az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke1 --address-prefix 10.1.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke2 --address-prefix 10.2.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToBranch --address-prefix 172.16.1.0/24 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
+
 ```
+
+## How to verify all traffic is going through the Central NVA:
+Capture VPN Gateway traffic:
+---------------------------
+Packet Capture URL - SAS URL: 
+https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-26T22:49:11Z&se=2029-01-27T06:49:11Z&spr=https&sv=2022-11-02&sr=c&sig=2asxutgpNRHD4xVyyK%2FpT4xhhWQ0kOzyRuY9Wi4JI6g%3D
+
+
+TCP Dump on Cisco:
+-------------------
+https://www.cisco.com/c/en/us/support/docs/ios-nx-os-software/ios-embedded-packet-capture/116045-productconfig-epc-00.html
+See section: "Cisco IOS-XE Configuration Example" in link above
+
+monitor capture CAP interface Tunnel0 both
+monitor capture CAP interface Tunnel1 both
+monitor capture CAP match ipv4 protocol 1 any any limit pps 1000000
+monitor capture CAP start
+monitor capture CAP stop
+show monitor capture CAP buffer brief
+no monitor capture CAP
