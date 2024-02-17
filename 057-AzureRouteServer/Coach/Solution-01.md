@@ -20,7 +20,8 @@
 - Setup Local Network Gateway reprenting simulated on-prem branch. 
 - Deploy the Cisco CSR template (Student/Resources/wthcsronprem.md provided in the challenge section) to simulate a branch office (on-premises). The said template also creates a "datacenter" VNet. 
 - Setup 2-tunnels to one active/active virtual network gateway created earlier.
-- Deploy Cisco CSR template (Student/Resources/centralnva.md provided in the challenge section) to setup a central NVA (used as a BGP/Security NVA). 
+- Deploy Cisco CSR template (Student/Resources/centralnva.md provided in the challenge section) to setup a central NVA (used as a BGP/Security NVA).
+- - Note: no CSR configurations required on the Central NVA. I've tested it to work out of the box!
 - Deploy VMs in all VNets (including Branch).
 - Create Route Tables (UDRs) to steer traffic via NVAs for,
    - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
