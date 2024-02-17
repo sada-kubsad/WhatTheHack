@@ -34,7 +34,7 @@
    - The above routes follow [this pattern](https://github.com/sada-kubsad/azure-networking-patterns?tab=readme-ov-file#single-nva-on-premises-to-azure):
       - GW subnet, route to Spoke's VNET CIDR, next hop Central NVA
       - Every Spoke subnet, route to anywhere (0/0), next hop Central NVA
-   - In the absence of the above routes, traffic fill still flow but without going through the Central NVA
+   - In the absence of the above routes, traffic fill still flow but without going through the Central NVA **because Azure plumbs in the routes, but not passing through the NVA!**
 - Verify all traffic is going through the Central Network Virtual Appliance:
    - spoke-to-spoke
    - spokes-to-onprem
