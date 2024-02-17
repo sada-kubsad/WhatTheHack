@@ -128,27 +128,27 @@ az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --
 ### BranchVMSubnetToHubSpokeVNet: Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance):
 az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
 az network vnet subnet update -g $rg -n vm --vnet-name datacenter --route-table BranchVMSubnetToHubSpokeVNet
-az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n BranchVMSubnetToHubSpokeVNet --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/8 --next-hop-ip-address 172.16.1.10
+az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n BranchVMSubnetToHubSpokeVNet --address-prefix 10.0.0.0/8 --next-hop-type VirtualAppliance  --next-hop-ip-address 172.16.1.10
 
 
 ### GWSubnetToHub: GW subnet, route to Hub, next hop Central NVA (Inside Interface):
 az network route-table create -g $rg -n GWSubnetToHub
 az network vnet subnet update -g $rg -n GatewaySubnet --vnet-name hub --route-table GWSubnetToHub
-az network route-table route create -g $rg --route-table-name GWSubnetToHub -n GWSubnetToHub --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name GWSubnetToHub -n GWSubnetToHub --address-prefix 10.0.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 
 ### HubVMSubnetToSpokesAndBranch: Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface):
 az network route-table create -g $rg -n HubVMSubnetToSpokesAndBranch
 az network vnet subnet update -g $rg -n vm --vnet-name hub --route-table HubVMSubnetToSpokesAndBranch
-az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToSpoke1 --next-hop-type VirtualAppliance --address-prefix 10.1.0.0/16 --next-hop-ip-address 10.0.1.4
-az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToSpoke2 --next-hop-type VirtualAppliance --address-prefix 10.2.0.0/16 --next-hop-ip-address 10.0.1.4
-az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToBranch --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToSpoke1 --address-prefix 10.1.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToSpoke2 --address-prefix 10.2.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToBranch --address-prefix 10.0.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 
 
 
 ### SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface):
 az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
 az network vnet subnet update -g $rg -n MySubnet --vnet-name MyVNet --route-table SpokeVMSubnetToOtherSpokeandBranch
-az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n MyRoute --next-hop-type VirtualAppliance --address-prefix 10.0.0.0/16 --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n MyRoute --address-prefix 10.0.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 
 ### General RouteTable commands:
 az network route-table list -g $rg -o Table
