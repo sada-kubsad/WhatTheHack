@@ -197,6 +197,7 @@ TCP Dump on Cisco:
 https://www.cisco.com/c/en/us/support/docs/ios-nx-os-software/ios-embedded-packet-capture/116045-productconfig-epc-00.html
 See section: "Cisco IOS-XE Configuration Example" in link above
 
+```bash
 monitor capture CAP interface Tunnel0 both
 monitor capture CAP interface Tunnel1 both
 monitor capture CAP match ipv4 protocol 1 any any limit pps 1000000
