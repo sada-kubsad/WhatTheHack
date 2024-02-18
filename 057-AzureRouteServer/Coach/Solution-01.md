@@ -163,7 +163,7 @@ az network route-table route create -g $rg --route-table-name HubVMSubnetToSpoke
 az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToSpoke2 --address-prefix 10.2.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 az network route-table route create -g $rg --route-table-name HubVMSubnetToSpokesAndBranch -n HubVMSubnetToBranch --address-prefix 172.16.1.0/24 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 ```
-
+Note: Although you have a route attached to HubVMSubnet to direct traffic to Branch via NVA (last line above to 172.16.1.0/24), it will still not go through the NVA because of the existance of a more specific route(/32) sent from  the VNET gateway 
 ### SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface):
 ```bash
 az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
