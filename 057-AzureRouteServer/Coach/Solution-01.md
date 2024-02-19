@@ -22,6 +22,10 @@
 - Setup 2-tunnels to one active/active virtual network gateway created earlier.
 - Deploy Cisco CSR template (Student/Resources/centralnva.md provided in the challenge section) to setup a central NVA (used as a BGP/Security NVA).
    - Note: no CSR configurations required on the Central NVA. I've tested it to work out of the box!
+   - Note:
+      - For the Central NVA to forward traffic:
+         - NIC in Azur must be configured with ip forwarding flag on (done above)
+         - CSR internal config not required. I've tested it to work
 - Deploy VMs in all VNets (including Branch).
 - Create Route Tables (UDRs) to steer traffic via NVAs for,
    - Original Recomendation:
