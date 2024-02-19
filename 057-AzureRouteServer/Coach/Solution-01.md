@@ -202,7 +202,7 @@ az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOth
 
 ```
 
-## How to verify all traffic is going through the Central NVA:
+## To verify all traffic is going through the Central NVA:
 TCP Dump on Cisco:
 -------------------
 See section: [Cisco IOS-XE Configuration Example](https://www.cisco.com/c/en/us/support/docs/ios-nx-os-software/ios-embedded-packet-capture/116045-productconfig-epc-00.html)
