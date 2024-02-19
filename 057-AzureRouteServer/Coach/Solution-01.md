@@ -24,8 +24,8 @@
    - Note: no CSR configurations required on the Central NVA. I've tested it to work out of the box!
    - Note:
       - For the Central NVA to forward traffic:
-         - NIC in Azur must be configured with ip forwarding flag on (done above)
-         - CSR internal config not required. I've tested it to work
+         - NIC in Azure must be configured with ip forwarding flag on (done above)
+         - CSR internal config. This not required. I've tested and it works
 - Deploy VMs in all VNets (including Branch).
 - Create Route Tables (UDRs) to steer traffic via NVAs for,
    - Original Recomendation:
