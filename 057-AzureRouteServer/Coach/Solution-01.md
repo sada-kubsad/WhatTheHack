@@ -148,7 +148,7 @@ az network route-table route create -g $rg --route-table-name BranchVMSubnetToHu
 ```bash
 az network route-table create -g $rg -n GWSubnetToHubAndSpokes
 az network vnet subnet update -g $rg --vnet-name hub -n GatewaySubnet --route-table GWSubnetToHubAndSpokes
-az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSpokes -n GWSubnetToHub --address-prefix 10.0.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
+az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSpokes -n GWSubnetToHub    --address-prefix 10.0.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSpokes -n GWSubnetToSpoke1 --address-prefix 10.1.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSpokes -n GWSubnetToSpoke2 --address-prefix 10.2.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 ```
