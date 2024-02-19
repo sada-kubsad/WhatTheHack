@@ -144,7 +144,7 @@ az network vnet subnet update -g $rg --vnet-name datacenter -n vm --route-table 
 az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n BranchVMSubnetToHubSpokeVNet --address-prefix 10.0.0.0/8 --next-hop-type VirtualAppliance  --next-hop-ip-address 172.16.1.10
 ```
 
-### GWSubnetToHubAndSpokes: GW subnet, route to Hub, next hop Central NVA:
+### GWSubnetToHubAndSpokes: GW subnet, route to Hub and Spokes, next hop Central NVA:
 ```bash
 az network route-table create -g $rg -n GWSubnetToHubAndSpokes
 az network vnet subnet update -g $rg --vnet-name hub -n GatewaySubnet --route-table GWSubnetToHubAndSpokes
