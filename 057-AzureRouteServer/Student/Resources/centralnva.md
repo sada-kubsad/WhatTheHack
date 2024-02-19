@@ -44,11 +44,11 @@ az network nic update --ids $nva_nic_id --ip-forwarding -o none --only-show-erro
 
 ## Useful Cisco IOS commands
 
-** Note:
+*** Note:
 No CSR configurations required on the Central NVA. I've tested it to work out of the box!
 For the Central NVA to forward traffic:
-- NIC in Azur must be configured with ip forwarding flag on (done above)
-- CSR internal config not required. I've tested it to work **
+- NIC in Azure must be configured with ip forwarding flag on (done above)
+- CSR internal config. This not required. I've tested and it works ***
 
 This list is by no means comprehensive, but it is conceived to give some of the most useful commands for admins new to the Cisco CLI
 
