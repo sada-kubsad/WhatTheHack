@@ -16,6 +16,8 @@
 
 - Deploy Azure Route Server <br/>
 - Setup BGP peering with Central NVA <br/>
+  - [Configuring ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva)
+  - Configure CSR:
 - Test publishing routes/default routes on NVA<br/>
 - Validate traffic flows via NVA <br/>
 - You will notice only spoke to spoke routing via NVA works <br/>
