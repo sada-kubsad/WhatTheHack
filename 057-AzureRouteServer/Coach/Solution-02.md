@@ -4,35 +4,15 @@
 
 ## Notes & Guidance
 
-- Undo/remove static route tabls (UDRs) <br/>
+# Undo/remove static route tabls (UDRs) <br/>
 - You can't remove branch UDR since it's an Azure VNet simulating on-premises (running on Azure SDN) <br/>
-  - This stays:
-
+- This stays:
+``` bash
     az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
-
     az network vnet subnet update -g $rg --vnet-name datacenter -n vm --route-table BranchVMSubnetToHubSpokeVNet
-
     az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n           BranchVMSubnetToHubSpokeVNet --address-prefix 10.0.0.0/8 --next-hop-type VirtualAppliance  --next-hop-ip-address 172.16.1.10
-
-- Deploy Azure Route Server <br/>
-- Setup BGP peering with Central NVA <br/>
-  - [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with ASN = 65515 and IP Address: 10.0.1.4   
-  - Configure CSR:
-- Test publishing routes/default routes on NVA<br/>
-- Validate traffic flows via NVA <br/>
-- You will notice only spoke to spoke routing via NVA works <br/>
-- For spoke to spoke traffic, advertise supernet since equal and more specific routes will be dropped by Azure Route Server.<br/>
-- Also, because of the limitation in the Azure virtual network gateway type VPN it's not possible to advertise a 0.0.0.0/0 route through to the VPN Gateway. Student can try the approach of splitting advertisements like 0/1 and 128/1, but still routes learned through VPN Gateway will be more specific. (There might be some differences with ExR but same principle applies)<br/>
-
-
-- Azure to on-premises traffic is not possible in this design since advertising a more specific on-prem prefix from the NVA will result in a routing loop with the SDN fabric. 
-- On-premises to Azure routing is possible but it requires static routes on Gateway and NVA Subnet (to prevent the loop)<br/>
-
-Few plausible solutions to solve these challanges.
-- [Create an overlay with Vxlan + eBGP](https://blog.cloudtrooper.net/2021/03/29/using-route-server-to-firewall-onprem-traffic-with-an-nva/) <br/>
-- [Split ARS design](https://docs.microsoft.com/en-us/azure/route-server/route-injection-in-spokes#different-route-servers-to-advertise-routes-to-virtual-network-gateways-and-to-vnets)<br/>
-
-## Sample deployment script
+```
+# Deploy Azure Route Server
 You can use this script to deploy Azure Route Server. Setting up via portal is recommended if you are new to Azure Route Server. 
 
 ```bash
@@ -52,4 +32,25 @@ az network routeserver create --name ARSHack --resource-group $rg --hosted-subne
 
 # Enable Branch to Branch flag.
 az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-traffic true
+```
 
+# Setup BGP peering with Central NVA <br/>
+## Configure ARS
+[Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with ASN = 65515 and IP Address: 10.0.1.4   
+
+## Configure CSR:
+
+ 
+# Test publishing routes/default routes on NVA<br/>
+# Validate traffic flows via NVA <br/>
+- You will notice only spoke to spoke routing via NVA works <br/>
+- For spoke to spoke traffic, advertise supernet since equal and more specific routes will be dropped by Azure Route Server.<br/>
+- Also, because of the limitation in the Azure virtual network gateway type VPN it's not possible to advertise a 0.0.0.0/0 route through to the VPN Gateway. Student can try the approach of splitting advertisements like 0/1 and 128/1, but still routes learned through VPN Gateway will be more specific. (There might be some differences with ExR but same principle applies)<br/>
+
+
+- Azure to on-premises traffic is not possible in this design since advertising a more specific on-prem prefix from the NVA will result in a routing loop with the SDN fabric. 
+- On-premises to Azure routing is possible but it requires static routes on Gateway and NVA Subnet (to prevent the loop)<br/>
+
+Few plausible solutions to solve these challanges.
+- [Create an overlay with Vxlan + eBGP](https://blog.cloudtrooper.net/2021/03/29/using-route-server-to-firewall-onprem-traffic-with-an-nva/) <br/>
+- [Split ARS design](https://docs.microsoft.com/en-us/azure/route-server/route-injection-in-spokes#different-route-servers-to-advertise-routes-to-virtual-network-gateways-and-to-vnets)<br/>
