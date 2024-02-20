@@ -4,7 +4,7 @@
 
 ## Notes & Guidance
 
-# Undo/remove static route tabls (UDRs) <br/>
+# 1. Undo/remove static route tabls (UDRs) <br/>
 - You can't remove branch UDR since it's an Azure VNet simulating on-premises (running on Azure SDN) <br/>
 - This stays:
 ``` bash
@@ -12,7 +12,7 @@
     az network vnet subnet update -g $rg --vnet-name datacenter -n vm --route-table BranchVMSubnetToHubSpokeVNet
     az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n           BranchVMSubnetToHubSpokeVNet --address-prefix 10.0.0.0/8 --next-hop-type VirtualAppliance  --next-hop-ip-address 172.16.1.10
 ```
-# Deploy Azure Route Server
+# 2. Deploy Azure Route Server
 You can use this script to deploy Azure Route Server. Setting up via portal is recommended if you are new to Azure Route Server. 
 
 ```bash
@@ -34,11 +34,11 @@ az network routeserver create --name ARSHack --resource-group $rg --hosted-subne
 az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-traffic true
 ```
 
-# Setup BGP peering with Central NVA <br/>
-## Configure ARS
+# 3. Setup BGP peering with Central NVA <br/>
+## 3.1 Configure ARS
 [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with ASN = 65515 and IP Address: 10.0.1.4   
 
-## Configure CSR:
+## 3.2 Configure CSR:
 
  
 # Test publishing routes/default routes on NVA<br/>
