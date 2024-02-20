@@ -6,6 +6,11 @@
 
 - Undo/remove static route tabls (UDRs) <br/>
 - You can't remove branch UDR since it's an Azure VNet simulating on-premises (running on Azure SDN) <br/>
+  - This stays:
+      az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
+      az network vnet subnet update -g $rg --vnet-name datacenter -n vm --route-table BranchVMSubnetToHubSpokeVNet
+      az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n           BranchVMSubnetToHubSpokeVNet --address-prefix 10.0.0.0/8 --next-hop-type VirtualAppliance  --next-hop-ip-address 172.16.1.10
+
 - Deploy Azure Route Server <br/>
 - Setup BGP peering with Central NVA <br/>
 - Test publishing routes/default routes on NVA<br/>
