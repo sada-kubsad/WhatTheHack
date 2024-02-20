@@ -39,7 +39,22 @@ az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-tr
 [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with ASN = 65515 and IP Address: 10.0.1.4   
 
 ## 3.2 Configure CSR:
+[Configure CSR](https://github.com/sada-kubsad/WhatTheHack/blob/master/057-AzureRouteServer/Student/Resources/whatthehackcentralnvachallenge2.md)
+``` bash
+conf t
+router bgp 65515
+ bgp log-neighbor-changes
+ neighbor 10.0.3.4 remote-as 65515
+ neighbor 10.0.3.4 ebgp-multihop 255
+ neighbor 10.0.3.4 update-source GigabitEthernet1
+ neighbor 10.0.3.5 remote-as 65515
+ neighbor 10.0.3.5 ebgp-multihop 255
+ neighbor 10.0.3.5 update-source GigabitEthernet1
+exit
+exit
+wr mem
 
+```
  
 # 4. Test publishing routes/default routes on NVA<br/>
 # 5. Validate traffic flows via NVA <br/>
