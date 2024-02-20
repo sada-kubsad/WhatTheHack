@@ -39,7 +39,7 @@ az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-tr
 [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with ASN = 65515 and IP Address: 10.0.1.4   
 
 ## 3.2 Configure CSR:
-[Configure CSR](https://github.com/sada-kubsad/WhatTheHack/blob/master/057-AzureRouteServer/Student/Resources/whatthehackcentralnvachallenge2.md)
+[Based on this guide](https://github.com/sada-kubsad/WhatTheHack/blob/master/057-AzureRouteServer/Student/Resources/whatthehackcentralnvachallenge2.md#sample-deployment-script)
 ``` bash
 conf t
 router bgp 65515
