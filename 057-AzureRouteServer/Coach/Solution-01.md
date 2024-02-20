@@ -152,7 +152,7 @@ az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSp
 az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSpokes -n GWSubnetToSpoke1 --address-prefix 10.1.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSpokes -n GWSubnetToSpoke2 --address-prefix 10.2.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 ```
-
+Note: The GWSubnet can be associated with 1 route table, not two. Previously had separate route tables on GWSubnet, one for Hub and another for Spokes. The GWSubnet can have only 1 route table with different routes for the Hub, Spoke1 and Spoke2. 
 ### HubVMSubnetToSpokesAndBranch: Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface):
 ```bash
 az network route-table create -g $rg -n HubVMSubnetToSpokesAndBranch
