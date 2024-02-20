@@ -16,7 +16,7 @@
 
 - Deploy Azure Route Server <br/>
 - Setup BGP peering with Central NVA <br/>
-  - [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva)with ASN = 65515 and IP Address: 10.0.1.4   
+  - [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with ASN = 65515 and IP Address: 10.0.1.4   
   - Configure CSR:
 - Test publishing routes/default routes on NVA<br/>
 - Validate traffic flows via NVA <br/>
