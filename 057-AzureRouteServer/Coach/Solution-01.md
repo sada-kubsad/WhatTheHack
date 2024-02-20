@@ -183,24 +183,6 @@ az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOth
 ```
 Note: Although you have a route attached to Spokes 1 and 2 to direct traffic to Branch via NVA (last line above to 172.16.1.0/24), it will still not go through the NVA because of the existance of a more specific route(/32) sent from the VNET gateway to direct all traffic to the datacenter NVA(/32) to the VNET gateway. The return traffic however from datacenter NVA to hubVM will always goes through the Central NVA because of the route on the Gateway subnet to Spoke subnet.  
 
-## Will these Routing Table Scripts work?:
-### GWSubnetToSpokes: GW subnet, route to Spokes, next hop Central NVA:
-```bash
-
-```
-### SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA:
-#### A quad zero route can be attached to Spoke 1 and Spoke 2 to direct all traffic to the Central NVA
-```bash
-az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
-az network vnet subnet update -g $rg --vnet-name spoke1 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
-az network vnet subnet update -g $rg --vnet-name spoke2 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
-
-az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke1 --address-prefix 10.1.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
-az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke2 --address-prefix 10.2.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
-az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToBranch --address-prefix 172.16.1.0/24 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
-
-```
-
 ## To verify all traffic is going through the Central NVA:
 TCP Dump on Cisco:
 -------------------
