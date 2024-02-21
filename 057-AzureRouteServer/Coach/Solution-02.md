@@ -55,9 +55,9 @@ exit
 wr mem
 ```
 ** Note:
-router bgp 65515 <- Cannot be 65515. Will result in "Error: This BGP peer cannot share the same ASN as the virtual hub." when configuring Peers section of the ARS config. 
-- ASN of ARS: 65515
+router bgp 65515 <- ASN on NVA cannot be 65515. Will result in "Error: This BGP peer cannot share the same ASN as the virtual hub." when configuring Peers section of the ARS config. 
 - ASN of NVA: 65501
+- ASN of ARS: 65515
 See [here](https://blog.cloudtrooper.net/2021/03/06/route-server-multi-region-design/)
 
 **
