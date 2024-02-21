@@ -38,8 +38,8 @@ az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-tr
 ## 3.1 Configure ARS
 [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with ASN = 65515 and IP Address: 10.0.1.4</br>
 Note: 
-- ASN 65515 is the ARS's ASN.
-- 65501 is NVA's ASN
+- ARS ASN 65515.
+- NVA ASN 65501
 - VPN gateway does not have its own ASN, it takes on the on-prem's ASN 
 
 ## 3.2 Configure CSR:
