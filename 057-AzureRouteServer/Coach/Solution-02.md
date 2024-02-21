@@ -66,7 +66,7 @@ See [here](https://blog.cloudtrooper.net/2021/03/06/route-server-multi-region-de
 ## 4.1 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
 ```bash
 az network routeserver peering list -g wthars --routeserver ARSHack -o table
-```bash
+```
 ## 4.2 Check what routes ARS is receiving
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
