@@ -62,6 +62,17 @@ See [here](https://blog.cloudtrooper.net/2021/03/06/route-server-multi-region-de
 
 **
 # 4. Test publishing routes/default routes on NVA<br/>
+
+## 4.1 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
+```bash
+az network routeserver peering list -g wthars --routeserver ARSHack -o table
+```bash
+## 4.2 Check what routes ARS is receiving
+```bash
+az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
+```
+
+
 # 5. Validate traffic flows via NVA <br/>
 ## 5.1 Spoke to Spoke
 - You will notice only spoke to spoke routing via NVA works <br/>
