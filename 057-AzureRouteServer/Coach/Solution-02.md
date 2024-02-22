@@ -93,7 +93,7 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 
 - BGP Session is established between ARS’s instance IP (2 IPs) and NVA’s private IP. 
 - BGP session is NOT established between ARS’s instance IP and VPN/ER Gateway’s BGP endpoint IPs (2 IPs). 
-    - Diagrams often show a BGP session between ARS and VPN/ER Gateway
+    - Diagrams often show a BGP session between ARS and VPN/ER Gateway although that physically not
 - ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not through the VPN/ER Gateway’s BGP endpoints IPs
 
 
