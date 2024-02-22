@@ -65,14 +65,14 @@ router bgp 65515 <- ASN on NVA cannot be 65515. Will result in "Error: This BGP 
 See [here](https://blog.cloudtrooper.net/2021/03/08/connecting-your-nvas-to-expressroute-with-azure-route-server/)
 
 **
-# 4. Test publishing routes/default routes on NVA<br/>
-## 4.1 ARS is actually comprised of 2 different instances, each with its own IP Address:
+## 3.2 Validate configurations
+### 3.2.1 ARS is actually comprised of 2 different instances, each with its own IP Address:
 ```bash
 az network routeserver show --name ARSHack  --query virtualRouterIps
 ```
 Returns  "10.0.3.4", "10.0.3.5"
 
-## 4.2 Check BGP neighbours of VPN Gateway
+### 3.2.2 Check BGP neighbours of VPN Gateway
 ```bash
 az network vnet-gateway list-bgp-peer-status  -g wthars -n vpngw -o table
 
@@ -94,10 +94,10 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 - BGP Session is established between ARS’s instance IP (2 IPs) and NVA’s private IP. 
 - BGP session is NOT established between ARS’s instance IP and VPN/ER Gateway’s BGP endpoint IPs (2 IPs). 
     - Diagrams often show a BGP session between ARS and VPN/ER Gateway although that physically not
-- ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not through the VPN/ER Gateway’s BGP endpoints IPs
+- When ARS’s branch-to-branch traffic is enabled, ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not by establishing a connection to VPN/ER Gateway’s BGP endpoints IPs
 
 
-## 4.2 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
+### 3.2.3 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
 ```bash
 az network routeserver peering list -g wthars --routeserver ARSHack -o table
 
@@ -113,8 +113,13 @@ Even though this may show nothing, that does not mean no routes have been sent b
 - show ip bgp neighbors (neighbor ip) advertised-routes: show routes advertised to a particular neighbor
 - show ip bgp neighbors (neighbor ip) routes: show routes received from a particular neighbor
 
-for neighbor IPs:  10.0.3.4 and 10.0.3.5
+neighbor ip:  10.0.3.4 and 10.0.3.5
 
+
+# 4. Test publishing routes/default routes on NVA<br/>
+## 4.1 Publish 0/0 on NVA
+
+## 4.2 Publish 
 
 
 # 5. Validate traffic flows via NVA <br/>
