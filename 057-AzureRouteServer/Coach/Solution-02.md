@@ -62,16 +62,40 @@ wr mem
 router bgp 65515 <- ASN on NVA cannot be 65515. Will result in "Error: This BGP peer cannot share the same ASN as the virtual hub." when configuring Peers section of the ARS config. 
 - ASN of NVA: 65501
 - ASN of ARS: 65515
-See [here](https://blog.cloudtrooper.net/2021/03/06/route-server-multi-region-design/)
+See [here](https://blog.cloudtrooper.net/2021/03/08/connecting-your-nvas-to-expressroute-with-azure-route-server/)
 
 **
 # 4. Test publishing routes/default routes on NVA<br/>
+## 4.1 ARS is actually comprised of 2 different instances, each with its own IP Address:
+```bash
+az network routeserver show --name ARSHack  --query virtualRouterIps
+```
+Returns  "10.0.3.4", "10.0.3.5"
 
-## 4.1 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
+##4.2 Check BGP neighbours of VPN Gateway
+```bash
+az network vnet-gateway list-bgp-peer-status  -g wthars -n vpngw -o table
+```
+Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSent    MessagesReceived
+-----------  -----  ---------  -------------------  ----------------  --------------  ------------------
+172.16.1.10  65501  Connected  02:40:19.5787142     1                 263             223
+10.0.0.5     65515  Unknown                         0                 0               0
+10.0.0.4     65515  Connected  4.18:20:10.6427316   2                 8468            7922
+10.0.3.4     65515  Connected  1.06:47:06.9716932   1                 2120            2125
+10.0.3.5     65515  Connected  1.06:47:06.9716932   1                 2118            2124
+172.16.1.10  65501  Connected  02:40:19.0221396     1                 192             188
+10.0.0.5     65515  Connected  4.18:59:43.9347177   2                 7918            7927
+10.0.0.4     65515  Unknown                         0                 0               0
+10.0.3.4     65515  Connected  1.06:47:10.7889515   0                 2118            2120
+10.0.3.5     65515  Connected  1.06:47:10.7889515   0                 2123            2123
+
+*** Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config ***
+
+## 4.2 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
 ```bash
 az network routeserver peering list -g wthars --routeserver ARSHack -o table
 ```
-## 4.2 Check what routes ARS is receiving
+## 4.3 Check what routes ARS is receiving
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
