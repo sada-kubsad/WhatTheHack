@@ -90,7 +90,7 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 10.0.3.4     65515  Connected  1.06:47:10.7889515   0                 2118            2120
 10.0.3.5     65515  Connected  1.06:47:10.7889515   0                 2123            2123
 ```
-** Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config **
+** IMPORTANT Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config **
 
 ## 4.2 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
 ```bash
