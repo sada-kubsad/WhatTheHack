@@ -115,14 +115,14 @@ Even though this may show nothing, that does not mean no routes have been sent b
 Show routes advertised to a particular neighbor
 
 ```bash
-show ip bgp neighbors (neighbor ip) advertised-routes:
+show ip bgp neighbors (neighbor ip) advertised-routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
 ## 3.3.6 Check what routes CSR is receiving from NVA:
 Show routes received from a particular neighbor
 ```bash
-show ip bgp neighbors (neighbor ip) routes: 
+show ip bgp neighbors (neighbor ip) routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
  
