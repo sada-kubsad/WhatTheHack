@@ -99,7 +99,7 @@ Name           PeerAsn    PeerIp    ProvisioningState    ResourceGroup
 -------------  ---------  --------  -------------------  ---------------
 HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
 ```
-## 4.3 Check what routes ARS is receiving
+## 4.3 Check what routes ARS is receiving from teh NVA
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
