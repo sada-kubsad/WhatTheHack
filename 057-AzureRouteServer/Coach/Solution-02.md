@@ -109,6 +109,11 @@ HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
+Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes teh CSR is advertising to NVA and receiving from NVA. 
+
+## 3.3.5 Check what routes ARS is sending to the NVA
+```bash
+```
 Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below
 
 ## 3.3.5 Check what routes CSR is advertising to NVA:
