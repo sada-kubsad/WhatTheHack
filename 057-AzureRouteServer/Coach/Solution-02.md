@@ -95,6 +95,10 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 ## 4.2 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
 ```bash
 az network routeserver peering list -g wthars --routeserver ARSHack -o table
+
+Name           PeerAsn    PeerIp    ProvisioningState    ResourceGroup
+-------------  ---------  --------  -------------------  ---------------
+HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
 ```
 ## 4.3 Check what routes ARS is receiving
 ```bash
