@@ -72,7 +72,7 @@ az network routeserver show --name ARSHack  --query virtualRouterIps
 ```
 Returns  "10.0.3.4", "10.0.3.5"
 
-##4.2 Check BGP neighbours of VPN Gateway
+## 4.2 Check BGP neighbours of VPN Gateway
 ```bash
 az network vnet-gateway list-bgp-peer-status  -g wthars -n vpngw -o table
 ```
