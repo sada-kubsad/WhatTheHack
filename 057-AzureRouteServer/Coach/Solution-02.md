@@ -109,14 +109,37 @@ HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
-Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. On CSR device:
-- show ip bgp neighbors (neighbor ip) advertised-routes: show routes advertised to a particular neighbor
-- show ip bgp neighbors (neighbor ip) routes: show routes received from a particular neighbor
+Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below
 
+## 3.3.5 Check what routes CSR is advertising to NVA:
+Show routes advertised to a particular neighbor
+
+```bash
+show ip bgp neighbors (neighbor ip) advertised-routes:
+```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
+## 3.3.6 Check what routes CSR is receiving from NVA:
+Show routes received from a particular neighbor
+```bash
+show ip bgp neighbors (neighbor ip) routes: 
+```
+neighbor ip:  10.0.3.4 and 10.0.3.5
+ 
 
 # 4. Test publishing routes/default routes on NVA<br/>
+## Publish a test route
+This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16)
+```bash
+conf t
+!
+ip route 172.16.0.0 255.255.0.0 10.0.1.1
+!
+router bgp **NVA_ASN**
+ network 172.16.0.0 mask 255.255.0.0
+end
+```
+
 ## 4.1 Publish 0/0 on NVA
 
 ## 4.2 Publish 
