@@ -132,7 +132,7 @@ show ip bgp neighbors (neighbor ip) routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
-## 3.3.7 Check waht routes are on the NIC of any VM:
+## 3.3.7 Check what routes are on the NIC of any VM:
 az network nic show-effective-route-table --name hubvmVMNic -g wthars -o table
 az network nic show-effective-route-table --name datacenter-nvaVMNic  -g wthars -o table
 az network nic show-effective-route-table --name hub-nva1VMNic -g wthars -o table
@@ -144,13 +144,14 @@ az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o tab
 # 4. Test publishing routes/default routes on NVA<br/>
 ## Publish a test route
 This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16)
+From the onprem nva aka datacenter NVA: 
 ```bash
 conf t
 !
-ip route 172.16.0.0 255.255.0.0 10.0.1.1
+ip route 172.16.1.0 255.255.255.0 10.0.1.4
 !
-router bgp **NVA_ASN**
- network 172.16.0.0 mask 255.255.0.0
+router bgp 65501
+ network 172.16.1.0 mask 255.255.255.0
 end
 ```
 
