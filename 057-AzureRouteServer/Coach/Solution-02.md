@@ -40,7 +40,7 @@ az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-tr
 Note: 
 - ARS ASN 65515.
 - NVA ASN 65501
-- VPN gateway does not have its own ASN, it takes on the on-prem's ASN 
+- VPN gateway ASN 65515 by default 
 
 ## 3.2 Configure CSR:
 [Based on this guide](https://github.com/sada-kubsad/WhatTheHack/blob/master/057-AzureRouteServer/Student/Resources/whatthehackcentralnvachallenge2.md#sample-deployment-script)
