@@ -142,9 +142,21 @@ az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o tab
 
 
 # 4. Test publishing routes/default routes on NVA<br/>
-## Publish a test route
+## 4.1 Advertise a default route
+### 4.1.1 with default-originate
+``` bash
+conf t
+!
+router bgp **NVA_ASN**
+address-family ipv4
+neighbor 10.0.3.4 default-originate
+neighbor 10.0.3.5 default-originate
+end
+```
+
+### 4.1.2 with a static IP address
 This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16)
-From the onprem nva aka datacenter NVA: 
+From the ** onprem nva aka datacenter NVA:**  
 ```bash
 conf t
 !
@@ -155,10 +167,45 @@ router bgp 65501
 end
 ```
 
-## 4.1 Publish 0/0 on NVA
+## 4.2 Advertise a route with a loopback interface
+This pattern can be used to advertise a route, and offer an IP address that is pingable to other systems. For example, if you want to simulate an SDWAN prefix 172.18.0.0, and Azure VMs should be able to ping the IP address 172.18.0.1:
+```bash
+conf t
+!
+interface Loopback0
+  ip address 172.18.0.1 255.255.0.0
+  no shutdown
+!
+router bgp **NVA_ASN**
+ network 172.18.0.0 mask 255.255.0.0
+end
+```
 
-## 4.2 Publish 
+## 4.2 Route manipulation
+Some times you want to manipulate routes before advertising them to the Azure Route Server. 
+### 4.2.1 Set a specific next hop
+You can configure an outbound route map for the ARS neighbors that sets the next-hop field of the BGP route to a certain IP (typically an Azure Load Balancer in front of the NVAs):
+```bash
+conf t
+router bgp **NVA_ASN**
+  neighbor 10.0.3.4 route-map To-ARS out
+  neighbor 10.0.3.5 route-map To-ARS out
+route-map To-ARS
+  set ip next-hop 10.0.1.200
+end
+```
 
+### 4.2.2 Configure AS path prepending
+AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
+```bash
+conf t
+router bgp **NVA_ASN**
+  neighbor 10.0.3.4 route-map To-ARS out
+  neighbor 10.0.3.5 route-map To-ARS out
+route-map To-ARS
+  set as-path prepend **NVA_ASN**
+end
+```
 
 # 5. Validate traffic flows via NVA <br/>
 ## 5.1 Spoke to Spoke
