@@ -178,7 +178,7 @@ interface Loopback0
   ip address 172.18.0.1 255.255.0.0
   no shutdown
 !
-router bgp **NVA_ASN**
+router bgp 65501
  network 172.18.0.0 mask 255.255.0.0
 end
 ```
@@ -189,7 +189,7 @@ Some times you want to manipulate routes before advertising them to the Azure Ro
 You can configure an outbound route map for the ARS neighbors that sets the next-hop field of the BGP route to a certain IP (typically an Azure Load Balancer in front of the NVAs):
 ```bash
 conf t
-router bgp **NVA_ASN**
+router bgp 65501
   neighbor 10.0.3.4 route-map To-ARS out
   neighbor 10.0.3.5 route-map To-ARS out
 route-map To-ARS
@@ -201,7 +201,7 @@ end
 AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
 ```bash
 conf t
-router bgp **NVA_ASN**
+router bgp 65501
   neighbor 10.0.3.4 route-map To-ARS out
   neighbor 10.0.3.5 route-map To-ARS out
 route-map To-ARS
