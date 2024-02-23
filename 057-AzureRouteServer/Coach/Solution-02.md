@@ -157,7 +157,7 @@ end
 ```
 
 ### 4.1.2 with a static IP address
-This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16)
+This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16) </br>
 On the **onprem nva aka datacenter NVA execute:**  
 ```bash
 conf t
