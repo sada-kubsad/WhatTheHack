@@ -171,6 +171,7 @@ end
 
 ## 4.2 Advertise a route with a loopback interface
 This pattern can be used to advertise a route, and offer an IP address that is pingable to other systems. For example, if you want to simulate an SDWAN prefix 172.18.0.0, and Azure VMs should be able to ping the IP address 172.18.0.1:</br>
+
 Run this on the on-prem datacenter NVA: 
 ```bash
 conf t
