@@ -145,6 +145,7 @@ az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o tab
 # 4. Test publishing routes/default routes on NVA<br/>
 ## 4.1 Advertise a default route
 ### 4.1.1 with default-originate
+** On the Central Hub NVA execute: **
 ``` bash
 conf t
 !
@@ -157,7 +158,7 @@ end
 
 ### 4.1.2 with a static IP address
 This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16)
-From the ** onprem nva aka datacenter NVA:**  
+On the ** onprem nva aka datacenter NVA execute:**  
 ```bash
 conf t
 !
