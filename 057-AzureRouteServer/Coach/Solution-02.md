@@ -35,7 +35,7 @@ az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-tr
 ```
 
 # 3. Setup BGP peering with Central NVA <br/>
-## 3.1 Configure ARS
+## 3.1 Configure ARS to BGP peer with NVA
 [Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with Peer ASN = 65501 and Peer IP Address: 10.0.1.4</br>
 Note: 
 - ARS ASN 65515.
