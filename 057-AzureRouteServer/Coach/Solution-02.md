@@ -148,7 +148,7 @@ az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o tab
 ``` bash
 conf t
 !
-router bgp **NVA_ASN**
+router bgp 65501
 address-family ipv4
 neighbor 10.0.3.4 default-originate
 neighbor 10.0.3.5 default-originate
