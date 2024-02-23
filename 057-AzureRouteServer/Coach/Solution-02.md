@@ -133,13 +133,14 @@ show ip bgp neighbors (neighbor ip) routes
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
 ## 3.3.7 Routes on VM NICs:
+```bash
 az network nic show-effective-route-table --name hubvmVMNic -g wthars -o table
 az network nic show-effective-route-table --name datacenter-nvaVMNic  -g wthars -o table
 az network nic show-effective-route-table --name hub-nva1VMNic -g wthars -o table
 az network nic show-effective-route-table --name spoke1-vmVMNic -g wthars -o table
 az network nic show-effective-route-table --name spoke2-vmVMNic -g wthars -o table
 az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o table
-
+```
 
 # 4. Test publishing routes/default routes on NVA<br/>
 ## 4.1 Advertise a default route
