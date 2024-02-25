@@ -132,6 +132,18 @@ show ip bgp neighbors (neighbor ip) routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
+## 3.3.7 Routes the VNET Gateway is receiving from NVA
+```bash
+az network vnet-gateway list-learned-routes -n vpngw -g $rg -o table
+```
+
+## 3.3.8 Routes the VNET Gateway is advertising to NVA
+```bash
+az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.4 -o table
+
+az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.5 -o table
+```
+
 ## 3.3.7 Routes on VM NICs:
 ```bash
 az network nic show-effective-route-table --name hubvmVMNic -g wthars -o table
