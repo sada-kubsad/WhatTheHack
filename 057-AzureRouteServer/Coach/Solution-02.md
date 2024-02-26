@@ -93,7 +93,7 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 10.0.3.4     65515  Connected  1.06:47:10.7889515   0                 2118            2120
 10.0.3.5     65515  Connected  1.06:47:10.7889515   0                 2123            2123
 ```
-** IMPORTANT Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config **
+**IMPORTANT Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config**
 
 - BGP Session is established between ARS’s instance IP (2 IPs) and NVA’s private IP. 
 - BGP session is NOT established between ARS’s instance IP and VPN/ER Gateway’s BGP endpoint IPs (2 IPs). 
@@ -109,6 +109,8 @@ Name           PeerAsn    PeerIp    ProvisioningState    ResourceGroup
 -------------  ---------  --------  -------------------  ---------------
 HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
 ```
+**See the important note above  that the ARS will NOT show the additional BGP peerings with the VPN gateways. It will only show the peering configured to the NVA, but nothing about the VPN gateways!**
+
 ## 4.4 ARS learned routes from the NVA
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
