@@ -42,7 +42,7 @@ Note:
 - NVA ASN 65001
 - VPN gateway ASN 65515 by default 
 
-## 3.2 Configure CSR:
+## 3.2 Configure BGP on Central Hub CSR:
 [Based on this guide](https://github.com/sada-kubsad/WhatTheHack/blob/master/057-AzureRouteServer/Student/Resources/whatthehackcentralnvachallenge2.md#sample-deployment-script)
 ``` bash
 conf t
