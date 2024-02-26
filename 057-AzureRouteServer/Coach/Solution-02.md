@@ -204,7 +204,8 @@ end
 
 ### 5.1.2 with a static IP address
 This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16) </br>
-On the **onprem nva aka datacenter NVA execute:**  
+
+On the onprem nva aka datacenter NVA:  
 ```bash
 conf t
 !
@@ -218,7 +219,7 @@ end
 ## 5.2 Advertise a route with a loopback interface
 This pattern can be used to advertise a route, and offer an IP address that is pingable to other systems. For example, if you want to simulate an SDWAN prefix 172.18.0.0, and Azure VMs should be able to ping the IP address 172.18.0.1:</br>
 
-Run this on the on-prem datacenter NVA: 
+On the on-prem datacenter NVA: 
 ```bash
 conf t
 !
