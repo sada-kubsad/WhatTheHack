@@ -69,6 +69,10 @@ See [here](https://blog.cloudtrooper.net/2021/03/08/connecting-your-nvas-to-expr
 ## 4.1 ARS is actually comprised of 2 different instances, each with its own IP Address:
 ```bash
 az network routeserver show --name ARSHack  --query virtualRouterIps
+[
+  "10.0.3.4",
+  "10.0.3.5"
+]
 ```
 Returns  "10.0.3.4", "10.0.3.5"
 
