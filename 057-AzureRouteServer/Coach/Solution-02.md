@@ -237,6 +237,11 @@ end
 show running | include ip route
 ```
 
+## 5.4 Removing a static route on the CSR:
+```bash
+no ip route [destination network] [subnet mask]
+```
+
 # 6 Route manipulation
 Some times you want to manipulate routes before advertising them to the Azure Route Server. 
 ## 6.1 Set a specific next hop
