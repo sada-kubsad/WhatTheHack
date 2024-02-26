@@ -36,17 +36,17 @@ az network routeserver update --name ARSHack --resource-group $rg --allow-b2b-tr
 
 # 3. Setup BGP peering with Central NVA <br/>
 ## 3.1 Configure ARS to BGP peer with NVA
-[Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with Peer ASN = 65501 and Peer IP Address: 10.0.1.4</br>
+[Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with Peer ASN = 65001 and Peer IP Address: 10.0.1.4</br>
 Note: 
 - ARS ASN 65515.
-- NVA ASN 65501
+- NVA ASN 65001
 - VPN gateway ASN 65515 by default 
 
 ## 3.2 Configure CSR:
 [Based on this guide](https://github.com/sada-kubsad/WhatTheHack/blob/master/057-AzureRouteServer/Student/Resources/whatthehackcentralnvachallenge2.md#sample-deployment-script)
 ``` bash
 conf t
- router bgp 65501
+ router bgp 65001
  bgp log-neighbor-changes
  neighbor 10.0.3.4 remote-as 65515
  neighbor 10.0.3.4 ebgp-multihop 255
@@ -60,7 +60,7 @@ wr mem
 ```
 ** Note:
 router bgp 65515 <- ASN on NVA cannot be 65515. Will result in "Error: This BGP peer cannot share the same ASN as the virtual hub." when configuring Peers section of the ARS config. 
-- ASN of NVA: 65501
+- ASN of NVA: 65001
 - ASN of ARS: 65515
 See [here](https://blog.cloudtrooper.net/2021/03/08/connecting-your-nvas-to-expressroute-with-azure-route-server/)
 
@@ -82,16 +82,16 @@ az network vnet-gateway list-bgp-peer-status  -g wthars -n vpngw -o table
 
 Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSent    MessagesReceived
 -----------  -----  ---------  -------------------  ----------------  --------------  ------------------
-172.16.1.10  65501  Connected  02:40:19.5787142     1                 263             223
-10.0.0.5     65515  Unknown                         0                 0               0
-10.0.0.4     65515  Connected  4.18:20:10.6427316   2                 8468            7922
-10.0.3.4     65515  Connected  1.06:47:06.9716932   1                 2120            2125
-10.0.3.5     65515  Connected  1.06:47:06.9716932   1                 2118            2124
-172.16.1.10  65501  Connected  02:40:19.0221396     1                 192             188
-10.0.0.5     65515  Connected  4.18:59:43.9347177   2                 7918            7927
-10.0.0.4     65515  Unknown                         0                 0               0
-10.0.3.4     65515  Connected  1.06:47:10.7889515   0                 2118            2120
-10.0.3.5     65515  Connected  1.06:47:10.7889515   0                 2123            2123
+172.16.1.10  65001  Connected  02:40:19.5787142     1                 263             223
+10.0.0.5     65015  Unknown                         0                 0               0
+10.0.0.4     65015  Connected  4.18:20:10.6427316   2                 8468            7922
+10.0.3.4     65015  Connected  1.06:47:06.9716932   1                 2120            2125
+10.0.3.5     65015  Connected  1.06:47:06.9716932   1                 2118            2124
+172.16.1.10  65001  Connected  02:40:19.0221396     1                 192             188
+10.0.0.5     65015  Connected  4.18:59:43.9347177   2                 7918            7927
+10.0.0.4     65015  Unknown                         0                 0               0
+10.0.3.4     65015  Connected  1.06:47:10.7889515   0                 2118            2120
+10.0.3.5     65015  Connected  1.06:47:10.7889515   0                 2123            2123
 ```
 **IMPORTANT Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config**
 
@@ -107,7 +107,7 @@ az network routeserver peering list -g wthars --routeserver ARSHack -o table
 
 Name           PeerAsn    PeerIp    ProvisioningState    ResourceGroup
 -------------  ---------  --------  -------------------  ---------------
-HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
+HubCentralNVA  65001      10.0.1.4  Succeeded            wthars
 ```
 **See the important note above  that the ARS will NOT show the additional BGP peerings with the VPN gateways. It will only show the peering configured to the NVA, but nothing about the VPN gateways!**
 
@@ -149,12 +149,12 @@ az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.4
 
 Network        NextHop      Origin      SourcePeer    AsPath    Weight
 -------------  -----------  ----------  ------------  --------  --------
-172.16.1.0/24  172.16.1.10  Igp                       65501     0
-172.18.0.0/16  172.16.1.10  Igp                       65501     0
-172.16.1.0/26  172.16.1.10  Incomplete                65501     0
-172.16.1.0/24  172.16.1.10  Igp                       65501     0
-172.18.0.0/16  172.16.1.10  Igp                       65501     0
-172.16.1.0/26  172.16.1.10  Incomplete                65501     0
+172.16.1.0/24  172.16.1.10  Igp                       65001     0
+172.18.0.0/16  172.16.1.10  Igp                       65001     0
+172.16.1.0/26  172.16.1.10  Incomplete                65001     0
+172.16.1.0/24  172.16.1.10  Igp                       65001     0
+172.18.0.0/16  172.16.1.10  Igp                       65001     0
+172.16.1.0/26  172.16.1.10  Incomplete                65001     0
 
 
 
@@ -162,12 +162,12 @@ az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.5
 
 Network        NextHop      Origin      SourcePeer    AsPath    Weight
 -------------  -----------  ----------  ------------  --------  --------
-172.16.1.0/24  172.16.1.10  Igp                       65501     0
-172.18.0.0/16  172.16.1.10  Igp                       65501     0
-172.16.1.0/26  172.16.1.10  Incomplete                65501     0
-172.16.1.0/24  172.16.1.10  Igp                       65501     0
-172.18.0.0/16  172.16.1.10  Igp                       65501     0
-172.16.1.0/26  172.16.1.10  Incomplete                65501     0
+172.16.1.0/24  172.16.1.10  Igp                       65001     0
+172.18.0.0/16  172.16.1.10  Igp                       65001     0
+172.16.1.0/26  172.16.1.10  Incomplete                65001     0
+172.16.1.0/24  172.16.1.10  Igp                       65001     0
+172.18.0.0/16  172.16.1.10  Igp                       65001     0
+172.16.1.0/26  172.16.1.10  Incomplete                65001     0
 ```
 
 ## 4.10 VNET Gateway advertised routes to on-prem
@@ -201,7 +201,7 @@ az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o tab
 ``` bash
 conf t
 !
-router bgp 65501
+router bgp 65001
 address-family ipv4
 neighbor 10.0.3.4 default-originate
 neighbor 10.0.3.5 default-originate
@@ -217,7 +217,7 @@ conf t
 !
 ip route 172.16.1.0 255.255.255.0 10.0.1.4
 !
-router bgp 65501
+router bgp 65001
  network 172.16.1.0 mask 255.255.255.0
 end
 ```
@@ -233,7 +233,7 @@ interface Loopback0
   ip address 172.18.0.1 255.255.0.0
   no shutdown
 !
-router bgp 65501
+router bgp 65001
  network 172.18.0.0 mask 255.255.0.0
 end
 ```
@@ -254,7 +254,7 @@ Some times you want to manipulate routes before advertising them to the Azure Ro
 You can configure an outbound route map for the ARS neighbors that sets the next-hop field of the BGP route to a certain IP (typically an Azure Load Balancer in front of the NVAs):
 ```bash
 conf t
-router bgp 65501
+router bgp 65001
   neighbor 10.0.3.4 route-map To-ARS out
   neighbor 10.0.3.5 route-map To-ARS out
 route-map To-ARS
@@ -266,7 +266,7 @@ end
 AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
 ```bash
 conf t
-router bgp 65501
+router bgp 65001
   neighbor 10.0.3.4 route-map To-ARS out
   neighbor 10.0.3.5 route-map To-ARS out
 route-map To-ARS
