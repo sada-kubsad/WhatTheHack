@@ -105,19 +105,19 @@ Name           PeerAsn    PeerIp    ProvisioningState    ResourceGroup
 -------------  ---------  --------  -------------------  ---------------
 HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
 ```
-## 3.3.4 Routes ARS is receiving from the NVA
+## 3.3.4 ARS learned routes from the NVA
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
 Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is advertising to the NVA. 
 
-## 3.3.5 Routes ARS is sending to the NVA
+## 3.3.5 ARS advertised routes  to the NVA
 ```bash
 az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
 Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is learning from NVA. 
 
-## 3.3.5 Routes CSR is advertising to NVA:
+## 3.3.5 CSR advertised routes to NVA:
 Show routes advertised to a particular neighbor
 
 ```bash
@@ -125,19 +125,19 @@ show ip bgp neighbors (neighbor ip) advertised-routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
-## 3.3.6 Routes CSR is receiving from NVA:
+## 3.3.6 CSR learned routes from NVA:
 Show routes received from a particular neighbor
 ```bash
 show ip bgp neighbors (neighbor ip) routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
-## 3.3.7 Routes the VNET Gateway is receiving from NVA
+## 3.3.7 VNET Gateway learned routes from NVA
 ```bash
 az network vnet-gateway list-learned-routes -n vpngw -g $rg -o table
 ```
 
-## 3.3.8 Routes the VNET Gateway is advertising to NVA
+## 3.3.8 VNET Gateway advertised routes to NVA
 ```bash
 az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.4 -o table
 
