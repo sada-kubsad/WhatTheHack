@@ -164,7 +164,21 @@ Network        NextHop      Origin      SourcePeer    AsPath    Weight
 172.16.1.0/26  172.16.1.10  Incomplete                65501     0
 ```
 
-## 4.10 Routes on VM NICs:
+## 4.10 VNET Gateway advertised routes to on-prem
+```bash
+az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 172.16.1.10 -o table
+
+Network      NextHop    Origin    SourcePeer    AsPath    Weight
+-----------  ---------  --------  ------------  --------  --------
+10.0.0.0/16  10.0.0.5   Igp                     65515     0
+10.1.0.0/16  10.0.0.5   Igp                     65515     0
+10.2.0.0/16  10.0.0.5   Igp                     65515     0
+10.0.0.0/16  10.0.0.4   Igp                     65515     0
+10.1.0.0/16  10.0.0.4   Igp                     65515     0
+10.2.0.0/16  10.0.0.4   Igp                     65515     0
+```
+
+## 4.11 Routes on VM NICs:
 ```bash
 az network nic show-effective-route-table --name hubvmVMNic -g wthars -o table
 az network nic show-effective-route-table --name datacenter-nvaVMNic  -g wthars -o table
