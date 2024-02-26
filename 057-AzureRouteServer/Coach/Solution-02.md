@@ -232,6 +232,11 @@ router bgp 65501
 end
 ```
 
+## 5.3 Show Static routes configured on a CSR:
+```bash
+show running | include ip route
+```
+
 # 6 Route manipulation
 Some times you want to manipulate routes before advertising them to the Azure Route Server. 
 ## 6.1 Set a specific next hop
