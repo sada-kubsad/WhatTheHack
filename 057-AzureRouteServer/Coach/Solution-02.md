@@ -65,14 +65,14 @@ router bgp 65515 <- ASN on NVA cannot be 65515. Will result in "Error: This BGP 
 See [here](https://blog.cloudtrooper.net/2021/03/08/connecting-your-nvas-to-expressroute-with-azure-route-server/)
 
 **
-## 3.3 Validate configurations
-### 3.3.1 ARS is actually comprised of 2 different instances, each with its own IP Address:
+# 4 Validate configurations
+## 4.1 ARS is actually comprised of 2 different instances, each with its own IP Address:
 ```bash
 az network routeserver show --name ARSHack  --query virtualRouterIps
 ```
 Returns  "10.0.3.4", "10.0.3.5"
 
-### 3.3.2 Check BGP neighbours of VPN Gateway
+## 4.2 Check BGP neighbours of VPN Gateway
 ```bash
 az network vnet-gateway list-bgp-peer-status  -g wthars -n vpngw -o table
 
@@ -97,7 +97,7 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 - When ARS’s branch-to-branch traffic is enabled, ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not by establishing a connection to VPN/ER Gateway’s BGP endpoints IPs
 
 
-### 3.3.3 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
+## 4.3 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
 ```bash
 az network routeserver peering list -g wthars --routeserver ARSHack -o table
 
@@ -105,19 +105,19 @@ Name           PeerAsn    PeerIp    ProvisioningState    ResourceGroup
 -------------  ---------  --------  -------------------  ---------------
 HubCentralNVA  65501      10.0.1.4  Succeeded            wthars
 ```
-## 3.3.4 ARS learned routes from the NVA
+## 4.4 ARS learned routes from the NVA
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
 Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is advertising to the NVA. 
 
-## 3.3.5 ARS advertised routes  to the NVA
+## 4.5 ARS advertised routes  to the NVA
 ```bash
 az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA -o table
 ```
 Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is learning from NVA. 
 
-## 3.3.5 CSR advertised routes to NVA:
+## 4.6 CSR advertised routes to NVA:
 Show routes advertised to a particular neighbor
 
 ```bash
@@ -125,26 +125,26 @@ show ip bgp neighbors (neighbor ip) advertised-routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
-## 3.3.6 CSR learned routes from NVA:
+## 4.7 CSR learned routes from NVA:
 Show routes received from a particular neighbor
 ```bash
 show ip bgp neighbors (neighbor ip) routes
 ```
 neighbor ip:  10.0.3.4 and 10.0.3.5
 
-## 3.3.7 VNET Gateway learned routes from NVA
+## 4.8 VNET Gateway learned routes from NVA
 ```bash
 az network vnet-gateway list-learned-routes -n vpngw -g $rg -o table
 ```
 
-## 3.3.8 VNET Gateway advertised routes to NVA
+## 4.9 VNET Gateway advertised routes to NVA
 ```bash
 az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.4 -o table
 
 az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.5 -o table
 ```
 
-## 3.3.7 Routes on VM NICs:
+## 4.10 Routes on VM NICs:
 ```bash
 az network nic show-effective-route-table --name hubvmVMNic -g wthars -o table
 az network nic show-effective-route-table --name datacenter-nvaVMNic  -g wthars -o table
@@ -154,9 +154,9 @@ az network nic show-effective-route-table --name spoke2-vmVMNic -g wthars -o tab
 az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o table
 ```
 
-# 4. Test publishing routes/default routes on NVA<br/>
-## 4.1 Advertise a default route
-### 4.1.1 with default-originate
+# 5. Test publishing routes/default routes on NVA<br/>
+## 5.1 Advertise a default route
+### 5.1.1 with default-originate
 **On the Central Hub NVA execute:**
 ``` bash
 conf t
@@ -168,7 +168,7 @@ neighbor 10.0.3.5 default-originate
 end
 ```
 
-### 4.1.2 with a static IP address
+### 5.1.2 with a static IP address
 This can be very useful to advertise the range from the whole onprem environment (172.16.0.0/16) </br>
 On the **onprem nva aka datacenter NVA execute:**  
 ```bash
@@ -181,7 +181,7 @@ router bgp 65501
 end
 ```
 
-## 4.2 Advertise a route with a loopback interface
+## 5.2 Advertise a route with a loopback interface
 This pattern can be used to advertise a route, and offer an IP address that is pingable to other systems. For example, if you want to simulate an SDWAN prefix 172.18.0.0, and Azure VMs should be able to ping the IP address 172.18.0.1:</br>
 
 Run this on the on-prem datacenter NVA: 
@@ -197,9 +197,9 @@ router bgp 65501
 end
 ```
 
-## 4.2 Route manipulation
+#6 Route manipulation
 Some times you want to manipulate routes before advertising them to the Azure Route Server. 
-### 4.2.1 Set a specific next hop
+## 6.1 Set a specific next hop
 You can configure an outbound route map for the ARS neighbors that sets the next-hop field of the BGP route to a certain IP (typically an Azure Load Balancer in front of the NVAs):
 ```bash
 conf t
@@ -211,7 +211,7 @@ route-map To-ARS
 end
 ```
 
-### 4.2.2 Configure AS path prepending
+## 6.2 Configure AS path prepending
 AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
 ```bash
 conf t
@@ -223,16 +223,16 @@ route-map To-ARS
 end
 ```
 
-# 5. Validate traffic flows via NVA <br/>
-## 5.1 Spoke to Spoke
+# 7. Validate traffic flows via NVA <br/>
+## 7.1 Spoke to Spoke
 - You will notice only spoke to spoke routing via NVA works <br/>
 - For spoke to spoke traffic, advertise supernet since equal and more specific routes will be dropped by Azure Route Server because Azure already knows of the specific route.<br/>
 - Also, because of the limitation in the Azure virtual network gateway type VPN it's not possible to advertise a 0.0.0.0/0 route through to the VPN Gateway. Student can try the approach of splitting advertisements like 0/1 and 128/1, but still routes learned through VPN Gateway will be more specific. (There might be some differences with ExR but same principle applies)<br/>
 
-## 5.2 Azure to on-prem
+## 7.2 Azure to on-prem
 - Azure to on-premises traffic is not possible in this design since advertising a more specific on-prem prefix from the NVA will result in a routing loop with the SDN fabric.
 
- ## 5.3 On-prem to Azure
+ ## 7.3 On-prem to Azure
 - On-premises to Azure routing is possible but it requires static routes on Gateway and NVA Subnet (to prevent the loop)<br/>
 
 Few plausible solutions to solve these challanges.
