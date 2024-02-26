@@ -197,7 +197,7 @@ router bgp 65501
 end
 ```
 
-#6 Route manipulation
+# 6 Route manipulation
 Some times you want to manipulate routes before advertising them to the Azure Route Server. 
 ## 6.1 Set a specific next hop
 You can configure an outbound route map for the ARS neighbors that sets the next-hop field of the BGP route to a certain IP (typically an Azure Load Balancer in front of the NVAs):
