@@ -141,7 +141,27 @@ az network vnet-gateway list-learned-routes -n vpngw -g $rg -o table
 ```bash
 az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.4 -o table
 
+Network        NextHop      Origin      SourcePeer    AsPath    Weight
+-------------  -----------  ----------  ------------  --------  --------
+172.16.1.0/24  172.16.1.10  Igp                       65501     0
+172.18.0.0/16  172.16.1.10  Igp                       65501     0
+172.16.1.0/26  172.16.1.10  Incomplete                65501     0
+172.16.1.0/24  172.16.1.10  Igp                       65501     0
+172.18.0.0/16  172.16.1.10  Igp                       65501     0
+172.16.1.0/26  172.16.1.10  Incomplete                65501     0
+
+
+
 az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.5 -o table
+
+Network        NextHop      Origin      SourcePeer    AsPath    Weight
+-------------  -----------  ----------  ------------  --------  --------
+172.16.1.0/24  172.16.1.10  Igp                       65501     0
+172.18.0.0/16  172.16.1.10  Igp                       65501     0
+172.16.1.0/26  172.16.1.10  Incomplete                65501     0
+172.16.1.0/24  172.16.1.10  Igp                       65501     0
+172.18.0.0/16  172.16.1.10  Igp                       65501     0
+172.16.1.0/26  172.16.1.10  Incomplete                65501     0
 ```
 
 ## 4.10 Routes on VM NICs:
