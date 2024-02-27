@@ -258,7 +258,7 @@ interface Loopback0
   ip address 172.18.0.1 255.255.0.0
   no shutdown
 !
-router bgp 65001
+router bgp 65501
  network 172.18.0.0 mask 255.255.0.0
 end
 ```
