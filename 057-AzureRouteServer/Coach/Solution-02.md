@@ -263,6 +263,19 @@ router bgp 65501
 end
 ```
 
+On the Central Hub NVA: 
+```bash
+conf t
+!
+interface Loopback0
+  ip address 172.19.0.1 255.255.0.0
+  no shutdown
+!
+router bgp 65001
+ network 172.19.0.0 mask 255.255.0.0
+end
+```
+
 ## 5.3 Show Static routes configured on a CSR:
 ```bash
 show running | include ip route
