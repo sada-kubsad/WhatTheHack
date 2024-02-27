@@ -128,16 +128,19 @@ Even though this may show nothing, that does not mean no routes have been sent b
 Show routes advertised to a particular neighbor
 
 ```bash
-show ip bgp neighbors (neighbor ip) advertised-routes
+show ip bgp neighbors 10.0.3.4 advertised-routes
+show ip bgp neighbors 10.0.3.5 advertised-routes
 ```
-neighbor ip:  10.0.3.4 and 10.0.3.5
+for each neighbor ip:  10.0.3.4 and 10.0.3.5
 
 ## 4.7 CSR learned routes from NVA:
 Show routes received from a particular neighbor
 ```bash
-show ip bgp neighbors (neighbor ip) routes
+show ip bgp neighbors 10.0.3.4 routes
+show ip bgp neighbors 10.0.3.5 routes
+
 ```
-neighbor ip:  10.0.3.4 and 10.0.3.5
+for each neighbor ip:  10.0.3.4 and 10.0.3.5
 
 ## 4.8 VNET Gateway learned routes from NVA
 ```bash
