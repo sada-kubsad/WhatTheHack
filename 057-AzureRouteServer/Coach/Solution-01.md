@@ -136,6 +136,87 @@ az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --
 
 ```
 
+## Config VPN Tunnels and BGP on the on-prem CSR
+-------------------------------
+crypto ikev2 proposal azure-proposal
+  encryption aes-cbc-256 aes-cbc-128 3des
+  integrity sha1
+  group 2
+  exit
+!
+crypto ikev2 policy azure-policy
+  proposal azure-proposal
+  exit
+!
+crypto ikev2 keyring azure-keyring
+  peer 20.106.103.241
+    address 20.106.103.241
+    pre-shared-key supersecretPSK@123
+    exit
+  peer 20.150.143.81
+    address 20.150.143.81
+    pre-shared-key supersecretPSK@123
+    exit
+  exit
+!
+crypto ikev2 profile azure-profile
+  match address local interface GigabitEthernet1
+  match identity remote address  20.106.103.241 255.255.255.255
+  match identity remote address  20.150.143.81 255.255.255.255
+  authentication remote pre-share
+  authentication local pre-share
+  keyring local azure-keyring
+  exit
+!
+crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
+ mode tunnel
+ exit
+
+crypto ipsec profile azure-vti
+  set transform-set azure-ipsec-proposal-set
+  set ikev2-profile azure-profile
+  set security-association lifetime kilobytes 102400000
+  set security-association lifetime seconds 3600 
+ exit
+!
+interface Tunnel0
+ ip unnumbered GigabitEthernet1 
+ ip tcp adjust-mss 1350
+ tunnel source GigabitEthernet1
+ tunnel mode ipsec ipv4
+ tunnel destination 20.106.103.241
+ tunnel protection ipsec profile azure-vti
+exit
+!
+interface Tunnel1
+ ip unnumbered GigabitEthernet1 
+ ip tcp adjust-mss 1350
+ tunnel source GigabitEthernet1
+ tunnel mode ipsec ipv4
+ tunnel destination 20.150.143.81
+ tunnel protection ipsec profile azure-vti
+exit
+!
+router bgp 65501
+ bgp router-id interface GigabitEthernet1
+ bgp log-neighbor-changes
+ redistribute connected
+ neighbor 10.0.0.5 remote-as 65515
+ neighbor 10.0.0.5 ebgp-multihop 5
+ neighbor 10.0.0.5 update-source GigabitEthernet1
+ neighbor 10.0.0.4 remote-as 65515
+ neighbor 10.0.0.4 ebgp-multihop 5
+ neighbor 10.0.0.4 update-source GigabitEthernet1
+ maximum-paths eibgp 4
+!
+ip route 10.0.0.5 255.255.255.255 Tunnel0
+ip route 10.0.0.4 255.255.255.255 Tunnel1
+!
+end
+!
+wr mem
+
+
 ## Routing Table Scripts:
 ### BranchVMSubnetToHubSpokeVNet: Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance):
 ```bash
