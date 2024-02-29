@@ -120,7 +120,7 @@ HubCentralNVA  65001      10.0.1.4  Succeeded            wthars
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
-** Note: --query 'RouteServiceRole_IN_0' queries the first instance of ARS at 10.0.3.4 while --query 'RouteServiceRole_IN_1' queries the second instance of ARS at 10.0.3.5
+** Note: --query 'RouteServiceRole_IN_0' queries the first instance of ARS at 10.0.3.4 while --query 'RouteServiceRole_IN_1' queries the second instance of ARS at 10.0.3.5 **
 Sample Output:
 ```
 AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weight
