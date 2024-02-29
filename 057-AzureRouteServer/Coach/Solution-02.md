@@ -120,7 +120,14 @@ HubCentralNVA  65001      10.0.1.4  Succeeded            wthars
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
-Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is advertising to the NVA. 
+** Note: --query 'RouteServiceRole_IN_0' queries the first instance of ARS at 10.0.3.4 while --query 'RouteServiceRole_IN_1' queries the second instance of ARS at 10.0.3.5
+Sample Output:
+```
+AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weight
+--------  --------------  -------------  ---------  --------  ------------  --------
+65001     10.0.3.4        172.19.0.0/16  10.0.1.4   EBgp      10.0.1.4      32768
+65001     10.0.3.4        10.0.1.0/24    10.0.1.4   EBgp      10.0.1.4      32768
+```
 
 ## 4.5 ARS advertised routes  to the NVA
 ```bash
