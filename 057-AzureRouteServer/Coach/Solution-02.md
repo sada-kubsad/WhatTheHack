@@ -82,7 +82,7 @@ Returns  "10.0.3.4", "10.0.3.5"
 az network vnet-gateway list-bgp-peer-status  -g wthars -n vpngw -o table
 ```
 Output:
-
+```bash
 Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSent    MessagesReceived
 -----------  -----  ---------  -------------------  ----------------  --------------  ------------------
 172.16.1.10  65001  Connected  02:40:19.5787142     1                 263             223
