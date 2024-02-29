@@ -115,7 +115,7 @@ wr mem
          - CSR internal config. This not required. I've tested and it works
 ### 9. Deploy VMs in all VNets (including Branch).
 
-### 10. Create Route Tables (UDRs) to steer traffic via NVAs for,
+### 10. Create Route Tables (UDRs) to steer traffic via NVAs for:
    - Original Recomendation:
       - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
          (This is required because branch VNet is really Azure vNet (think of SDN)).
