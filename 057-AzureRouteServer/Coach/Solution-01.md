@@ -26,8 +26,7 @@ See Sample deployment script below
 ### 6. Deploy the Cisco CSR template to simulate a branch office (on-premises). The said template also creates a "datacenter" VNet
 Student/Resources/wthcsronprem.md provided in the challenge section
 ### 7. Setup 2-tunnels to one active/active virtual network gateway created earlier
-## Config VPN Tunnels and BGP on the on-prem CSR
--------------------------------
+```bash
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128 3des
   integrity sha1
@@ -105,7 +104,7 @@ ip route 10.0.0.4 255.255.255.255 Tunnel1
 end
 !
 wr mem
-
+```
 
 ### 8. Deploy Cisco CSR template  to setup a central NVA (used as a BGP/Security NVA).
    - Leverage: Student/Resources/centralnva.md provided in the challenge section
