@@ -80,6 +80,8 @@ Returns  "10.0.3.4", "10.0.3.5"
 ## 4.2 Show BGP neighbours of VPN Gateway
 ```bash
 az network vnet-gateway list-bgp-peer-status  -g wthars -n vpngw -o table
+```
+Output:
 
 Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSent    MessagesReceived
 -----------  -----  ---------  -------------------  ----------------  --------------  ------------------
