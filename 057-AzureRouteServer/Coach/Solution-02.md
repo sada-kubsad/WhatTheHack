@@ -114,13 +114,13 @@ HubCentralNVA  65001      10.0.1.4  Succeeded            wthars
 
 ## 4.4 ARS learned routes from the NVA
 ```bash
-az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA -o table
+az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
 Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is advertising to the NVA. 
 
 ## 4.5 ARS advertised routes  to the NVA
 ```bash
-az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA -o table
+az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
 Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is learning from NVA. 
 
@@ -144,7 +144,7 @@ for each neighbor ip:  10.0.3.4 and 10.0.3.5
 
 ## 4.8 VNET Gateway learned routes from NVA
 ```bash
-az network vnet-gateway list-learned-routes -n vpngw -g $rg -o table
+az network vnet-gateway list-learned-routes --query 'RouteServiceRole_IN_0' -n vpngw -g $rg -o table
 
 Network         NextHop      Origin    SourcePeer    AsPath    Weight
 --------------  -----------  --------  ------------  --------  --------
