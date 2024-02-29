@@ -120,7 +120,7 @@ HubCentralNVA  65001      10.0.1.4  Succeeded            wthars
 ```bash
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
-** Note: --query 'RouteServiceRole_IN_0' queries the first instance of ARS at 10.0.3.4 while --query 'RouteServiceRole_IN_1' queries the second instance of ARS at 10.0.3.5 **
+**Note: --query 'RouteServiceRole_IN_0' queries the first instance of ARS at 10.0.3.4 while --query 'RouteServiceRole_IN_1' queries the second instance of ARS at 10.0.3.5**. LocalAddress column in the output below shows which ARS instance the output is for</br>
 Sample Output:
 ```
 AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weight
@@ -133,7 +133,17 @@ AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weig
 ```bash
 az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
-Even though this may show nothing, that does not mean no routes have been sent by the NVA to teh ARS. See section below to check what routes the CSR is learning from NVA. 
+**Note: --query 'RouteServiceRole_IN_0' queries the first instance of ARS at 10.0.3.4 while --query 'RouteServiceRole_IN_1' queries the second instance of ARS at 10.0.3.5**. LocalAddress column in the output below shows which ARS instance the output is for</br>
+Sample Output:
+```
+AsPath       LocalAddress    Network        NextHop    Origin      Weight
+-----------  --------------  -------------  ---------  ----------  --------
+65515        10.0.3.5        10.0.0.0/16    10.0.3.5   Igp         0
+65515        10.0.3.5        10.1.0.0/16    10.0.3.5   Igp         0
+65515        10.0.3.5        10.2.0.0/16    10.0.3.5   Igp         0
+65515-65501  10.0.3.5        172.16.1.0/26  10.0.3.5   Incomplete  0
+65515-65501  10.0.3.5        172.18.0.0/16  10.0.3.5   Igp         0
+```
 
 ## 4.6 CSR advertised routes to NVA:
 Show routes advertised to a particular neighbor
