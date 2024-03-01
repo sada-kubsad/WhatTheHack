@@ -167,7 +167,9 @@ for each neighbor ip:  10.0.3.4 and 10.0.3.5
 ## 4.8 VNET Gateway learned routes from NVA
 ```bash
 az network vnet-gateway list-learned-routes --query 'RouteServiceRole_IN_0' -n vpngw -g $rg -o table
-
+```
+Output:</br>
+```
 Network         NextHop      Origin    SourcePeer    AsPath    Weight
 --------------  -----------  --------  ------------  --------  --------
 10.0.0.0/16                  Network   10.0.0.4                32768
