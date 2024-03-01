@@ -168,6 +168,10 @@ for each neighbor ip:  10.0.3.4 and 10.0.3.5
 ```bash
 az network vnet-gateway list-learned-routes -n vpngw -g $rg -o table | sort -nk1
 ```
+OR
+```
+az network vnet-gateway list-learned-routes  -n vpngw -g $rg -o table | (read -r; printf "%s\n" "$REPLY"; sort)
+```
 Output:</br>
 ```
 Network         NextHop      Origin    SourcePeer    AsPath    Weight
