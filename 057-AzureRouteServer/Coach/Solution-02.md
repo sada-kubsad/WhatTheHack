@@ -144,6 +144,7 @@ AsPath       LocalAddress    Network        NextHop    Origin      Weight
 65515-65501  10.0.3.5        172.16.1.0/26  10.0.3.5   Incomplete  0
 65515-65501  10.0.3.5        172.18.0.0/16  10.0.3.5   Igp         0
 ```
+**Notice that the Route Server’s IP as next hop.**
 
 ## 4.6 CSR advertised routes to NVA:
 Show routes advertised to a particular neighbor
