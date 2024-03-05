@@ -317,7 +317,10 @@ end
 ```bash
 show running | include ip route
 ```
-
+OR
+```
+show running | include route
+```
 ## 5.4 Removing a static route on the CSR:
 ```bash
 no ip route [destination network] [subnet mask]
