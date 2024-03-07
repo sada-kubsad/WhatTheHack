@@ -250,13 +250,23 @@ az network nic show-effective-route-table --name spoke1-vmVMNic -g wthars -o tab
 az network nic show-effective-route-table --name spoke2-vmVMNic -g wthars -o table
 az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o table
 ```
-## 4.12 Test for BGP peering flapping
+## 4.12 Flapping of BGP peering
+### 4.12.1 Detect Falpping of BGP peering
+Detect BGP peering flapping
 You can confirm this if you issue the below commands:
 ```
 sh logging
 debug ip routing
 ```
 Detect BGP peerign flapping by looking at 4.8 VNET Gateway learned routes from NVA
+
+### 4.12.2 Fix Flapping of BGP peering
+See [here](https://learn.microsoft.com/en-us/azure/route-server/troubleshoot-route-server#why-cant-i-tcp-ping-from-my-nva-to-the-bgp-peer-ip-of-the-route-server-after-i-set-up-the-bgp-peering-between-them)
+
+Add the following route to the routing table in the Central Hub NVA CSR:
+```
+ip route 10.0.3.0 255.255.255.0 10.0.1.1
+```
 
 # 5. Test publishing routes/default routes on NVA<br/>
 ## 5.1 Advertise a default route
