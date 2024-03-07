@@ -203,7 +203,13 @@ Network         NextHop      Origin    SourcePeer    AsPath    Weight
 172.19.0.0/16   10.0.1.4     IBgp      10.0.3.5      65001     32768
 172.19.0.0/16   10.0.1.4     IBgp      10.0.3.5      65001     32768
 ```
-
+The reason you are seeing the below repetition is because the VPN Gateway has 2 instances, and each VPN Gateway instance is receiving the same route from each instance (10.0.3.4 and 10.0.3.5) of the ARS:
+```
+172.19.0.0/16   10.0.1.4     IBgp      10.0.3.4      65001     32768
+172.19.0.0/16   10.0.1.4     IBgp      10.0.3.4      65001     32768
+172.19.0.0/16   10.0.1.4     IBgp      10.0.3.5      65001     32768
+172.19.0.0/16   10.0.1.4     IBgp      10.0.3.5      65001     32768
+```
 ## 4.9 VNET Gateway advertised routes to NVA
 ```bash
 az network vnet-gateway  list-advertised-routes -n vpngw -g $rg  --peer 10.0.3.4 -o table
