@@ -251,8 +251,10 @@ az network nic show-effective-route-table --name spoke2-vmVMNic -g wthars -o tab
 az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o table
 ```
 ## 4.12 Test for BGP peering flapping
+You can confirm this if you issue the below commands:
 ```
 sh logging
+debug ip routing
 ```
 Detect BGP peerign flapping by looking at 4.8 VNET Gateway learned routes from NVA
 
