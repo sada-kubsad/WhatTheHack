@@ -130,6 +130,8 @@ AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weig
 65001     10.0.3.4        172.19.0.0/16  10.0.1.4   EBgp      10.0.1.4      32768
 65001     10.0.3.4        10.0.1.0/24    10.0.1.4   EBgp      10.0.1.4      32768
 ```
+10.0.1.4         --> Hub NVA's subnet address space
+172.19.0.0/16    --> Loopback address created on hub NVA using Step: 5.2.2 below
 
 ## 4.5 ARS advertised routes  to the NVA
 ```bash
@@ -307,7 +309,7 @@ end
 ## 5.2 Advertise a route with a loopback interface
 This pattern can be used to advertise a route, and offer an IP address that is pingable to other systems. For example, if you want to simulate an SDWAN prefix 172.18.0.0, and Azure VMs should be able to ping the IP address 172.18.0.1:</br>
 
-On the on-prem datacenter NVA: 
+### 5.2.1 On the on-prem datacenter NVA: 
 ```bash
 conf t
 !
@@ -320,7 +322,7 @@ router bgp 65501
 end
 ```
 
-On the Central Hub NVA: 
+### 5.2.2 On the Central Hub NVA: 
 ```bash
 conf t
 !
