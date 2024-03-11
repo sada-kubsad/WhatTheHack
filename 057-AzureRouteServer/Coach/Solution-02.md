@@ -374,7 +374,7 @@ end
 ## 7.1 Spoke to Spoke
 - You will notice only spoke to spoke routing via NVA works <br/>
 - For spoke to spoke traffic, advertise supernet since equal and more specific routes will be dropped by Azure Route Server because Azure already knows of the specific route.<br/>
-- Also, because of the limitation in the Azure virtual network gateway type VPN it's not possible to advertise a 0.0.0.0/0 route through to the VPN Gateway. Student can try the approach of splitting advertisements like 0/1 and 128/1, but still routes learned through VPN Gateway will be more specific. (There might be some differences with ExR but same principle applies)<br/>
+- Also, because of the limitation in the Azure virtual network gateway type VPN **it's not possible to advertise a 0.0.0.0/0 route through to the VPN Gateway**. Student can try the approach of splitting advertisements like 0/1 and 128/1, but still **routes learned through VPN Gateway will be more specific**. (There might be some differences with ExR but same principle applies)<br/>
 
 ## 7.2 Azure to on-prem
 - Azure to on-premises traffic is not possible in this design since advertising a more specific on-prem prefix from the NVA will result in a routing loop with the SDN fabric.
