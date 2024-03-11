@@ -102,7 +102,8 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 - BGP session is NOT established between ARS’s instance IP (10.0.3.4,10.0.3.5)
  and VPN/ER Gateway’s BGP endpoint IPs (10.0.0.4 and 10.0.0.5). 
     - Diagrams often show a BGP session between ARS and VPN/ER Gateway although that physically not
-- When ARS’s branch-to-branch traffic is enabled, ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not by establishing a connection to VPN/ER Gateway’s BGP endpoints IPs
+    - When ARS’s branch-to-branch traffic is enabled, ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not by establishing a connection to VPN/ER Gateway’s BGP endpoints IPs
+- Each IP address in the Neighbor column has 2 entries because the gateway has 2 instances under the hood. 
 
 
 ## 4.3 Check that the Route Server is talking over BGP with the NVA at 10.0.1.4
