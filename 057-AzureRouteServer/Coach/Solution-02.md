@@ -130,7 +130,7 @@ AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weig
 65001     10.0.3.4        172.19.0.0/16  10.0.1.4   EBgp      10.0.1.4      32768
 65001     10.0.3.4        10.0.1.0/24    10.0.1.4   EBgp      10.0.1.4      32768
 ```
-10.0.1.4         --> Hub NVA's subnet address space
+10.0.1.4         --> Hub NVA's subnet address space </br>
 172.19.0.0/16    --> Loopback address created on hub NVA using Step: 5.2.2 below
 
 ## 4.5 ARS advertised routes  to the NVA
