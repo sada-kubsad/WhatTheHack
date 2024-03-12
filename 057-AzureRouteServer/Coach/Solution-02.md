@@ -131,7 +131,7 @@ AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weig
 65001     10.0.3.4        10.0.1.0/24    10.0.1.4   EBgp      10.0.1.4      32768
 ```
 10.0.1.0/24:  Hub NVA's subnet address space </br>
-172.19.0.0/16: Loopback interface with IP: 172.19.0.1 **in network address space: /16** created on hub NVA using Step: 5.2.2 below is gettign advertised by NVA to ARS then Azure.
+172.19.0.0/16: Loopback interface with IP: 172.19.0.1 **in network address space: /16** created on hub NVA using Step: 5.2.2 below is getting advertised NVA --> ARS then to Azure.
 
 ## 4.5 ARS advertised routes  to the NVA
 ```bash
@@ -148,7 +148,12 @@ AsPath       LocalAddress    Network        NextHop    Origin      Weight
 65515-65501  10.0.3.5        172.16.1.0/26  10.0.3.5   Incomplete  0
 65515-65501  10.0.3.5        172.18.0.0/16  10.0.3.5   Igp         0
 ```
-**Notice that the Route Server’s IP as next hop.**
+**Notice that the Route Server’s IP (.3.5 for RouteServiceRole_IN_1 & .3.4 or RouteServiceRole_IN_0) as next hop.**
+10.0.0.0/16: Hub Vent </br>
+10.1.0.0/16: Spoke 1
+10.2.0.0/16: Spoke 2
+172.16.1.0/26: Onprem/Datacenter
+172.18.0.0/16: Loopback interface 172.18.0.1 **in network address space: /16** created on onprem/datacenter NVA using Step 5.2.1 below is getting advertised by Azure/ARS -> NVA
 
 ## 4.6 CSR advertised routes to NVA:
 Show routes advertised to a particular neighbor
