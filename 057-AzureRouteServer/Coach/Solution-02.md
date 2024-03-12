@@ -131,7 +131,7 @@ AsPath    LocalAddress    Network        NextHop    Origin    SourcePeer    Weig
 65001     10.0.3.4        10.0.1.0/24    10.0.1.4   EBgp      10.0.1.4      32768
 ```
 10.0.1.0/24:  Hub NVA's subnet address space </br>
-172.19.0.0/16: Loopback interface with IP: 172.19.0.1 **in network address space: /16** created on hub NVA using Step: 5.2.2 below
+172.19.0.0/16: Loopback interface with IP: 172.19.0.1 **in network address space: /16** created on hub NVA using Step: 5.2.2 below is gettign advertised by NVA to ARS then Azure.
 
 ## 4.5 ARS advertised routes  to the NVA
 ```bash
