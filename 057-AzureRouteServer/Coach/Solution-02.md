@@ -150,9 +150,9 @@ AsPath       LocalAddress    Network        NextHop    Origin      Weight
 ```
 **Notice that the Route Server’s IP (.3.5 for RouteServiceRole_IN_1 & .3.4 or RouteServiceRole_IN_0) as next hop.**
 10.0.0.0/16: Hub Vent </br>
-10.1.0.0/16: Spoke 1
-10.2.0.0/16: Spoke 2
-172.16.1.0/26: Onprem/Datacenter
+10.1.0.0/16: Spoke 1 </br>
+10.2.0.0/16: Spoke 2 </br>
+172.16.1.0/26: Onprem/Datacenter </br>
 172.18.0.0/16: Loopback interface 172.18.0.1 **in network address space: /16** created on onprem/datacenter NVA using Step 5.2.1 below is getting advertised by Azure/ARS -> NVA
 
 ## 4.6 CSR advertised routes to NVA:
