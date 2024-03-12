@@ -266,7 +266,7 @@ az network nic show-effective-route-table --name spoke2-vmVMNic -g wthars -o tab
 az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o table
 ```
 ## 4.12 Flapping of BGP peering
-### 4.12.1 Detect Falpping of BGP peering
+### 4.12.1 Detect Flapping of BGP peering
 Detect BGP peering flapping
 You can confirm this if you issue the below commands:
 ```
