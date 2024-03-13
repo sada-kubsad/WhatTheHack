@@ -98,8 +98,8 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 ```
 **IMPORTANT Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config**
 
-- BGP Session is established between ARS’s instance IP (2 IPs) and NVA’s private IP. 
-- BGP session is NOT established between ARS’s instance IP (10.0.3.4,10.0.3.5)
+- BGP Session is **configured and established** between ARS’s instance IP ("10.0.3.4", "10.0.3.5") and NVA’s private IP(10.0.1.4)  
+- BGP session is **NOT configured but established** between ARS’s instance IP (10.0.3.4,10.0.3.5)
  and VPN/ER Gateway’s BGP endpoint IPs (10.0.0.4 and 10.0.0.5). 
     - Diagrams often show a BGP session between ARS and VPN/ER Gateway although that physically not
     - When ARS’s branch-to-branch traffic is enabled, ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not by establishing a connection to VPN/ER Gateway’s BGP endpoints IPs
