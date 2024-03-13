@@ -98,10 +98,25 @@ Neighbor     ASN    State      ConnectedDuration    RoutesReceived    MessagesSe
 ```
 **IMPORTANT Note: ARS (10.0.3.4 and 10.0.3.5) is now a BGP neighbour of the VPN Gateway (10.0.0.4 and 10.0.0.5) although ARS was never configured with VPN Gateway config. ARS was only configured with Centeral NVA BGP config**
 
-- BGP Session is **"configured and established"** between ARS’s instance IP ("10.0.3.4", "10.0.3.5") and NVA’s private IP(10.0.1.4)  
+
+- BGP Session is **"configured and established"** between ARS’s instance IP ("10.0.3.4", "10.0.3.5") and NVA’s private IP(10.0.1.4)
+```
+10.0.3.4     65015  Connected  1.06:47:06.9716932   1                 2120            2125
+10.0.3.5     65015  Connected  1.06:47:06.9716932   1                 2118            2124
+
+10.0.3.4     65015  Connected  1.06:47:10.7889515   0                 2118            2120
+10.0.3.5     65015  Connected  1.06:47:10.7889515   0                 2123            2123
+```
 - BGP session is **"NOT configured but established"** between ARS’s instance IP (10.0.3.4,10.0.3.5)
  and VPN/ER Gateway’s BGP endpoint IPs (10.0.0.4 and 10.0.0.5). 
-    - Diagrams often show a BGP session between ARS and VPN/ER Gateway that are logical because they are not configured, but established NVA <---> ARS <---> Azure platform <--to--> VNet Gateway 
+    - Diagrams often show a BGP session between ARS and VPN/ER Gateway that are logical because they are not configured, but established NVA <---> ARS <---> Azure platform <--to--> VNet Gateway
+```
+10.0.0.5     65015  Unknown                         0                 0               0
+10.0.0.4     65015  Connected  4.18:20:10.6427316   2                 8468            7922
+
+10.0.0.5     65015  Connected  4.18:59:43.9347177   2                 7918            7927
+10.0.0.4     65015  Unknown                         0                 0               0
+``` 
     - When ARS’s branch-to-branch traffic is enabled, ARS learns about the on-prem routes that come through the VPN/ER Gateway through the connection ARS has with Azure Routing not by establishing a connection to VPN/ER Gateway’s BGP endpoints IPs
 - Each IP address in the Neighbor column has 2 entries because the gateway has 2 instances under the hood. 
 
