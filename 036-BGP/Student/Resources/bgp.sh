@@ -348,8 +348,8 @@ function create_vm_in_csr_vnet () {
 
 function accept_csr_terms () {
     publisher=cisco
-    offer=cisco-csr-1000v
-    sku=16_12-byol
+    offer=cisco-c8000v-byol
+    sku=17_13_01a-byol
     # sku=17_3_4a-byol  # Newest version available
     version=$(az vm image list -p $publisher -f $offer -s $sku --all --query '[0].version' -o tsv 2>/dev/null)
     # Accept terms
