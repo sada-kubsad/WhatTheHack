@@ -9,8 +9,8 @@ You can use this script to deploy a Cisco CSR router to a new Vnet:
 rg=myrg
 location=westeurope
 publisher=cisco
-offer=cisco-csr-1000v
-sku=16_12-byol
+offer=cisco-c8000v-byol
+sku=17_13_01a-byol
 branch_name=branch1
 branch_prefix=172.16.1.0/24
 branch_subnet=172.16.1.0/26
