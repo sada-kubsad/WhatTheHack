@@ -26,8 +26,8 @@ vwan_hub1_prefix=192.168.1.0/24
 vwan_hub2_prefix=192.168.2.0/24
 # Branches
 publisher=cisco
-offer=cisco-csr-1000v
-sku=16_12-byol
+offer=cisco-c8000v-byol
+sku=17_13_01a-byol
 version=$(az vm image list -p $publisher -f $offer -s $sku --all --query '[0].version' -o tsv)
 branch1_prefix=172.16.1.0/24
 branch1_subnet=172.16.1.0/26
