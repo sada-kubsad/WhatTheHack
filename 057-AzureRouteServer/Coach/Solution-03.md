@@ -15,21 +15,32 @@
 - The main idea is that the closest Region to the Hub and Spoke is more desirable than the Region further away from the Hub and Spoke. In other words, manipulate the BGP attributes within the SDWAN NVAs to ensure the latter.
 - Finally, look at the effective route tables from all the VMs on the Hub and Spoke Topology and help the student understand how Route Server installs the preferred route.
 
-#My Solution
-## Create 2 Vnets in in different Region and Resource Group than the main Hub and Spoke 
+# My Solution
+## 1. Create 2 Vnets in in different Region and Resource Group than the main Hub and Spoke 
 Since main Hub and Spoke is in West-US3, Create 2 Vnet in different Resources one each in West-US1 and West-US2 since we want the closest Region to the Hub and Spoke to have preference over the other. 
 
 Make sure no Overlapping Address space is occupied on those two VNETs
 
-## Configure the two newly create NVAs
+## 2. Configure the two newly create NVAs
 Use the provided configuration templates
 Make sure no Overlapping Address space is occupied on the Virtual Tunel INterfaces within teh Cisco NVAs. Eg: do not utilize a Cisco VTI with 10.0.0.1 since Azure, is the first usable of a given subnet.
 
-## Establish One IPSec tunnel from each of these two SDWAN simulated Cisco Virtual Appliances, to the Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
+## 3. Establish One IPSec tunnel from each of these two SDWAN simulated Cisco Virtual Appliances, to the Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
 
-## Establish BGP from each of these two SDWAN simulated Cisco Virtual Appliances to Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
+## 4. Establish BGP from each of these two SDWAN simulated Cisco Virtual Appliances to Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
 
-##Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
-### Configure the loopbacks to advertise such IPs, 
-### Configure route maps and ip access list to have better preference using BGP attributes. 
+## 5. Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
+### 5.1 Configure the loopbacks to advertise such IPs, 
+### 5.2 Configure route maps and ip access list to have better preference using BGP attributes. 
 For example, you can  advertise 1.1.1.1/32 created as a loopback interface.
+
+## 6. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke, on Premises. 
+
+## 6.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
+
+## 6.2 Check the routing table on the Virtual Appliance themselves.
+
+## 7. manipulate the BGP attributes within the SDWAN NVAs to ensure the closest Region to the Hub and Spoke  more desirable than the Region further away from the Hub and Spoke.
+
+## 8. Look at the effective route tables from all the VMs on the Hub and Spoke Topology 
+The goal is to understand how Route Server installs the preferred route
