@@ -17,9 +17,31 @@
 
 # My Solution
 ## 1. Create 2 Vnets in in different Region and Resource Group than the main Hub and Spoke 
-Since main Hub and Spoke is in West-US3, Create 2 Vnet in different Resources one each in West-US1 and West-US2 since we want the closest Region to the Hub and Spoke to have preference over the other. 
-
+In a later excercise, we will want the closest Region to the Hub and Spoke to have preference over the other. Since main Hub and Spoke is in West-US3, create 2 Vnet in different regions one each in West-US2 and East-US2 since 
 Make sure no Overlapping Address space is occupied on those two VNETs
+
+```bash
+az group create \
+    --name wthars-OnPrem-1 \
+    --location westus2
+az network vnet create \
+    --name OnPrem-1 \
+    --resource-group wthars-OnPrem-1 \
+    --address-prefix 10.1.0.0/16 \
+    --subnet-name OnPrem-1 \
+    --subnet-prefixes 10.1.0.0/24
+
+az group create \
+    --name wthars-OnPrem-2 \
+    --location eastus2
+az network vnet create \
+    --name OnPrem-2 \
+    --resource-group wthars-OnPrem-2 \
+    --address-prefix 10.2.0.0/16 \
+    --subnet-name OnPrem-2 \
+    --subnet-prefixes 10.2.0.0/24
+
+
 
 ## 2. Configure the two newly create NVAs
 Use the provided configuration templates
