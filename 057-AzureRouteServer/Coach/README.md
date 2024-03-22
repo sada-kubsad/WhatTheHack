@@ -63,7 +63,7 @@ This hack requires students to have access to an Azure subscription where they c
 	- At least one Ubuntu LTS VM Standard B1s (1 vcpu, 1 GiB memory) per Vnet. Students may choose to deploy other flavors depending on their solution. For more info on Burstable SKUs: <https://learn.microsoft.com/en-us/azure/virtual-machines/sizes-b-series-burstable>
 	- One Route Server
 	- At least 6 Virtual Networks
-	- Up to Four Cisco Cloud Services Router 1000v Standard B2s (2 vcpus, 4 GiB memory) or any other NVA flavor of their choice. For more info <https://azuremarketplace.microsoft.com/en/marketplace/apps/cisco.cisco-csr-1000v?tab=Overview>
+	- Up to Four Cisco Cloud Services Router 8000v Standard B2s (2 vcpus, 4 GiB memory) or any other NVA flavor of their choice. For more info <https://azuremarketplace.microsoft.com/en/marketplace/apps/cisco.cisco-csr-1000v?tab=Overview>
 	- Public IPs amount may vary depending on student solution. 
  
  **NOTE:** The VPN Gateway resources as well as the Azure Route Server used for the hack are expensive and can consume the monthly Azure credits in a Visual Studio account or Azure Trial account in a few days!  Students should be advised to delete these resources as soon as the hack is completed.
