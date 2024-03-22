@@ -69,7 +69,7 @@ az network vnet subnet create --address-prefix $vnet_in_subnet --name $Vnet_in_s
 
 ```
 
-## 2. Create two new NVAs
+## 2. Create two new NVAs simulating on-prem
 Use the provided configuration templates
 Make sure no Overlapping Address space is occupied on the Virtual Tunel INterfaces within the Cisco NVAs. Eg: do not utilize a Cisco VTI with 10.0.0.1 since Azure, is the first usable of a given subnet.
 
@@ -116,6 +116,8 @@ ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffi
 ```
 
 ## 4. Establish One IPSec tunnel from each of these two SDWAN simulated Cisco Virtual Appliances, to the Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
+Also Establish BGP from each of these two SDWAN simulated Cisco Virtual Appliances to Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
+
 ### 4.1 Central NVA to SDWAN Routers Cisco CSR 1000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-sdwan-proposal
@@ -339,21 +341,18 @@ ip route 192.168.1.4 255.255.255.255 Tunnel 99
 ip route "vnet Address space" 255.255.0.0 Null0
 ```
 
-
-## 5. Establish BGP from each of these two SDWAN simulated Cisco Virtual Appliances to Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
-
-## 6. Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
-### 6.1 Configure the loopbacks to advertise such IPs, 
-### 6.2 Configure route maps and ip access list to have better preference using BGP attributes. 
+## 5. Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
+### 5.1 Configure the loopbacks to advertise such IPs, 
+### 5.2 Configure route maps and ip access list to have better preference using BGP attributes. 
 For example, you can  advertise 1.1.1.1/32 created as a loopback interface.
 
-## 7. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke, on Premises. 
+## 6. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke, on Premises. 
 
-## 7.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
+## 6.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
 
-## 7.2 Check the routing table on the Virtual Appliance themselves.
+## 6.2 Check the routing table on the Virtual Appliance themselves.
 
-## 8. manipulate the BGP attributes within the SDWAN NVAs to ensure the closest Region to the Hub and Spoke  more desirable than the Region further away from the Hub and Spoke.
+## 7. manipulate the BGP attributes within the SDWAN NVAs to ensure the closest Region to the Hub and Spoke  more desirable than the Region further away from the Hub and Spoke.
 
-## 9. Look at the effective route tables from all the VMs on the Hub and Spoke Topology 
+## 8. Look at the effective route tables from all the VMs on the Hub and Spoke Topology 
 The goal is to understand how Route Server installs the preferred route
