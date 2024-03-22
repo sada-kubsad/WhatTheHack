@@ -51,7 +51,6 @@ az network nsg rule create --resource-group $rg1 --nsg-name SDWAN1-NSG --name al
 az network public-ip create --name SDWAN1PublicIP --resource-group $rg1 --idle-timeout 30 --allocation-method Static
 az network nic create --name SDWAN1OutsideInterface --resource-group $rg1 --subnet $Vnet_out_subnet_name --vnet $vnet_name --public-ip-address SDWAN1PublicIP --ip-forwarding true --network-security-group SDWAN1-NSG
 az network nic create --name SDWAN1InsideInterface --resource-group $rg1 --subnet $Vnet_in_subnet_name --vnet $vnet_name --ip-forwarding true --network-security-group SDWAN1-NSG
-#az vm image accept-terms --urn cisco:cisco-csr-1000v:16_12-byol:latest
 az vm image terms accept --urn cisco:cisco-c8000v-byol:17_13_01a-byol:latest
 az vm create --resource-group $rg1 --location $location --name SDWAN1Router --size Standard_D2_v2 --nics SDWAN1OutsideInterface SDWAN1InsideInterface  --image cisco:cisco-c8000v-byol:17_13_01a-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
 ```
@@ -88,6 +87,13 @@ az network nic create --name SDWAN2InsideInterface --resource-group $rg2 --subne
 az vm image accept-terms --urn cisco:cisco-csr-1000v:16_12-byol:latest
 az vm create --resource-group $rg2 --location $location --name SDWAN2Router --size Standard_D2_v2 --nics SDWAN2OutsideInterface SDWAN2InsideInterface  --image cisco:cisco-csr-1000v:16_12-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
 
+
+# Connect to the NVAs:
+export onpremSDWAN_1=$(az network public-ip show -n SDWAN1PublicIP -g $rg1 --query ipAddress -o tsv)
+ssh azureuser@$onpremSDWAN_1 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
+
+export onpremSDWAN_2=$(az network public-ip show -n SDWAN2PublicIP -g $rg2 --query ipAddress -o tsv)
+ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 
 
 ```
