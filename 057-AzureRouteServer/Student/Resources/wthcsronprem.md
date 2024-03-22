@@ -19,8 +19,8 @@ If you are not using bash but Windows, you will have to do some changes, such as
 rg=datacenter-rg
 location=<Azure region of your choice>
 publisher=cisco
-offer=cisco-csr-1000v
-sku=16_12-byol
+offer=cisco-c8000v-byol
+sku=17_13_01a-byol
 version=latest
 site_name=datacenter
 site_prefix=172.16.1.0/24
