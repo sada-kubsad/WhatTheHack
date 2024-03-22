@@ -8,8 +8,8 @@ rg=yourresourcegroup
 vm_size=Standard_B1s
 nva_size=Standard_B2ms
 publisher=cisco
-offer=cisco-csr-1000v
-sku=16_12-byol
+offer=cisco-c8000v-byol
+sku=17_13_01a-byol
 version=$(az vm image list -p $publisher -f $offer -s $sku --all --query '[0].version' -o tsv)
 az vm image terms accept --urn ${publisher}:${offer}:${sku}:${version}
 
