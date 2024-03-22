@@ -20,7 +20,9 @@
 In a later excercise, we will want the closest Region to the Hub and Spoke to have preference over the other. Since main Hub and Spoke is in West-US3, create 2 Vnet in different regions one each in West-US2 and East-US2 since 
 Make sure no Overlapping Address space is occupied on those two VNETs
 
-Commands below have been customized from script provided in [sdwancsr.md in the resources folder](../Student/Resources/sdwancsr.md)
+Commands below have been customized from script provided in [sdwancsr.md in the resources folder](../Student/Resources/sdwancsr.md):
+
+## 1.1 Onprem Site 1:
 
 ```bash
 # Variables
@@ -28,6 +30,62 @@ rg=wthars-OnPrem-1
 location=westus2
 vnet_name=wthars-OnPrem-1
 
+Vnet_address_prefix=10.1.0.0/16
+Vnet_out_subnet_name=sdwan1outsidesubnet
+vnet_out_subnet=10.1.1.0/24
+Vnet_in_subnet_name=sdwan1insidesidesubnet
+vnet_in_subnet=10.1.2.0/24
+
+# Create the resource group, VNET and subnet:
+az group create --name $rg --location $location
+az network vnet create --name $vnet_name --resource-group $rg --address-prefix $Vnet_address_prefix
+az network vnet subnet create --address-prefix $vnet_out_subnet --name $Vnet_out_subnet_name --resource-group $rg --vnet-name $vnet_name
+az network vnet subnet create --address-prefix $vnet_in_subnet --name $Vnet_in_subnet_name --resource-group $rg --vnet-name $vnet_name
+
+#Create NSG for SDWAN1 Cisco CSR 1000V**
+az network nsg create --resource-group $rg --name SDWAN1-NSG --location $location
+az network nsg rule create --resource-group $rg --nsg-name SDWAN1-NSG --name all --access Allow --protocol "*" --direction Inbound --priority 100 --source-address-prefix "*" --source-port-range "*" --destination-address-prefix "*" --destination-port-range "*"
+
+
+# Create SDWAN Router Site 1:
+az network public-ip create --name SDWAN1PublicIP --resource-group $rg --idle-timeout 30 --allocation-method Static
+az network nic create --name SDWAN1OutsideInterface --resource-group $rg --subnet $Vnet_out_subnet_name --vnet $vnet_name --public-ip-address SDWAN1PublicIP --ip-forwarding true --network-security-group SDWAN1-NSG
+az network nic create --name SDWAN1InsideInterface --resource-group $rg --subnet $Vnet_in_subnet_name --vnet $vnet_name --ip-forwarding true --network-security-group SDWAN1-NSG
+az vm image accept-terms --urn cisco:cisco-csr-1000v:16_12-byol:latest
+az vm create --resource-group $rg --location $location --name SDWAN1Router --size Standard_D2_v2 --nics SDWAN1OutsideInterface SDWAN1InsideInterface  --image cisco:cisco-csr-1000v:16_12-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
+```
+
+## 1.2 OnPrem Site 2:
+```bash
+
+# Variables
+rg=wthars-OnPrem-2
+location=eastus2
+vnet_name=OnPrem-2
+
+Vnet_address_prefix=10.2.0.0/16
+Vnet_out_subnet_name=SDWAN2outsidesubnet
+vnet_out_subnet=10.2.1.0/24
+Vnet_in_subnet_name=SDWAN2insidesubnet
+vnet_in_subnet=10.2.2.0/24
+
+# Create the resource group, VNET and subnet:
+az group create --name $rg --location $location
+az network vnet create --name $vnet_name --resource-group $rg --address-prefix $Vnet_address_prefix
+az network vnet subnet create --address-prefix $vnet_out_subnet --name $Vnet_out_subnet_name --resource-group $rg --vnet-name $vnet_name
+az network vnet subnet create --address-prefix $vnet_in_subnet --name $Vnet_in_subnet_name --resource-group $rg --vnet-name $vnet_name
+
+# Create NSG for SDWAN2 Cisco CSR 1000V
+az network nsg create --resource-group $rg --name SDWAN2-NSG --location $location
+az network nsg rule create --resource-group $rg --nsg-name SDWAN2-NSG --name all --access Allow --protocol "*" --direction Inbound --priority 100 --source-address-prefix "*" --source-port-range "*" --destination-address-prefix "*" --destination-port-range "*"
+
+
+#Create SDWAN Router Site 2
+az network public-ip create --name SDWAN2PublicIP --resource-group $rg --idle-timeout 30 --allocation-method Static
+az network nic create --name SDWAN2OutsideInterface --resource-group $rg --subnet $Vnet_out_subnet_name --vnet $vnet_name --public-ip-address SDWAN2PublicIP --ip-forwarding true --network-security-group SDWAN2-NSG
+az network nic create --name SDWAN2InsideInterface --resource-group $rg --subnet $Vnet_in_subnet_name --vnet $vnet_name --ip-forwarding true --network-security-group SDWAN2-NSG
+az vm image accept-terms --urn cisco:cisco-csr-1000v:16_12-byol:latest
+az vm create --resource-group $rg --location $location --name SDWAN2Router --size Standard_D2_v2 --nics SDWAN2OutsideInterface SDWAN2InsideInterface  --image cisco:cisco-csr-1000v:16_12-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
 
 
 
