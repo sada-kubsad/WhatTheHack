@@ -20,7 +20,17 @@
 In a later excercise, we will want the closest Region to the Hub and Spoke to have preference over the other. Since main Hub and Spoke is in West-US3, create 2 Vnet in different regions one each in West-US2 and East-US2 since 
 Make sure no Overlapping Address space is occupied on those two VNETs
 
+Commands below have been customized from script provided in [sdwancsr.md in the resources folder](../Student/Resources/sdwancsr.md)
+
 ```bash
+# Variables
+rg=wthars-OnPrem-1
+location=westus2
+vnet_name=wthars-OnPrem-1
+
+
+
+
 az group create \
     --name wthars-OnPrem-1 \
     --location westus2
@@ -40,12 +50,16 @@ az network vnet create \
     --address-prefix 10.2.0.0/16 \
     --subnet-name OnPrem-2 \
     --subnet-prefixes 10.2.0.0/24
+```
 
-
-
-## 2. Configure the two newly create NVAs
+## 2. Create two new NVAs
 Use the provided configuration templates
-Make sure no Overlapping Address space is occupied on the Virtual Tunel INterfaces within teh Cisco NVAs. Eg: do not utilize a Cisco VTI with 10.0.0.1 since Azure, is the first usable of a given subnet.
+Make sure no Overlapping Address space is occupied on the Virtual Tunel INterfaces within the Cisco NVAs. Eg: do not utilize a Cisco VTI with 10.0.0.1 since Azure, is the first usable of a given subnet.
+
+```bash
+
+
+```
 
 ## 3. Establish One IPSec tunnel from each of these two SDWAN simulated Cisco Virtual Appliances, to the Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
 
