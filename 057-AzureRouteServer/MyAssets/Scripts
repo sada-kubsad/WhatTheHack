@@ -48,6 +48,7 @@ az vm get-instance-view -g wthars-OnPrem-2 -n  SDWAN2Router  | grep -i power
 
 Connecting to VMs:
 ------------------
+Before connection, need to open JIT access port 22 for ssh
 export datacenter=$(az network public-ip show -n datacenter-pip -g wthars --query ipAddress -o tsv)
 export onpremVM=$(az network public-ip show -n onpremVM-ip -g wthars --query ipAddress -o tsv)
 export hubvm=$(az network public-ip show -n hubvm-pip -g wthars --query ipAddress -o tsv)
