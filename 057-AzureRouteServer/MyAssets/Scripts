@@ -19,6 +19,8 @@ az vm start  -g wthars -n spoke2-vm       > /dev/null 2>&1 &
 az vm start  -g wthars -n hub-nva1        > /dev/null 2>&1 & 
 az vm start  -g wthars -n onpremVM        > /dev/null 2>&1 & 
 
+az vm start  -g wthars-OnPrem-1 -n SDWAN1Router        > /dev/null 2>&1 & 
+az vm start  -g wthars-OnPrem-2 -n SDWAN2Router        > /dev/null 2>&1 & 
 
 Stop Deallocate All VMs:
 -------------------------
@@ -29,6 +31,8 @@ az vm deallocate -g wthars -n spoke2-vm        > /dev/null 2>&1 &
 az vm deallocate -g wthars -n hub-nva1         > /dev/null 2>&1 &
 az vm deallocate -g wthars -n onpremVM         > /dev/null 2>&1 &
 
+az vm deallocate -g wthars-OnPrem-1 -n SDWAN1Router  > /dev/null 2>&1 &
+az vm deallocate -g wthars-OnPrem-2 -n SDWAN2Router  > /dev/null 2>&1 &
 
 Check VMs state:
 -----------------------
@@ -38,6 +42,9 @@ az vm get-instance-view -g wthars -n  spoke1-vm     | grep -i power
 az vm get-instance-view -g wthars -n  spoke2-vm     | grep -i power
 az vm get-instance-view -g wthars -n  hub-nva1      | grep -i power
 az vm get-instance-view -g wthars -n  onpremVM      | grep -i power
+
+az vm get-instance-view -g wthars-OnPrem-1 -n  SDWAN1Router  | grep -i power
+az vm get-instance-view -g wthars-OnPrem-2 -n  SDWAN2Router  | grep -i power
 
 Connecting to VMs:
 ------------------
