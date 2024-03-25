@@ -56,6 +56,8 @@ export routeserver=$(az network public-ip show -n routeserverip -g wthars --quer
 export spoke1vm=$(az network public-ip show -n spoke1-vm-pip -g wthars --query ipAddress -o tsv)
 export spoke2vm=$(az network public-ip show -n spoke2-vm-pip -g wthars --query ipAddress -o tsv)
 
+export sdwan1routervm=$(az network public-ip show -n SDWAN1PublicIP -g wthars-OnPrem-1 --query ipAddress -o tsv)
+export sdwan2routervm=$(az network public-ip show -n SDWAN2PublicIP -g wthars-OnPrem-2 --query ipAddress -o tsv)
 
 
 cat ~/.ssh/id_rsa.pub on your local machine and upload the public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
@@ -72,7 +74,8 @@ ssh azureuser@$spoke1vm
 ssh azureuser@$spoke2vm
 ssh azureuser@$onpremVM
 
-
+ssh azureuser@SDWAN1PublicIP
+ssh azureuser@SDWAN2PublicIP
 
 Lessons Learnt from Chris Frasch troubleshooting VPN tunnels:
 -------------------------------------------------------------
