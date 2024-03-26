@@ -229,3 +229,15 @@ monitor capture CAP start
 monitor capture CAP stop
 show monitor capture CAP buffer brief
 no monitor capture CAP
+
+Cisco CSR Image deprecation:
+----------------------------
+From: 
+Publisher: cisco
+Offer: cisco-csr-1000v
+SKU: 16_12-byol
+
+To: 
+publisher=cisco
+offer=cisco-c8000v-byol
+sku=17_13_01a-byol
