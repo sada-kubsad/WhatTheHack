@@ -147,26 +147,26 @@ crypto ikev2 proposal to-sdwan-proposal
 
 crypto ikev2 policy to-sdwan-policy
   proposal to-sdwan-proposal
-  match address local "GigabitEthernet1 IP Address"
+  match address local 10.0.1.4
   exit
   
 crypto ikev2 keyring to-sdwan-keyring
-  peer "Insert sdwan1PublicIP"
-    address "Insert sdwan1PublicIP"
+  peer 20.191.108.200
+    address 20.191.108.200
     pre-shared-key Msft123Msft123
     exit
   exit
   
-  peer "Insert sdwan2PublicIP"
-    address "Insert sdwan2PublicIP"
+  peer 40.84.25.222
+    address 40.84.25.222
     pre-shared-key Msft123Msft123
     exit
   exit
 
 crypto ikev2 profile to-sdwan-profile
-  match address local "GigabitEthernet1 IP Address"
-  match identity remote address **Sdwan1_privateSNATed_IP** 255.255.255.255
-  match identity remote address **Sdwan2_privateSNATed_IP** 255.255.255.255
+  match address local 10.0.1.4
+  match identity remote address 10.1.1.4 255.255.255.255
+  match identity remote address 10.2.1.4 255.255.255.255
   authentication remote pre-share
   authentication local  pre-share
   lifetime 3600
@@ -190,7 +190,7 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination "Insert sdwan1PublicIP"
+  tunnel destination 20.191.108.200
   tunnel protection ipsec profile to-sdwan-IPsecProfile
   exit 
   
@@ -200,17 +200,17 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination "Insert sdwan2PublicIP"
+  tunnel destination 40.84.25.222
   tunnel protection ipsec profile to-sdwan-IPsecProfile
   exit  
 
-router bgp **Central NVA BGP ID**
+router bgp 65001
   bgp log-neighbor-changes
-  neighbor 192.168.1.2 remote-as **sdwan1 NVA BGP ID**
+  neighbor 192.168.1.2 remote-as 65002
   neighbor 192.168.1.2 ebgp-multihop 255
   neighbor 192.168.1.2 update-source tunnel 98
   !
-  neighbor 192.168.1.3 remote-as **sdwan2 NVA BGP ID**
+  neighbor 192.168.1.3 remote-as 65003
   neighbor 192.168.1.3 ebgp-multihop 255
   neighbor 192.168.1.3 update-source tunnel 99
   
