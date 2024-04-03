@@ -234,19 +234,19 @@ crypto ikev2 proposal to-central-nva-proposal
 
 crypto ikev2 policy to-central-nva-policy
   proposal to-central-nva-proposal
-  match address local "GigabitEthernet1 IP Address"
+  match address local 10.1.1.4
   exit
   
 crypto ikev2 keyring to-central-nva-keyring
-  peer "Insert nva_Public_IP"
-    address "Insert nva_Public_IP"
+  peer 20.191.108.200
+    address 20.191.108.200
     pre-shared-key Msft123Msft123
     exit
   exit
 
 crypto ikev2 profile to-central-nva-profile
-  match address local "GigabitEthernet1 IP Address"
-  match identity remote address **CentralNVA_privateSNATed_IP** 255.255.255.255
+  match address local 10.1.1.4
+  match identity remote address 10.0.1.4 255.255.255.255
   authentication remote pre-share
   authentication local  pre-share
   lifetime 3600
@@ -269,13 +269,13 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination "Insert nva_Public_IP"
+  tunnel destination 20.191.108.200
   tunnel protection ipsec profile to-central-nva-IPsecProfile
   exit
 
-router bgp **BGP ID**
+router bgp 65002
   bgp log-neighbor-changes
-  neighbor 192.168.1.1 remote-as **Central NVA BGP ID**
+  neighbor 192.168.1.1 remote-as 65001
   neighbor 192.168.1.1 ebgp-multihop 255
   neighbor 192.168.1.1 update-source tunnel 98
   
