@@ -137,7 +137,7 @@ ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffi
 ## 4. Establish One IPSec tunnel from each of these two SDWAN simulated Cisco Virtual Appliances, to the Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
 Also Establish BGP from each of these two SDWAN simulated Cisco Virtual Appliances to Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
 
-### 4.1 Central NVA to SDWAN Routers Cisco CSR 1000 BGP over IPsec Connection
+### 4.0 Central NVA to SDWAN Routers Cisco CSR 1000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-sdwan-proposal
   encryption aes-cbc-256
@@ -224,7 +224,7 @@ ip route 192.168.1.2 255.255.255.255 Tunnel 98
 ip route 192.168.1.3 255.255.255.255 Tunnel 99
 ```
 
-### 4.2 SDWAN1 Router to Central NVA Cisco CSR 1000 BGP over IPsec Connection
+### 4.1 SDWAN1 Router to Central NVA Cisco CSR 1000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-central-nva-proposal
   encryption aes-cbc-256
@@ -291,7 +291,7 @@ ip route 192.168.1.1 255.255.255.255 Tunnel 98
 ip route "vnet Address space" 255.255.0.0 Null0
 ```
 
-### 4.3 SDWAN2 Router to Central NVA Cisco CSR 8000 BGP over IPsec Connection
+### 4.2 SDWAN2 Router to Central NVA Cisco CSR 8000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-central-nva-proposal
   encryption aes-cbc-256
