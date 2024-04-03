@@ -155,8 +155,6 @@ crypto ikev2 keyring to-sdwan-keyring
     address 20.191.108.200
     pre-shared-key Msft123Msft123
     exit
-  exit
-  
   peer 40.84.25.222
     address 40.84.25.222
     pre-shared-key Msft123Msft123
