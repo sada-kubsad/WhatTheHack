@@ -126,10 +126,10 @@ az vm get-instance-view -g wthars-OnPrem-2 -n  SDWAN2Router  | grep -i power
 ### 3.4 Connect to the SDWAN NVAs:
 
 ```bash
-export onpremSDWAN_1=$(az network public-ip show -n SDWAN1PublicIP -g $rg1 --query ipAddress -o tsv)
+export onpremSDWAN_1=$(az network public-ip show -n SDWAN1PublicIP -g wthars-OnPrem-1  --query ipAddress -o tsv)
 ssh azureuser@$onpremSDWAN_1 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 
-export onpremSDWAN_2=$(az network public-ip show -n SDWAN2PublicIP -g $rg2 --query ipAddress -o tsv)
+export onpremSDWAN_2=$(az network public-ip show -n SDWAN2PublicIP -g wthars-OnPrem-2 --query ipAddress -o tsv)
 ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ```
 
