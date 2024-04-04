@@ -239,5 +239,21 @@ SKU: 16_12-byol
 
 To: 
 publisher=cisco
-offer=cisco-c8000v-byol
+offer=cisco-c8000v-byol      <<-- Use BYOL, NOT PAYG
 sku=17_13_01a-byol
+Software License Cost: 0 USD/hr
+On this SKU, Activate licensing on CSR-8000v with:
+license boot level network-essentials addon dna-essentials
+
+Do Not use PAYG CSR 8000v with DNA Essentials:
+publisher=cisco
+offer=cisco-c8000v
+sku=17_13_01a-payg-essentials
+Software License Cost: 2.5300 USD/hr not covered by credits
+
+Also do not use PAYG CSR 8000v with DNA Advantage:
+publisher = cisco
+offer=cisco-c8000v
+sku=17_13_01a-payg-advantage
+Software License Cost: 2.9900 USD/hr not covered by credits
+
