@@ -75,7 +75,7 @@ Make sure no Overlapping Address space is occupied on the Virtual Tunel INterfac
 
 ## 2.1 Onprem Site 1:
 ```bash
-#Create NSG for SDWAN1 Cisco CSR 1000V**
+#Create NSG for SDWAN1 Cisco CSR 8000V**
 az network nsg create --resource-group $rg1 --name SDWAN1-NSG --location $location
 az network nsg rule create --resource-group $rg1 --nsg-name SDWAN1-NSG --name all --access Allow --protocol "*" --direction Inbound --priority 100 --source-address-prefix "*" --source-port-range "*" --destination-address-prefix "*" --destination-port-range "*"
 
@@ -91,7 +91,7 @@ az vm create --resource-group $rg1 --location $location --name SDWAN1Router --si
 
 ## 2.2 OnPrem Site 2:
 ```bash
-# Create NSG for SDWAN2 Cisco CSR 1000V
+# Create NSG for SDWAN2 Cisco CSR 8000V
 az network nsg create --resource-group $rg2 --name SDWAN2-NSG --location $location
 az network nsg rule create --resource-group $rg2 --nsg-name SDWAN2-NSG --name all --access Allow --protocol "*" --direction Inbound --priority 100 --source-address-prefix "*" --source-port-range "*" --destination-address-prefix "*" --destination-port-range "*"
 
