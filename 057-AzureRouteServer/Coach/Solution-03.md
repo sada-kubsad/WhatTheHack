@@ -210,7 +210,7 @@ int tunnel 98
   tunnel protection ipsec profile to-sdwan-IPsecProfile
   exit  
 
-router bgp 65001
+router bgp 65501
   bgp log-neighbor-changes
   neighbor 192.168.1.2 remote-as 65002
   neighbor 192.168.1.2 ebgp-multihop 255
