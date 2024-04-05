@@ -142,7 +142,7 @@ Also Establish BGP from each of these two SDWAN simulated Cisco Virtual Applianc
 crypto ikev2 proposal to-sdwan-proposal
   encryption aes-cbc-256
   integrity sha1
-  group 2
+  group 14
   exit
 
 crypto ikev2 policy to-sdwan-policy
@@ -229,7 +229,7 @@ ip route 192.168.1.3 255.255.255.255 Tunnel 99
 crypto ikev2 proposal to-central-nva-proposal
   encryption aes-cbc-256
   integrity sha1
-  group 2
+  group 14
   exit
 
 crypto ikev2 policy to-central-nva-policy
@@ -296,7 +296,7 @@ ip route "vnet Address space" 255.255.0.0 Null0
 crypto ikev2 proposal to-central-nva-proposal
   encryption aes-cbc-256
   integrity sha1
-  group 2
+  group 14
   exit
 
 crypto ikev2 policy to-central-nva-policy
