@@ -296,7 +296,7 @@ router bgp 65002
 
 !route BGP peer IP over the tunnel
 ip route 192.168.1.1 255.255.255.255 Tunnel 98
-ip route "vnet Address space" 255.255.0.0 Null0
+ip route 10.11.0.0 255.255.0.0 Null0
 ```
 
 ### 4.2 SDWAN2 Router to Central NVA Cisco CSR 8000 BGP over IPsec Connection
