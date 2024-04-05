@@ -26,15 +26,15 @@ Commands below have been customized from script provided in [sdwancsr.md in the 
 
 ```bash
 # Variables
-rg1=wthars-OnPrem-1
+rg1=wthars-SDWAN-OnPrem-1
 location=westus2
-vnet_name=wthars-OnPrem-1
+vnet_name=SDWAN-OnPrem-1
 
-Vnet_address_prefix=10.1.0.0/16
+Vnet_address_prefix=10.11.0.0/16
 Vnet_out_subnet_name=sdwan1outsidesubnet
-vnet_out_subnet=10.1.1.0/24
+vnet_out_subnet=10.11.1.0/24
 Vnet_in_subnet_name=sdwan1insidesidesubnet
-vnet_in_subnet=10.1.2.0/24
+vnet_in_subnet=10.11.2.0/24
 
 # Create the resource group, VNET and subnet:
 az group create --name $rg1 --location $location
@@ -49,15 +49,15 @@ az network vnet subnet create --address-prefix $vnet_in_subnet --name $Vnet_in_s
 ```bash
 
 # Variables
-rg2=wthars-OnPrem-2
+rg2=wthars-SDWAN-OnPrem-2
 location=eastus2
-vnet_name=OnPrem-2
+vnet_name=SDWAN-OnPrem-2
 
-Vnet_address_prefix=10.2.0.0/16
+Vnet_address_prefix=10.12.0.0/16
 Vnet_out_subnet_name=SDWAN2outsidesubnet
-vnet_out_subnet=10.2.1.0/24
+vnet_out_subnet=10.12.1.0/24
 Vnet_in_subnet_name=SDWAN2insidesubnet
-vnet_in_subnet=10.2.2.0/24
+vnet_in_subnet=10.12.2.0/24
 
 # Create the resource group, VNET and subnet:
 az group create --name $rg2 --location $location
