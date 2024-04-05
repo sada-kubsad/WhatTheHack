@@ -105,24 +105,33 @@ az vm create --resource-group $rg2 --location $location2 --name SDWAN2Router --s
 ```
 
 ## 3. Manage the SDWAN NVAs
-### 3.1 Start the SDWAN NVAs
+### 3.1 Enable required licenses on the SDWAN
+On Each SDWAN appliances,run:
+```bash
+config t
+license boot level network-essentials addon dna-essentials
+```
+This is required so that the crypto ikev2... command gets enabled.  
+**Then reboot the SDWANs**
+
+### 3.2 Start the SDWAN NVAs
 ```bash
 az vm start  -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router        > /dev/null 2>&1 & 
 az vm start  -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router        > /dev/null 2>&1 & 
 ```
 
-### 3.2 Stop Deallocate the SDWAN NVAs
+### 3.3 Stop Deallocate the SDWAN NVAs
 ```bash
 az vm deallocate -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router  > /dev/null 2>&1 &
 az vm deallocate -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router  > /dev/null 2>&1 &
 ```
 
-### 3.3 Check State the SDWAN NVAs
+### 3.4 Check State the SDWAN NVAs
 ```bash
 az vm get-instance-view -g wthars-SDWAN-OnPrem-1 -n  SDWAN1Router  | grep -i power
 az vm get-instance-view -g wthars-SDWAN-OnPrem-2 -n  SDWAN2Router  | grep -i power
 ```
-### 3.4 Connect to the SDWAN NVAs:
+### 3.5 Connect to the SDWAN NVAs:
 
 ```bash
 export onpremSDWAN_1=$(az network public-ip show -n SDWAN1PublicIP -g wthars-SDWAN-OnPrem-1 --query ipAddress -o tsv)
