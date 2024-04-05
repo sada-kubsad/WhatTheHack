@@ -22,26 +22,25 @@ Make sure no Overlapping Address space is occupied on those two VNETs
 
 Commands below have been customized from script provided in [sdwancsr.md in the resources folder](../Student/Resources/sdwancsr.md):
 
-## 1.1 Onprem Site 1:
+## 1.1 SD-WAN Onprem Site 1:
 
 ```bash
 # Variables
 rg1=wthars-SDWAN-OnPrem-1
-location=westus2
-vnet_name=SDWAN-OnPrem-1
+location1=westus2
+vnet_name1=SDWAN-OnPrem-1
 
-Vnet_address_prefix=10.11.0.0/16
-Vnet_out_subnet_name=sdwan1outsidesubnet
-vnet_out_subnet=10.11.1.0/24
-Vnet_in_subnet_name=sdwan1insidesidesubnet
-vnet_in_subnet=10.11.2.0/24
+Vnet_address_prefix1=10.11.0.0/16
+Vnet_out_subnet_name1=sdwan1outsidesubnet
+vnet_out_subnet1=10.11.1.0/24
+Vnet_in_subnet_name1=sdwan1insidesidesubnet
+vnet_in_subnet1=10.11.2.0/24
 
 # Create the resource group, VNET and subnet:
-az group create --name $rg1 --location $location
-az network vnet create --name $vnet_name --resource-group $rg1 --address-prefix $Vnet_address_prefix
-az network vnet subnet create --address-prefix $vnet_out_subnet --name $Vnet_out_subnet_name --resource-group $rg1 --vnet-name $vnet_name
-az network vnet subnet create --address-prefix $vnet_in_subnet --name $Vnet_in_subnet_name --resource-group $rg1 --vnet-name $vnet_name
-
+az group create --name $rg1 --location $location1
+az network vnet create --name $vnet_name1 --resource-group $rg1 --address-prefix $Vnet_address_prefix1
+az network vnet subnet create --address-prefix $vnet_out_subnet1 --name $Vnet_out_subnet_name1 --resource-group $rg1 --vnet-name $vnet_name1
+az network vnet subnet create --address-prefix $vnet_in_subnet1 --name $Vnet_in_subnet_name1 --resource-group $rg1 --vnet-name1 $vnet_name1
 
 ```
 
@@ -50,20 +49,20 @@ az network vnet subnet create --address-prefix $vnet_in_subnet --name $Vnet_in_s
 
 # Variables
 rg2=wthars-SDWAN-OnPrem-2
-location=eastus2
-vnet_name=SDWAN-OnPrem-2
+location2=eastus2
+vnet_name2=SDWAN-OnPrem-2
 
-Vnet_address_prefix=10.12.0.0/16
-Vnet_out_subnet_name=SDWAN2outsidesubnet
-vnet_out_subnet=10.12.1.0/24
-Vnet_in_subnet_name=SDWAN2insidesubnet
-vnet_in_subnet=10.12.2.0/24
+Vnet_address_prefix2=10.12.0.0/16
+Vnet_out_subnet_name2=SDWAN2outsidesubnet
+vnet_out_subnet2=10.12.1.0/24
+Vnet_in_subnet_name2=SDWAN2insidesubnet
+vnet_in_subnet2=10.12.2.0/24
 
 # Create the resource group, VNET and subnet:
-az group create --name $rg2 --location $location
-az network vnet create --name $vnet_name --resource-group $rg2 --address-prefix $Vnet_address_prefix
-az network vnet subnet create --address-prefix $vnet_out_subnet --name $Vnet_out_subnet_name --resource-group $rg2 --vnet-name $vnet_name
-az network vnet subnet create --address-prefix $vnet_in_subnet --name $Vnet_in_subnet_name --resource-group $rg2 --vnet-name $vnet_name
+az group create --name $rg2 --location $location2
+az network vnet create --name $vnet_name2 --resource-group $rg2 --address-prefix $Vnet_address_prefix2
+az network vnet subnet create --address-prefix $vnet_out_subnet2 --name $Vnet_out_subnet_name2 --resource-group $rg2 --vnet-name $vnet_name2
+az network vnet subnet create --address-prefix $vnet_in_subnet2 --name $Vnet_in_subnet_name2 --resource-group $rg2 --vnet-name $vnet_name2
 
 
 
@@ -75,33 +74,33 @@ Make sure no Overlapping Address space is occupied on the Virtual Tunel INterfac
 
 ## 2.1 Onprem Site 1:
 ```bash
-#Create NSG for SDWAN1 Cisco CSR 8000V**
-az network nsg create --resource-group $rg1 --name SDWAN1-NSG --location $location
+#Create NSG for SDWAN1 Cisco CSR 8000V
+az network nsg create --resource-group $rg1 --name SDWAN1-NSG --location $location1
 az network nsg rule create --resource-group $rg1 --nsg-name SDWAN1-NSG --name all --access Allow --protocol "*" --direction Inbound --priority 100 --source-address-prefix "*" --source-port-range "*" --destination-address-prefix "*" --destination-port-range "*"
 
 
 # Create SDWAN Router Site 1:
 az network public-ip create --name SDWAN1PublicIP --resource-group $rg1 --idle-timeout 30 --allocation-method Static
-az network nic create --name SDWAN1OutsideInterface --resource-group $rg1 --subnet $Vnet_out_subnet_name --vnet $vnet_name --public-ip-address SDWAN1PublicIP --ip-forwarding true --network-security-group SDWAN1-NSG
-az network nic create --name SDWAN1InsideInterface --resource-group $rg1 --subnet $Vnet_in_subnet_name --vnet $vnet_name --ip-forwarding true --network-security-group SDWAN1-NSG
+az network nic create --name SDWAN1OutsideInterface --resource-group $rg1 --subnet $Vnet_out_subnet_name1 --vnet $vnet_name1 --public-ip-address SDWAN1PublicIP --ip-forwarding true --network-security-group SDWAN1-NSG
+az network nic create --name SDWAN1InsideInterface --resource-group $rg1 --subnet $Vnet_in_subnet_name1 --vnet $vnet_name1 --ip-forwarding true --network-security-group SDWAN1-NSG
 az vm image terms accept --urn cisco:cisco-c8000v-byol:17_13_01a-byol:latest
-az vm create --resource-group $rg1 --location $location --name SDWAN1Router --size Standard_D2_v2 --nics SDWAN1OutsideInterface SDWAN1InsideInterface  --image cisco:cisco-c8000v-byol:17_13_01a-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
+az vm create --resource-group $rg1 --location $location1 --name SDWAN1Router --size Standard_D2_v2 --nics SDWAN1OutsideInterface SDWAN1InsideInterface  --image cisco:cisco-c8000v-byol:17_13_01a-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
 
 ```
 
 ## 2.2 OnPrem Site 2:
 ```bash
 # Create NSG for SDWAN2 Cisco CSR 8000V
-az network nsg create --resource-group $rg2 --name SDWAN2-NSG --location $location
+az network nsg create --resource-group $rg2 --name SDWAN2-NSG --location $location2
 az network nsg rule create --resource-group $rg2 --nsg-name SDWAN2-NSG --name all --access Allow --protocol "*" --direction Inbound --priority 100 --source-address-prefix "*" --source-port-range "*" --destination-address-prefix "*" --destination-port-range "*"
 
 
 #Create SDWAN Router Site 2
 az network public-ip create --name SDWAN2PublicIP --resource-group $rg2 --idle-timeout 30 --allocation-method Static
-az network nic create --name SDWAN2OutsideInterface --resource-group $rg2 --subnet $Vnet_out_subnet_name --vnet $vnet_name --public-ip-address SDWAN2PublicIP --ip-forwarding true --network-security-group SDWAN2-NSG
-az network nic create --name SDWAN2InsideInterface --resource-group $rg2 --subnet $Vnet_in_subnet_name --vnet $vnet_name --ip-forwarding true --network-security-group SDWAN2-NSG
+az network nic create --name SDWAN2OutsideInterface --resource-group $rg2 --subnet $Vnet_out_subnet_name2 --vnet $vnet_name2 --public-ip-address SDWAN2PublicIP --ip-forwarding true --network-security-group SDWAN2-NSG
+az network nic create --name SDWAN2InsideInterface --resource-group $rg2 --subnet $Vnet_in_subnet_name2 --vnet $vnet_name2 --ip-forwarding true --network-security-group SDWAN2-NSG
 az vm image accept-terms --urn cisco:cisco-c8000v-byol:17_13_01a-byol:latest
-az vm create --resource-group $rg2 --location $location --name SDWAN2Router --size Standard_D2_v2 --nics SDWAN2OutsideInterface SDWAN2InsideInterface  --image cisco:cisco-c8000v-byol:17_13_01a-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
+az vm create --resource-group $rg2 --location $location2 --name SDWAN2Router --size Standard_D2_v2 --nics SDWAN2OutsideInterface SDWAN2InsideInterface  --image cisco:cisco-c8000v-byol:17_13_01a-byol:latest --admin-username azureuser --admin-password Msft123Msft123 --no-wait
 
 ```
 
