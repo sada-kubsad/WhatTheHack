@@ -288,7 +288,7 @@ router bgp 65002
   neighbor 192.168.1.1 update-source tunnel 98
   
   address-family ipv4
-    network "vnet Address space" mask 255.255.0.0
+    network 10.11.0.0 mask 255.255.0.0
     redistribute connected
     neighbor 192.168.1.1 activate    
     exit
