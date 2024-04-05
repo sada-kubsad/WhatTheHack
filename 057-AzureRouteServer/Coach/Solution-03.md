@@ -40,7 +40,7 @@ vnet_in_subnet1=10.11.2.0/24
 az group create --name $rg1 --location $location1
 az network vnet create --name $vnet_name1 --resource-group $rg1 --address-prefix $Vnet_address_prefix1
 az network vnet subnet create --address-prefix $vnet_out_subnet1 --name $Vnet_out_subnet_name1 --resource-group $rg1 --vnet-name $vnet_name1
-az network vnet subnet create --address-prefix $vnet_in_subnet1 --name $Vnet_in_subnet_name1 --resource-group $rg1 --vnet-name1 $vnet_name1
+az network vnet subnet create --address-prefix $vnet_in_subnet1 --name $Vnet_in_subnet_name1 --resource-group $rg1 --vnet-name $vnet_name1
 
 ```
 
