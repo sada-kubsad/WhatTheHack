@@ -107,28 +107,28 @@ az vm create --resource-group $rg2 --location $location2 --name SDWAN2Router --s
 ## 3. Manage the SDWAN NVAs
 ### 3.1 Start the SDWAN NVAs
 ```bash
-az vm start  -g wthars-OnPrem-1 -n SDWAN1Router        > /dev/null 2>&1 & 
-az vm start  -g wthars-OnPrem-2 -n SDWAN2Router        > /dev/null 2>&1 & 
+az vm start  -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router        > /dev/null 2>&1 & 
+az vm start  -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router        > /dev/null 2>&1 & 
 ```
 
 ### 3.2 Stop Deallocate the SDWAN NVAs
 ```bash
-az vm deallocate -g wthars-OnPrem-1 -n SDWAN1Router  > /dev/null 2>&1 &
-az vm deallocate -g wthars-OnPrem-2 -n SDWAN2Router  > /dev/null 2>&1 &
+az vm deallocate -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router  > /dev/null 2>&1 &
+az vm deallocate -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router  > /dev/null 2>&1 &
 ```
 
 ### 3.3 Check State the SDWAN NVAs
 ```bash
-az vm get-instance-view -g wthars-OnPrem-1 -n  SDWAN1Router  | grep -i power
-az vm get-instance-view -g wthars-OnPrem-2 -n  SDWAN2Router  | grep -i power
+az vm get-instance-view -g wthars-SDWAN-OnPrem-1 -n  SDWAN1Router  | grep -i power
+az vm get-instance-view -g wthars-SDWAN-OnPrem-2 -n  SDWAN2Router  | grep -i power
 ```
 ### 3.4 Connect to the SDWAN NVAs:
 
 ```bash
-export onpremSDWAN_1=$(az network public-ip show -n SDWAN1PublicIP -g wthars-OnPrem-1  --query ipAddress -o tsv)
+export onpremSDWAN_1=$(az network public-ip show -n SDWAN1PublicIP -g wthars-SDWAN-OnPrem-1 --query ipAddress -o tsv)
 ssh azureuser@$onpremSDWAN_1 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 
-export onpremSDWAN_2=$(az network public-ip show -n SDWAN2PublicIP -g wthars-OnPrem-2 --query ipAddress -o tsv)
+export onpremSDWAN_2=$(az network public-ip show -n SDWAN2PublicIP -g wthars-SDWAN-OnPrem-2 --query ipAddress -o tsv)
 ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ```
 
