@@ -159,20 +159,20 @@ crypto ikev2 policy to-sdwan-policy
   exit
   
 crypto ikev2 keyring to-sdwan-keyring
-  peer 20.191.108.200
-    address 20.191.108.200
+  peer 52.149.9.59
+    address 52.149.9.59
     pre-shared-key Msft123Msft123
     exit
-  peer 40.84.25.222
-    address 40.84.25.222
+  peer 20.186.73.55
+    address 20.186.73.55
     pre-shared-key Msft123Msft123
     exit
   exit
 
 crypto ikev2 profile to-sdwan-profile
-  match address local 10.0.1.4
-  match identity remote address 10.1.1.4 255.255.255.255
-  match identity remote address 10.2.1.4 255.255.255.255
+  match address local 10.11.1.4
+  match identity remote address 10.11.1.4 255.255.255.255
+  match identity remote address 10.12.1.4 255.255.255.255
   authentication remote pre-share
   authentication local  pre-share
   lifetime 3600
@@ -196,7 +196,7 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination 20.191.108.200
+  tunnel destination 52.149.9.59
   tunnel protection ipsec profile to-sdwan-IPsecProfile
   exit 
   
@@ -206,7 +206,7 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination 40.84.25.222
+  tunnel destination 20.186.73.55
   tunnel protection ipsec profile to-sdwan-IPsecProfile
   exit  
 
