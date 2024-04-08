@@ -242,18 +242,18 @@ crypto ikev2 proposal to-central-nva-proposal
 
 crypto ikev2 policy to-central-nva-policy
   proposal to-central-nva-proposal
-  match address local 10.1.1.4
+  match address local 10.11.1.4
   exit
   
 crypto ikev2 keyring to-central-nva-keyring
-  peer 20.191.108.200
-    address 20.191.108.200
+  peer 52.149.9.59
+    address 52.149.9.59
     pre-shared-key Msft123Msft123
     exit
   exit
 
 crypto ikev2 profile to-central-nva-profile
-  match address local 10.1.1.4
+  match address local 10.11.1.4
   match identity remote address 10.0.1.4 255.255.255.255
   authentication remote pre-share
   authentication local  pre-share
@@ -277,7 +277,7 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination 20.191.108.200
+  tunnel destination 52.149.9.59
   tunnel protection ipsec profile to-central-nva-IPsecProfile
   exit
 
@@ -309,19 +309,19 @@ crypto ikev2 proposal to-central-nva-proposal
 
 crypto ikev2 policy to-central-nva-policy
   proposal to-central-nva-proposal
-  match address local "GigabitEthernet1 IP Address"
+  match address local 10.12.1.4
   exit
   
 crypto ikev2 keyring to-central-nva-keyring
-  peer "Insert nva_Public_IP"
-    address "Insert nva_Public_IP"
+  peer 20.186.73.55
+    address 20.186.73.55
     pre-shared-key Msft123Msft123
     exit
   exit
 
 crypto ikev2 profile to-central-nva-profile
-  match address local "GigabitEthernet1 IP Address"
-  match identity remote address **CentralNVA_privateSNATed_IP** 255.255.255.255
+  match address local 10.12.1.4
+  match identity remote address 10.0.1.4 255.255.255.255
   authentication remote pre-share
   authentication local  pre-share
   lifetime 3600
@@ -344,18 +344,18 @@ int tunnel 99
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination "Insert nva_Public_IP"
+  tunnel destination 20.186.73.55
   tunnel protection ipsec profile to-central-nva-IPsecProfile
   exit
 
-router bgp **BGP ID**
+router bgp 65003
   bgp log-neighbor-changes
-  neighbor 192.168.1.4 remote-as **Central NVA BGP ID**
+  neighbor 192.168.1.4 remote-as 65001
   neighbor 192.168.1.4 ebgp-multihop 255
   neighbor 192.168.1.4 update-source tunnel 99
 
   address-family ipv4
-    network "vnet Address space" mask 255.255.0.0
+    network 10.12.0.0 mask 255.255.0.0
     redistribute connected
     neighbor 192.168.1.1 activate    
     exit
@@ -363,7 +363,7 @@ router bgp **BGP ID**
 
 !route BGP peer IP over the tunnel
 ip route 192.168.1.4 255.255.255.255 Tunnel 99
-ip route "vnet Address space" 255.255.0.0 Null0
+ip route 10.12.0.0 255.255.0.0 Null0
 ```
 
 ## 5. Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
