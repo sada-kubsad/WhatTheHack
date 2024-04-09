@@ -148,9 +148,9 @@ Also Establish BGP from each of these two SDWAN simulated Cisco Virtual Applianc
 ### 4.0 Central NVA to SDWAN Routers Cisco CSR 8000v BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-sdwan-proposal
-  encryption aes-cbc-256
-  integrity sha1
-  group 14
+  encryption aes-cbc-128 aes-cbc-256
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 
 crypto ikev2 policy to-sdwan-policy
@@ -235,9 +235,9 @@ ip route 192.168.1.3 255.255.255.255 Tunnel 99
 ### 4.1 SDWAN1 Router to Central NVA Cisco CSR 8000v BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-central-nva-proposal
-  encryption aes-cbc-256
-  integrity sha1
-  group 14
+  encryption aes-cbc-128 aes-cbc-256
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 
 crypto ikev2 policy to-central-nva-policy
@@ -246,8 +246,8 @@ crypto ikev2 policy to-central-nva-policy
   exit
   
 crypto ikev2 keyring to-central-nva-keyring
-  peer 52.149.9.59
-    address 52.149.9.59
+  peer 20.163.50.108
+    address 20.163.50.108
     pre-shared-key Msft123Msft123
     exit
   exit
@@ -277,7 +277,7 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination 52.149.9.59
+  tunnel destination 20.163.50.108
   tunnel protection ipsec profile to-central-nva-IPsecProfile
   exit
 
@@ -302,9 +302,9 @@ ip route 10.11.0.0 255.255.0.0 Null0
 ### 4.2 SDWAN2 Router to Central NVA Cisco CSR 8000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-central-nva-proposal
-  encryption aes-cbc-256
-  integrity sha1
-  group 14
+  encryption aes-cbc-128 aes-cbc-256
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 
 crypto ikev2 policy to-central-nva-policy
@@ -313,8 +313,8 @@ crypto ikev2 policy to-central-nva-policy
   exit
   
 crypto ikev2 keyring to-central-nva-keyring
-  peer 20.186.73.55
-    address 20.186.73.55
+  peer 20.163.50.108
+    address 20.163.50.108
     pre-shared-key Msft123Msft123
     exit
   exit
@@ -344,7 +344,7 @@ int tunnel 99
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination 20.186.73.55
+  tunnel destination 20.163.50.108
   tunnel protection ipsec profile to-central-nva-IPsecProfile
   exit
 
@@ -365,163 +365,7 @@ router bgp 65003
 ip route 192.168.1.4 255.255.255.255 Tunnel 99
 ip route 10.12.0.0 255.255.0.0 Null0
 ```
-## Option B post upgrade to CSR800v
-B.CentralNVA:
-### 4.0 Central NVA to SDWAN Routers Cisco CSR 8000v BGP over IPsec Connection
-```
-crypto ikev2 proposal to-sdwan-proposal
-  encryption encryption aes-cbc-128 aes-cbc-256
-  integrity sha1 sha256 sha384 sha512 
-  group 14 15 16 
-  exit
 
-crypto ikev2 policy to-sdwan-policy
-  proposal to-sdwan-proposal
-  match address local 10.0.1.4
-  exit
-  
-crypto ikev2 keyring to-sdwan-keyring
-  peer 52.149.9.59
-    address 52.149.9.59
-    pre-shared-key Msft123Msft123
-    exit
-  peer 20.186.73.55
-    address 20.186.73.55
-    pre-shared-key Msft123Msft123
-    exit
-  exit
-
-crypto ikev2 profile to-sdwan-profile
-  match address local 10.0.1.4
-  match identity remote address 10.11.1.4 255.255.255.255
-  match identity remote address 10.12.1.4 255.255.255.255
-  authentication remote pre-share
-  authentication local  pre-share
-  lifetime 3600
-  dpd 10 5 on-demand
-  keyring local to-sdwan-keyring
-  exit
-
-crypto ipsec transform-set to-sdwan-TransformSet esp-gcm 256 
-  mode tunnel
-  exit
-
-crypto ipsec profile to-sdwan-IPsecProfile
-  set transform-set to-sdwan-TransformSet
-  set ikev2-profile to-sdwan-profile
-  set security-association lifetime seconds 3600
-  exit
-
-interface tunnel 98
-  description to SDWAN1-Router
-  ip address 192.168.1.1 255.255.255.255
-  tunnel mode ipsec ipv4
-  ip tcp adjust-mss 1350
-  tunnel source GigabitEthernet1
-  tunnel destination 52.149.9.59
-  tunnel protection ipsec profile to-sdwan-IPsecProfile
-  exit 
-  
- interface tunnel 99 
-  description to SDWAN2-Router
-  ip address 192.168.1.4 255.255.255.255
-  tunnel mode ipsec ipv4
-  ip tcp adjust-mss 1350
-  tunnel source GigabitEthernet1
-  tunnel destination 20.186.73.55
-  tunnel protection ipsec profile to-sdwan-IPsecProfile
-  exit  
-
-router bgp 65001
-  bgp log-neighbor-changes
-  neighbor 192.168.1.2 remote-as 65002
-  neighbor 192.168.1.2 ebgp-multihop 255
-  neighbor 192.168.1.2 update-source tunnel 98
-  !
-  neighbor 192.168.1.3 remote-as 65003
-  neighbor 192.168.1.3 ebgp-multihop 255
-  neighbor 192.168.1.3 update-source tunnel 99
-  
-
-  address-family ipv4
-   neighbor 192.168.1.2 activate 
-   neighbor 192.168.1.3 activate 
-    exit
-  exit
-
-!route BGP peer IP over the tunnel
-ip route 192.168.1.2 255.255.255.255 Tunnel 98
-ip route 192.168.1.3 255.255.255.255 Tunnel 99
-```
-
-### B.SDWAN1
-```
-crypto ikev2 proposal to-central-nva-proposal
-  encryption aes-cbc-128 aes-cbc-256
-  integrity sha1 sha256 sha384 sha512
-  group 14 15 16 
-  exit
-
-crypto ikev2 policy to-central-nva-policy
-  proposal to-central-nva-proposal
-  match address local 10.11.1.4
-  exit
-  
-crypto ikev2 keyring to-central-nva-keyring
-  peer 52.149.9.59
-    address 52.149.9.59
-    pre-shared-key Msft123Msft123
-    exit
-  exit
-
-crypto ikev2 profile to-central-nva-profile
-  match address local 10.11.1.4
-  match identity remote address 10.0.1.4 255.255.255.255
-  authentication remote pre-share
-  authentication local  pre-share
-  lifetime 3600
-  dpd 10 5 on-demand
-  keyring local to-central-nva-keyring
-  exit
-
-crypto ipsec transform-set to-central-nva-TransformSet esp-gcm 256 
-  mode tunnel
-  exit
-
-crypto ipsec profile to-central-nva-IPsecProfile
-  set transform-set to-central-nva-TransformSet
-  set ikev2-profile to-central-nva-profile
-  set security-association lifetime seconds 3600
-  exit
-
-int tunnel 98
-  ip address 192.168.1.2 255.255.255.255
-  tunnel mode ipsec ipv4
-  ip tcp adjust-mss 1350
-  tunnel source GigabitEthernet1
-  tunnel destination 52.149.9.59
-  tunnel protection ipsec profile to-central-nva-IPsecProfile
-  exit
-
-router bgp 65002
-  bgp log-neighbor-changes
-  neighbor 192.168.1.1 remote-as 65001
-  neighbor 192.168.1.1 ebgp-multihop 255
-  neighbor 192.168.1.1 update-source tunnel 98
-  
-  address-family ipv4
-    network 10.11.0.0 mask 255.255.0.0
-    redistribute connected
-    neighbor 192.168.1.1 activate    
-    exit
-  exit
-
-!route BGP peer IP over the tunnel
-ip route 192.168.1.1 255.255.255.255 Tunnel 98
-ip route 10.11.0.0 255.255.0.0 Null0
-```
-
-### B.SDWAN2
 ## 5. Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
 ### 5.1 Configure the loopbacks to advertise such IPs, 
 ### 5.2 Configure route maps and ip access list to have better preference using BGP attributes. 
