@@ -145,7 +145,7 @@ ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffi
 ## 4. Establish One IPSec tunnel from each of these two SDWAN simulated Cisco Virtual Appliances, to the Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
 Establish BGP from each of these two SDWAN simulated Cisco Virtual Appliances to Cisco CSR Central Virtual Appliance in the Hub Virtual Network.
 
-See [diagram here](../MyAssets/SDWAN VPN Connectivity.pdf) for values that get plugged into the scrip below
+See [diagram here](../MyAssets/SDWAN-VPN-Connectivity.pdf) for values that get plugged into the scrip below
 
 ### 4.0 Central NVA to SDWAN Routers Cisco CSR 8000v BGP over IPsec Connection
 ```
@@ -192,7 +192,7 @@ crypto ipsec profile to-sdwan-IPsecProfile
   set security-association lifetime seconds 3600
   exit
 
-int tunnel 98
+interface tunnel 98
   description to SDWAN1-Router
   ip address 192.168.1.1 255.255.255.255
   tunnel mode ipsec ipv4
@@ -202,7 +202,7 @@ int tunnel 98
   tunnel protection ipsec profile to-sdwan-IPsecProfile
   exit 
   
- int tunnel 99 
+ interface tunnel 99 
   description to SDWAN2-Router
   ip address 192.168.1.4 255.255.255.255
   tunnel mode ipsec ipv4
@@ -274,7 +274,7 @@ crypto ipsec profile to-central-nva-IPsecProfile
   set security-association lifetime seconds 3600
   exit
 
-int tunnel 98
+interface tunnel 98
   ip address 192.168.1.2 255.255.255.255
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
@@ -341,7 +341,7 @@ crypto ipsec profile to-central-nva-IPsecProfile
   set security-association lifetime seconds 3600
   exit
 
-int tunnel 99
+interface tunnel 99
   ip address 192.168.1.3 255.255.255.255
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
