@@ -185,8 +185,8 @@ crypto ikev2 policy to-central-nva-policy
   exit
   
 crypto ikev2 keyring to-central-nva-keyring
-  peer "Insert nva_Public_IP"
-    address "Insert nva_Public_IP"
+  peer "Insert Central nva_Public_IP"
+    address "Insert Central nva_Public_IP"
     pre-shared-key Msft123Msft123
     exit
   exit
@@ -216,7 +216,7 @@ int tunnel 98
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination "Insert nva_Public_IP"
+  tunnel destination "Insert Central nva_Public_IP"
   tunnel protection ipsec profile to-central-nva-IPsecProfile
   exit
 
@@ -252,8 +252,8 @@ crypto ikev2 policy to-central-nva-policy
   exit
   
 crypto ikev2 keyring to-central-nva-keyring
-  peer "Insert nva_Public_IP"
-    address "Insert nva_Public_IP"
+  peer "Insert Central nva_Public_IP"
+    address "Insert Central nva_Public_IP"
     pre-shared-key Msft123Msft123
     exit
   exit
@@ -283,7 +283,7 @@ int tunnel 99
   tunnel mode ipsec ipv4
   ip tcp adjust-mss 1350
   tunnel source GigabitEthernet1
-  tunnel destination "Insert nva_Public_IP"
+  tunnel destination "Insert Central nva_Public_IP"
   tunnel protection ipsec profile to-central-nva-IPsecProfile
   exit
 
