@@ -378,10 +378,45 @@ ip route 10.12.0.0 255.255.0.0 Null0
 ```
 
 ## 5. Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
-### 5.1 Configure the loopbacks to advertise such IPs, 
-### 5.2 Configure route maps and ip access list to have better preference using BGP attributes. 
-For example, you can  advertise 1.1.1.1/32 created as a loopback interface.
+### 5.1 Configure the loopbacks to advertise such IPs
+For example, let create 1.1.1.1/32 as a loopback address on both SDWAN 1 and SDWAN 2
+Then advertise 1.1.1.1/32 created as the loopback interface.
 
+On SDWAN 1:
+```
+conf t
+!
+interface Loopback0
+  ip address 1.1.1.1 255.255.255.255
+  no shutdown
+!
+router bgp 65002
+ network 1.1.1.1 mask 255.255.255.255
+end
+```
+
+On SDWAN 2:
+```
+conf t
+!
+interface Loopback0
+  ip address 1.1.1.1 255.255.255.255
+  no shutdown
+!
+router bgp 65003
+ network 1.1.1.1 mask 255.255.255.255
+end
+
+```
+### 5.2 Configure route maps and ip access list to have better preference using BGP attributes. 
+### 5.2.1 Configure Route maps for better preference using BGP attributes
+```
+
+```
+### 5.2.2 Configure ip access list for better preference using BGP attributes
+```
+
+```
 ## 6. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke, on Premises. 
 
 ## 6.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
