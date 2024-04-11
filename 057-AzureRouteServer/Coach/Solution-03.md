@@ -551,19 +551,30 @@ B        192.168.1.3 [20/0] via 10.0.0.5, 00:06:31
 ```
 Notice that 1.1.1.1, 10.11.0.0/16 and 10.12.0.0/16 make it all to the way to on-prem! 
 
-### 5.3 Configure route maps and ip access list to have better preference using BGP attributes. 
-#### 5.3.1 Configure Route maps for better preference using BGP attributes
-You can set spefic next hop by configuring an outbound route-map for the ARS neighhors that sets the next-hop field of the BGP route to a certain IP (typically teh Azure Load Balancer in front of the NVAs):
+## 6. Route manipulation
+Configure route maps and ip access list to have better preference using BGP attributes. 
+#### 6.1 Configure Route maps for better preference using BGP attributes
+You can set spefic next hop by configuring an outbound route-map for the ARS neighhors that sets the next-hop field of the BGP route to a certain IP (typically teh Azure Load Balancer in front of the NVAs)
+
+#### 6.1.1: Create the Route Map
+```
+route-map toRS permit 10
+  match ip address prefix-list toRS
+  set as-path prepend 65001 65001
+ ```
+
+### 6.1.2: Assign to neighbor
 ```
 conf t
 router bgp 65001
-  neighbor 10.0.3.4 route-map To-ARS out
-  neighbor 10.0.3.5 route-map To-ARS out
-route-map To-ARS
-  set ip next-hop 10.0.1.200
+  address-family ipv4
+    neighbor 10.0.3.4 route-map To-ARS out
+    neighbor 10.0.3.5 route-map To-ARS out
+    route-map To-ARS
+      set ip next-hop 10.0.1.200
 end
 ```
-#### 5.3.2 Configure ip access list for better preference using BGP attributes
+#### 6.2 Configure ip access list for better preference using BGP attributes
 AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
 ```
 conf t
@@ -574,26 +585,26 @@ route-map To-ARS
   set as-path prepend **NVA_ASN**
 end
 ```
-### 5.3.3 Check routes that make it to on-prem VM: 
+### 6.3 Check routes that make it to on-prem VM: 
 ```
 az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o table
 ```
-## 6. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke and on Premises. 
+### 6.4 Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke and on Premises. 
 
-### 6.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
+### 6.5 Look at the Received and Advertised prefixes from the Route Server's perspective. 
 
-#### 6.1.1 ARS learned from Central NVA:
+#### 6.5.1 ARS learned from Central NVA:
 ```
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 
 ```
 
-#### 6.1.2 ARS advertised to NVA:
+#### 6.5.2 ARS advertised to NVA:
 ```
 az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
 
-### 6.2 Check the routing table on the Virtual Appliance themselves
+### 6.5.3 Check the routing table on the Virtual Appliance themselves
 ```
 
 ```
