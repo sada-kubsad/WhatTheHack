@@ -486,11 +486,20 @@ show ip bgp neighbors 192.168.1.1 advertised-routes
 
 ### On ARS:
 
-#### ARS learned from NVA:
+#### ARS learned from Central NVA:
 ```
 az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
+AsPath       LocalAddress    Network         NextHop    Origin    SourcePeer    Weight
+-----------  --------------  --------------  ---------  --------  ------------  --------
+65001-65003  10.0.3.4        10.12.1.0/24    10.0.1.4   EBgp      10.0.1.4      32768
+65001-65003  10.0.3.4        192.168.1.3/32  10.0.1.4   EBgp      10.0.1.4      32768
+65001-65002  10.0.3.4        10.11.1.0/24    10.0.1.4   EBgp      10.0.1.4      32768
+65001-65002  10.0.3.4        192.168.1.2/32  10.0.1.4   EBgp      10.0.1.4      32768
+65001-65003  10.0.3.4        10.12.0.0/16    10.0.1.4   EBgp      10.0.1.4      32768
+65001-65002  10.0.3.4        10.11.0.0/16    10.0.1.4   EBgp      10.0.1.4      32768
+65001-65002  10.0.3.4        1.1.1.1/32      10.0.1.4   EBgp      10.0.1.4      32768
 ```
-
+Notice: the 1.1.1.1 route is now learnt by the ARS from Central NVA 
 #### ARS advertised to NVA:
 ```
 az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
@@ -498,13 +507,47 @@ az network routeserver peering list-advertised-routes --routeserver ARSHack -n H
 
 ### On OnPrem CSR:
 ```
-show ip bgp neighbors 10.0.0.4 advertised-routes
+show ip route
+
+S*    0.0.0.0/0 [254/0] via 172.16.1.1
+      1.0.0.0/32 is subnetted, 1 subnets
+B        1.1.1.1 [20/0] via 10.0.0.5, 00:06:31
+                 [20/0] via 10.0.0.4, 00:06:31
+      10.0.0.0/8 is variably subnetted, 9 subnets, 3 masks
+B        10.0.0.0/16 [20/0] via 10.0.0.5, 00:22:19
+                     [20/0] via 10.0.0.4, 00:22:19
+S        10.0.0.4/32 is directly connected, Tunnel1
+S        10.0.0.5/32 is directly connected, Tunnel0
+B        10.1.0.0/16 [20/0] via 10.0.0.5, 00:22:19
+                     [20/0] via 10.0.0.4, 00:22:19
+B        10.2.0.0/16 [20/0] via 10.0.0.5, 00:22:19
+                     [20/0] via 10.0.0.4, 00:22:19
+B        10.11.0.0/16 [20/0] via 10.0.0.5, 00:06:31
+                      [20/0] via 10.0.0.4, 00:06:31
+B        10.11.1.0/24 [20/0] via 10.0.0.5, 00:06:31
+                      [20/0] via 10.0.0.4, 00:06:31
+B        10.12.0.0/16 [20/0] via 10.0.0.5, 00:06:31
+                      [20/0] via 10.0.0.4, 00:06:31
+B        10.12.1.0/24 [20/0] via 10.0.0.5, 00:06:31
+                      [20/0] via 10.0.0.4, 00:06:31
+      168.63.0.0/32 is subnetted, 1 subnets
+S        168.63.129.16 [254/0] via 172.16.1.1
+      169.254.0.0/32 is subnetted, 1 subnets
+S        169.254.169.254 [254/0] via 172.16.1.1
+      172.16.0.0/16 is variably subnetted, 2 subnets, 2 masks
+C        172.16.1.0/26 is directly connected, GigabitEthernet1
+L        172.16.1.10/32 is directly connected, GigabitEthernet1
+      172.18.0.0/16 is variably subnetted, 2 subnets, 2 masks
+C        172.18.0.0/16 is directly connected, Loopback0
+L        172.18.0.1/32 is directly connected, Loopback0
+      192.168.1.0/32 is subnetted, 2 subnets
+B        192.168.1.2 [20/0] via 10.0.0.5, 00:06:31
+                     [20/0] via 10.0.0.4, 00:06:31
+B        192.168.1.3 [20/0] via 10.0.0.5, 00:06:31
+                     [20/0] via 10.0.0.4, 00:06:31
 
 ```
-
-```
-show ip bgp neighbors 10.0.0.5 advertised-routes
-```
+Notice that 1.1.1.1, 10.11.0.0/16 and 10.12.0.0/16 make it all to the way to on-prem! 
 
 ### 5.3 Configure route maps and ip access list to have better preference using BGP attributes. 
 #### 5.3.1 Configure Route maps for better preference using BGP attributes
