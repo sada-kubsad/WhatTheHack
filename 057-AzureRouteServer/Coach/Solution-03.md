@@ -551,12 +551,26 @@ Notice that 1.1.1.1, 10.11.0.0/16 and 10.12.0.0/16 make it all to the way to on-
 
 ### 5.3 Configure route maps and ip access list to have better preference using BGP attributes. 
 #### 5.3.1 Configure Route maps for better preference using BGP attributes
+You can set spefic next hop by configuring an outbound route-map for the ARS neighhors that sets the next-hop field of the BGP route to a certain IP (typically teh Azure Load Balancer in front of the NVAs):
 ```
-
+conf t
+router bgp 65001
+  neighbor 10.0.3.4 route-map To-ARS out
+  neighbor 10.0.3.5 route-map To-ARS out
+route-map To-ARS
+  set ip next-hop 10.0.1.200
+end
 ```
 #### 5.3.2 Configure ip access list for better preference using BGP attributes
+AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
 ```
-
+conf t
+router bgp 65001
+  neighbor 10.0.3.4 route-map To-ARS out
+  neighbor 10.0.3.5 route-map To-ARS out
+route-map To-ARS
+  set as-path prepend **NVA_ASN**
+end
 ```
 ### 5.3.3 Check routes that make it to on-prem VM: 
 ```
@@ -578,6 +592,9 @@ az network routeserver peering list-advertised-routes --routeserver ARSHack -n H
 ```
 
 ### 6.2 Check the routing table on the Virtual Appliance themselves
+```
+
+```
 
 ## 7. manipulate the BGP attributes within the SDWAN NVAs to ensure the closest Region to the Hub and Spoke  more desirable than the Region further away from the Hub and Spoke.
 
