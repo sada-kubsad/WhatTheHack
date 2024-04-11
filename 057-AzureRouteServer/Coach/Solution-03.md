@@ -558,11 +558,26 @@ Notice that 1.1.1.1, 10.11.0.0/16 and 10.12.0.0/16 make it all to the way to on-
 ```
 
 ```
-## 6. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke, on Premises. 
+### 5.3.3 Check routes that make it to on-prem VM: 
+```
+az network nic show-effective-route-table --name onpremvm235_z1 -g wthars -o table
+```
+## 6. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke and on Premises. 
 
 ### 6.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
 
-### 6.2 Check the routing table on the Virtual Appliance themselves.
+#### 6.1.1 ARS learned from Central NVA:
+```
+az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
+
+```
+
+#### 6.1.2 ARS advertised to NVA:
+```
+az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
+```
+
+### 6.2 Check the routing table on the Virtual Appliance themselves
 
 ## 7. manipulate the BGP attributes within the SDWAN NVAs to ensure the closest Region to the Hub and Spoke  more desirable than the Region further away from the Hub and Spoke.
 
