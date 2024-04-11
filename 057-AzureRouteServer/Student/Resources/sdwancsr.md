@@ -85,9 +85,9 @@ az vm create --resource-group $rg --location $location --name SDWAN2Router --siz
 ###  Central NVA to SDWAN Routers Cisco CSR 1000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-sdwan-proposal
-  encryption aes-cbc-256
-  integrity sha1
-  group 2
+  encryption aes-cbc-128 aes-cbc-256
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 
 crypto ikev2 policy to-sdwan-policy
@@ -174,9 +174,9 @@ ip route 192.168.1.3 255.255.255.255 Tunnel 99
 ### SDWAN1 Router to Central NVA Cisco CSR 1000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-central-nva-proposal
-  encryption aes-cbc-256
-  integrity sha1
-  group 2
+  encryption aes-cbc-128 aes-cbc-256
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 
 crypto ikev2 policy to-central-nva-policy
@@ -241,9 +241,9 @@ ip route "vnet Address space" 255.255.0.0 Null0
 ### SDWAN2 Router to Central NVA Cisco CSR 8000 BGP over IPsec Connection
 ```
 crypto ikev2 proposal to-central-nva-proposal
-  encryption aes-cbc-256
-  integrity sha1
-  group 2
+  encryption aes-cbc-128 aes-cbc-256
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 
 crypto ikev2 policy to-central-nva-policy
