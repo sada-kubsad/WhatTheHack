@@ -553,7 +553,7 @@ Notice that 1.1.1.1, 10.11.0.0/16 and 10.12.0.0/16 make it all to the way to on-
 
 ## 6. Route manipulation
 Configure route maps and ip access list to have better preference using BGP attributes. 
-#### 6.1 Configure Route maps for better preference using BGP attributes
+#### 6.1 Route maps for better preference using BGP attributes
 You can set spefic next hop by configuring an outbound route-map for the ARS neighhors that sets the next-hop field of the BGP route to a certain IP (typically teh Azure Load Balancer in front of the NVAs)
 
 #### 6.1.1: Create the Route Map
@@ -574,16 +574,11 @@ router bgp 65001
       set ip next-hop 10.0.1.200
 end
 ```
-#### 6.2 Configure ip access list for better preference using BGP attributes
+#### 6.2 IP access list for better preference using BGP attributes
 AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
 ```
-conf t
-router bgp 65001
-  neighbor 10.0.3.4 route-map To-ARS out
-  neighbor 10.0.3.5 route-map To-ARS out
-route-map To-ARS
-  set as-path prepend **NVA_ASN**
-end
+ip prefix-list toRS seq 5 permit <prefix in CIDR notation>
+ip prefix-list toRS seq 5 permit 172.16.1.0/24
 ```
 ### 6.3 Check routes that make it to on-prem VM: 
 ```
