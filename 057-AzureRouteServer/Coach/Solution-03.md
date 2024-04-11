@@ -399,7 +399,8 @@ interface Loopback0
   no shutdown
 !
 router bgp 65002
- network 1.1.1.1 mask 255.255.255.255
+  address-family ipv4
+  network 1.1.1.0 mask 255.255.255.0
 end
 ```
 
@@ -412,7 +413,8 @@ interface Loopback0
   no shutdown
 !
 router bgp 65003
- network 1.1.1.1 mask 255.255.255.255
+  address-family ipv4
+  network 1.1.1.0 mask 255.255.255.0
 end
 
 ```
