@@ -117,19 +117,25 @@ This is required so that the crypto ikev2... command gets enabled.
 ### 3.2 Start the SDWAN NVAs
 ```bash
 az vm start  -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router        > /dev/null 2>&1 & 
-az vm start  -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router        > /dev/null 2>&1 & 
+az vm start  -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router        > /dev/null 2>&1 &
+
+az vm start  -g wthars -n hub-nva1        > /dev/null 2>&1 & 
 ```
 
 ### 3.3 Stop Deallocate the SDWAN NVAs
 ```bash
 az vm deallocate -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router  > /dev/null 2>&1 &
 az vm deallocate -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router  > /dev/null 2>&1 &
+
+az vm deallocate -g wthars -n hub-nva1         > /dev/null 2>&1 &
 ```
 
 ### 3.4 Check State the SDWAN NVAs
 ```bash
 az vm get-instance-view -g wthars-SDWAN-OnPrem-1 -n  SDWAN1Router  | grep -i power
 az vm get-instance-view -g wthars-SDWAN-OnPrem-2 -n  SDWAN2Router  | grep -i power
+
+az vm get-instance-view -g wthars -n  hub-nva1      | grep -i power
 ```
 ### 3.5 Connect to the SDWAN NVAs:
 
@@ -139,6 +145,9 @@ ssh azureuser@$onpremSDWAN_1 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffi
 
 export onpremSDWAN_2=$(az network public-ip show -n SDWAN2PublicIP -g wthars-SDWAN-OnPrem-2 --query ipAddress -o tsv)
 ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
+
+export hubnva=$(az network public-ip show -n hub-nva1-pip -g wthars --query ipAddress -o tsv)
+ssh azureuser@$hubnva -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
 ```
 
 
