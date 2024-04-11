@@ -119,7 +119,9 @@ This is required so that the crypto ikev2... command gets enabled.
 az vm start  -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router        > /dev/null 2>&1 & 
 az vm start  -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router        > /dev/null 2>&1 &
 
-az vm start  -g wthars -n hub-nva1        > /dev/null 2>&1 & 
+az vm start  -g wthars -n hub-nva1        > /dev/null 2>&1 &
+az vm start  -g wthars -n datacenter-nva  > /dev/null 2>&1 & 
+
 ```
 
 ### 3.3 Stop Deallocate the SDWAN NVAs
@@ -128,6 +130,7 @@ az vm deallocate -g wthars-SDWAN-OnPrem-1 -n SDWAN1Router  > /dev/null 2>&1 &
 az vm deallocate -g wthars-SDWAN-OnPrem-2 -n SDWAN2Router  > /dev/null 2>&1 &
 
 az vm deallocate -g wthars -n hub-nva1         > /dev/null 2>&1 &
+az vm deallocate -g wthars -n datacenter-nva   > /dev/null 2>&1 & 
 ```
 
 ### 3.4 Check State the SDWAN NVAs
@@ -136,6 +139,7 @@ az vm get-instance-view -g wthars-SDWAN-OnPrem-1 -n  SDWAN1Router  | grep -i pow
 az vm get-instance-view -g wthars-SDWAN-OnPrem-2 -n  SDWAN2Router  | grep -i power
 
 az vm get-instance-view -g wthars -n  hub-nva1      | grep -i power
+az vm get-instance-view -g wthars -n datacenter-nva | grep -i power
 ```
 ### 3.5 Connect to the SDWAN NVAs:
 
@@ -148,6 +152,10 @@ ssh azureuser@$onpremSDWAN_2 -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffi
 
 export hubnva=$(az network public-ip show -n hub-nva1-pip -g wthars --query ipAddress -o tsv)
 ssh azureuser@$hubnva -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
+
+export datacenter=$(az network public-ip show -n datacenter-pip -g wthars --query ipAddress -o tsv)
+ssh azureuser@$datacenter -oHostKeyAlgorithms=+ssh-rsa -oKexAlgorithms=+diffie-hellman-group14-sha1
+
 ```
 
 
@@ -408,12 +416,85 @@ router bgp 65003
 end
 
 ```
-### 5.2 Configure route maps and ip access list to have better preference using BGP attributes. 
-### 5.2.1 Configure Route maps for better preference using BGP attributes
+### 5.2 Check what Routing preferences are set
+#### On Central NVA:
+Routes received from SDWAN 1:
+```
+show ip bgp neighbors 192.168.1.2 advertised-routes
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   1.1.1.1/32       192.168.1.2              0             0 65002 i
+ *>   10.11.0.0/16     192.168.1.2              0             0 65002 i
+ *>   10.11.1.0/24     192.168.1.2              0             0 65002 ?
+ *>   10.12.0.0/16     192.168.1.3              0             0 65003 i
+ *>   10.12.1.0/24     192.168.1.3              0             0 65003 ?
+ r>   192.168.1.2/32   192.168.1.2              0             0 65002 ?
+ r>   192.168.1.3/32   192.168.1.3              0             0 65003 ?
+
+Total number of prefixes 7
+```
+Routes received from SDWAM 2:
+```
+show ip bgp neighbors 192.168.1.3 advertised-routes
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   1.1.1.1/32       192.168.1.2              0             0 65002 i
+ *>   10.11.0.0/16     192.168.1.2              0             0 65002 i
+ *>   10.11.1.0/24     192.168.1.2              0             0 65002 ?
+ *>   10.12.0.0/16     192.168.1.3              0             0 65003 i
+ *>   10.12.1.0/24     192.168.1.3              0             0 65003 ?
+ r>   192.168.1.2/32   192.168.1.2              0             0 65002 ?
+ r>   192.168.1.3/32   192.168.1.3              0             0 65003 ?
+
+Total number of prefixes 7
+```
+
+#### On SDWAN 1:
+```
+show ip bgp neighbors 192.168.1.1 advertised-routes
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   1.1.1.1/32       0.0.0.0                  0         32768 i
+ *>   10.11.0.0/16     0.0.0.0                  0         32768 i
+ *>   10.11.1.0/24     0.0.0.0                  0         32768 ?
+ *>   192.168.1.2/32   0.0.0.0                  0         32768 ?
+
+Total number of prefixes 4
+```
+```
+show ip bgp neighbors 192.168.1.4 advertised-routes
+% No such neighbor or address family
+```
+
+#### On SDWAN 2:
+```
+show ip bgp neighbors 192.168.1.4 advertised-routes
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   1.1.1.1/32       0.0.0.0                  0         32768 i
+ *>   10.12.0.0/16     0.0.0.0                  0         32768 i
+ *>   10.12.1.0/24     0.0.0.0                  0         32768 ?
+ *>   192.168.1.3/32   0.0.0.0                  0         32768 ?
+
+Total number of prefixes 4
 ```
 
 ```
-### 5.2.2 Configure ip access list for better preference using BGP attributes
+show ip bgp neighbors 192.168.1.1 advertised-routes
+% No such neighbor or address family
+```
+
+On OnPrem CSR:
+```
+
+```
+
+### 5.3 Configure route maps and ip access list to have better preference using BGP attributes. 
+### 5.3.1 Configure Route maps for better preference using BGP attributes
+```
+
+```
+### 5.3.2 Configure ip access list for better preference using BGP attributes
 ```
 
 ```
