@@ -484,25 +484,42 @@ show ip bgp neighbors 192.168.1.1 advertised-routes
 % No such neighbor or address family
 ```
 
-On OnPrem CSR:
+### On ARS:
+
+#### ARS learned from NVA:
+```
+az network routeserver peering list-learned-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
 ```
 
+#### ARS advertised to NVA:
+```
+az network routeserver peering list-advertised-routes --routeserver ARSHack -n HubCentralNVA --query 'RouteServiceRole_IN_0' -o table
+```
+
+### On OnPrem CSR:
+```
+show ip bgp neighbors 10.0.0.4 advertised-routes
+
+```
+
+```
+show ip bgp neighbors 10.0.0.5 advertised-routes
 ```
 
 ### 5.3 Configure route maps and ip access list to have better preference using BGP attributes. 
-### 5.3.1 Configure Route maps for better preference using BGP attributes
+#### 5.3.1 Configure Route maps for better preference using BGP attributes
 ```
 
 ```
-### 5.3.2 Configure ip access list for better preference using BGP attributes
+#### 5.3.2 Configure ip access list for better preference using BGP attributes
 ```
 
 ```
 ## 6. Announce the same prefixes with Equal attributes and see how it reflects across the effective routes of the Hub and Spoke, on Premises. 
 
-## 6.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
+### 6.1 Look at the Received and Advertised prefixes from the Route Server's perspective. 
 
-## 6.2 Check the routing table on the Virtual Appliance themselves.
+### 6.2 Check the routing table on the Virtual Appliance themselves.
 
 ## 7. manipulate the BGP attributes within the SDWAN NVAs to ensure the closest Region to the Hub and Spoke  more desirable than the Region further away from the Hub and Spoke.
 
