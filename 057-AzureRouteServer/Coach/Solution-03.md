@@ -553,7 +553,8 @@ Notice that 1.1.1.1, 10.11.0.0/16 and 10.12.0.0/16 make it all to the way to on-
 
 ## 6. Route manipulation
 Configure route maps and ip access list to have better preference using BGP attributes. 
-#### 6.1 Route maps for better preference using BGP attributes
+
+### 6.1 Use Route maps to set BGP attributes
 You can set spefic next hop by configuring an outbound route-map for the ARS neighhors that sets the next-hop field of the BGP route to a certain IP (typically teh Azure Load Balancer in front of the NVAs)
 
 #### 6.1.1: Create the Route Map
@@ -563,7 +564,7 @@ route-map toRS permit 10
   set as-path prepend 65001 65001
  ```
 
-### 6.1.2: Assign to neighbor
+#### 6.1.2: Assign to neighbor
 ```
 conf t
 router bgp 65001
