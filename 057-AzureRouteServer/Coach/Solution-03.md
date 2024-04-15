@@ -386,7 +386,7 @@ ip route 10.12.0.0 255.255.0.0 Null0
 ```
 
 ## 5. Advertise identical address spaces from the two SDWAN Virtual Appliances via BGP
-### 5.1 Configure the loopbacks to advertise such IPs
+### 5.1 Configure the loopbacks IPs for advertisement
 For example, let create 1.1.1.1/32 as a loopback address on both SDWAN 1 and SDWAN 2
 Then advertise 1.1.1.1/32 created as the loopback interface.
 
