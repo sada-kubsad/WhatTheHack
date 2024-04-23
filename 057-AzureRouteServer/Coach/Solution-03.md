@@ -565,7 +565,7 @@ route-map toRS permit 10
   set as-path prepend 65001 65001
  ```
 
-#### 6.1.2: Add the route-map to BGP Neighbor configuration
+#### 6.1.2: Add the route-map to BGP configuration
 Since we are sending this route-map to your remote neighbor, it should be outbound
 ```
 conf t
