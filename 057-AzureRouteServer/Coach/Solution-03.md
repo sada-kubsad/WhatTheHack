@@ -557,7 +557,7 @@ Configure route maps and ip access list to have better preference using BGP attr
 ### 6.1 Use Route maps to manipulate AS-Path prepend
 You can set spefic next hop by configuring an outbound route-map for the ARS neighhors that sets the next-hop field of the BGP route to a certain IP (typically teh Azure Load Balancer in front of the NVAs)
 
-#### 6.1.1: Create the Route Map
+#### 6.1.1: Set AS Path Path:
 We can manipulate AS Path using AS path prepending. Prepending the same AS number to the list is a common method of influencing inbound path selection, because the path with the shortest list is preferred
 ```
 route-map toRS permit 10
@@ -565,8 +565,8 @@ route-map toRS permit 10
   set as-path prepend 65001 65001
  ```
 
-#### 6.1.2: Add the route-map to BGP configuration
-Since we are sending this route-map to your remote neighbor, it should be outbound
+#### 6.1.2: Set Next-hop:
+Route-maps can be used to set next-hop. Since we are sending this route-map to your remote neighbor, it should be outbound
 ```
 conf t
 router bgp 65001
