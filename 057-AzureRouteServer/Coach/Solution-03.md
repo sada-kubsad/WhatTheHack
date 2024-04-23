@@ -577,7 +577,7 @@ router bgp 65001
       set ip next-hop 10.0.1.200
 end
 ```
-#### 6.2 IP access list for better preference using BGP attributes
+### 6.2 IP access list for better preference using BGP attributes
 AS path prepending is a technique that is frequently used to make certain routes less preferrable. To configure all routes advertised from an NVA to ARS with an additional ASN in the path:
 ```
 ip prefix-list toRS seq 5 permit <prefix in CIDR notation>
