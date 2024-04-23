@@ -554,10 +554,10 @@ Notice that 1.1.1.1, 10.11.0.0/16 and 10.12.0.0/16 make it all to the way to on-
 ## 6. Route manipulation
 Configure route maps and ip access list to have better preference using BGP attributes. 
 
-### 6.1 Use Route maps to manipulate AS-Path prepend
+### 6.1 Use Route maps to manipulate AS-Path and Next-hop
 You can set spefic next hop by configuring an outbound route-map for the ARS neighhors that sets the next-hop field of the BGP route to a certain IP (typically teh Azure Load Balancer in front of the NVAs)
 
-#### 6.1.1: Set AS Path Path:
+#### 6.1.1: Set AS Path:
 We can manipulate AS Path using AS path prepending. Prepending the same AS number to the list is a common method of influencing inbound path selection, because the path with the shortest list is preferred
 ```
 route-map toRS permit 10
