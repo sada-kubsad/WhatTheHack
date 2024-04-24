@@ -75,8 +75,8 @@ ssh azureuser@$spoke1vm
 ssh azureuser@$spoke2vm
 ssh azureuser@$onpremVM
 
-ssh azureuser@SDWAN1PublicIP
-ssh azureuser@SDWAN2PublicIP
+ssh azureuser@sdwan1routervm
+ssh azureuser@sdwan2routervm
 
 Lessons Learnt from Chris Frasch troubleshooting VPN tunnels:
 -------------------------------------------------------------
