@@ -574,9 +574,9 @@ exit
 
 !Add the route-map to BGP config
 (config)#router bgp 65002
-address-family ipv4
-(config-router)#neighbor 10.0.3.4 route-map preferSDWAN-2 out
-(config-router)#neighbor 10.0.3.4 route-map preferSDWAN-2 out
+(config-router)#address-family ipv4
+(config-router-af)#neighbor 10.0.3.4 route-map preferSDWAN-2 out
+(config-router-af)#neighbor 10.0.3.4 route-map preferSDWAN-2 out
 
 ! Reset BGP:
 clear ip bgp *
@@ -584,14 +584,17 @@ clear ip bgp *
 
 #### 6.1.2: Set Next-hop:
 Route-maps can be used to set next-hop. Since we are sending this route-map to your remote neighbor, it should be outbound
+On SDWAN-2 device, run: 
 ```
 conf t
-router bgp 65001
-  address-family ipv4
-    neighbor 10.0.3.4 route-map To-ARS out
-    neighbor 10.0.3.5 route-map To-ARS out
-    route-map To-ARS
-      set ip next-hop 10.0.1.200
+(config)#router bgp 65001
+(config-router)#address-family ipv4
+(config-router-af)#neighbor 10.0.3.4 route-map Change-Next-Hop out
+(config-router-af)#neighbor 10.0.3.5 route-map Change-Next-Hop out
+
+!Create the Routemap
+(config)#route-map To-ARS
+(config-route-map)#set ip next-hop 10.0.1.200
 end
 ```
 
