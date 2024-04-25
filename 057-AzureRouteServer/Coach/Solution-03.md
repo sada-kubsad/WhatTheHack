@@ -559,10 +559,18 @@ You can set spefic next hop by configuring an outbound route-map for the ARS nei
 
 #### 6.1.1: Set AS Path:
 We can manipulate AS Path using AS path prepending. Prepending the same AS number to the list is a common method of influencing inbound path selection, because the path with the shortest list is preferred
+
+On SDWAN-1, to be make it less preferable (ie SDWAN-2 becomes more preferable), increase the AS-PATH by executing: 
 ```
-route-map toRS permit 10
-  match ip address prefix-list toRS
-  set as-path prepend 65001 65001
+!Create the route-map
+conf t
+(config)#route-map preferSDWAN-2 permit 10
+(config-route-map)#match ip address prefix-list preferSDWAN-2     --> Match Clause
+(config-route-map)set as-path prepend 65002 65002                 --> Set Clause
+
+!Create the Prefix-List referenced by the route-map above:
+conf t
+
  ```
 
 #### 6.1.2: Set Next-hop:
