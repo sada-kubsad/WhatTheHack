@@ -562,18 +562,21 @@ We can manipulate AS Path using AS path prepending. Prepending the same AS numbe
 
 On SDWAN-1, to be make it less preferable (ie SDWAN-2 becomes more preferable), increase the AS-PATH by executing: 
 ```
+! Create Prefix-list that will be used in the Route-map Match condition later:
+ip prefix-list toRS seq 5 permit <prefix in CIDR notation>       --> Example
+ip prefix-list toRS seq 5 permit 172.16.1.0/24
+
 !Create the route-map
 (config)#route-map preferSDWAN-2 permit 10
-(config-route-map)set as-path prepend 65002 65002                 --> Set Clause, Note: there is no Match Clause
+(config-route-map)match match ip address prefix-list toRS       --> Match Clause. If not present, all routes are picked 
+(config-route-map)set as-path prepend 65002 65002               --> Set Clause, sets new as-path value
 exit
 
 !Add the route-map to BGP config
 (config)#router bgp 65002
-(config-router)#neighbor 192.168.1.1 route-map preferSDWAN-2 out
-
-! Prefix-list for Route-map Match condition:
-ip prefix-list toRS seq 5 permit <prefix in CIDR notation>
-ip prefix-list toRS seq 5 permit 172.16.1.0/24
+address-family ipv4
+(config-router)#neighbor 10.0.3.4 route-map preferSDWAN-2 out
+(config-router)#neighbor 10.0.3.4 route-map preferSDWAN-2 out
 
 ! Reset BGP:
 clear ip bgp *
