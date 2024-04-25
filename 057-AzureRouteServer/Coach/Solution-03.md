@@ -584,7 +584,7 @@ clear ip bgp *
 
 #### 6.1.2: Set Next-hop:
 Route-maps can be used to set next-hop. Since we are sending this route-map to your remote neighbor, it should be outbound
-On SDWAN-2 device, run: 
+</br>On SDWAN-2 device, run: 
 ```
 conf t
 (config)#router bgp 65001
