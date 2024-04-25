@@ -10,4 +10,19 @@
 - Establish BGP Peering with new NVA using cheat sheet made available in the challange 02 section.
 - Setup Internal Load Balancer.
 - Update Route advertisements as necessary. 
-- Internal Load Balancers are required for traffic symmetry. 
+- Internal Load Balancers are required for traffic symmetry.
+
+#1. Deploy another instance Central NVA for High Availability
+Use same "Hub" Azure Virtual network but add two new subnets.
+```
+```
+#2. Establish BGP Peering with new NVA
+```
+```
+#3. Setup Internal Load Balancer
+Internal Load Balancers are required for traffic symmetry.
+```
+```
+#4. Update Route advertisements as necessary
+```
+```
