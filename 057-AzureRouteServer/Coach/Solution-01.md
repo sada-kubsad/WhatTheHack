@@ -18,7 +18,7 @@ You can use this script to deploy a Hub and Spoke VNet, Test VMs, Azure VPN Gate
 (If you are not using Bash, add $ symbol to the variable and double quote the values).
 ```
 # Variables (change location as relevant)
-rg=arshack-rg
+rg=wthars
 location=eastus
 vnet_name=hub
 vnet_prefix=10.0.0.0/16
