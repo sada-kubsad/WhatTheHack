@@ -16,10 +16,10 @@
 </br>Use same "Hub" Azure Virtual network but add two new subnets.
 ```
 # Variables
-echo -n "Please enter the resource group name where the VPN VNG is located: "
-read RGNAME
-echo -n "Please enter a password to be used for the new NVA: "
-read ADMIN_PASSWORD
+#Resource group name where the VPN VNG is located:
+RGNAME=wthars
+#Password to be used for the new NVA
+ADMIN_PASSWORD=Msft123Msft123
 echo ""
 rg="$RGNAME"
 username=azureuser
