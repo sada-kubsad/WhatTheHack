@@ -13,19 +13,108 @@
 
 ## Solution Guide
 
-### 1. Create a Hub Virtual Network (VNet)
-See Sample deployment script below
-### 2. Create two spoke VNets.
-See Sample deployment script below
-### 3. Create a Azure Network Gateway in Hub VNet with SKU supporting Active/Active and BGP.
-See Sample deployment script below
+### 1. Create a Hub Virtual Network (VNet) and subnets
+You can use this script to deploy a Hub and Spoke VNet, Test VMs, Azure VPN Gateway. Other aspects such as configuring Active/Active VPN Gateway, BGP, setting up required Route Tables (UDRs) will need to be done manually. (Simulated on-premises and Central NVA templates are provided separately in the challange) <br/>
+(If you are not using Bash, add $ symbol to the variable and double quote the values).
+```
+# Variables (change location as relevant)
+rg=arshack-rg
+location=eastus
+vnet_name=hub
+vnet_prefix=10.0.0.0/16
+vnet_prefix_long='10.0.0.0 255.255.0.0'
+hub_vm_subnet_name=vm
+hub_vm_subnet_prefix=10.0.4.0/24
+gw_subnet_prefix=10.0.0.0/24
+username=azureuser
+
+# Spoke 1
+spoke1_name=spoke1
+spoke1_prefix=10.1.0.0/16
+spoke1_vm_subnet_name=vm
+spoke1_vm_subnet_prefix=10.1.4.0/24
+
+# Spoke 2
+spoke2_name=spoke2
+spoke2_prefix=10.2.0.0/16
+spoke2_vm_subnet_name=vm
+spoke2_vm_subnet_prefix=10.2.4.0/24
+
+# Azure VPN GW
+vpngw_name=vpngw
+vpngw_asn=65515
+vpngw_pip="${vpngw_name}-pip"
+
+# Create Vnet
+echo "Creating RG and VNet..."
+az group create -n $rg -l $location -o none
+az network vnet create -g $rg -n $vnet_name --address-prefix $vnet_prefix --subnet-name $hub_vm_subnet_name --subnet-prefix $hub_vm_subnet_prefix -o none
+az network vnet subnet create -n GatewaySubnet --address-prefix $gw_subnet_prefix --vnet-name $vnet_name -g $rg -o none
+
+# Create test VM in hub
+az vm create -n hubvm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
+    --admin-username "$username" \
+    --public-ip-address hubvm-pip --vnet-name $vnet_name --size Standard_B1s --subnet $hub_vm_subnet_name -o none
+
+# hub_vm_ip=$(az network public-ip show -n hubvm-pip --query ipAddress -o tsv -g $rg) && echo $hub_vm_ip
+# hub_vm_nic_id=$(az vm show -n hubvm -g "$rg" --query 'networkProfile.networkInterfaces[0].id' -o tsv) && echo $hub_vm_nic_id
+# hub_vm_private_ip=$(az network nic show --ids $hub_vm_nic_id --query 'ipConfigurations[0].privateIpAddress' -o tsv) && echo $hub_vm_private_ip
+
+echo "Creating spoke 1..."
+az network vnet create -g $rg -n $spoke1_name --address-prefix $spoke1_prefix --subnet-name $spoke1_vm_subnet_name --subnet-prefix $spoke1_vm_subnet_prefix -l $location -o none
+
+
+# Create test VM in spoke1
+az vm create -n spoke1-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
+        --admin-username "$username" \
+        --public-ip-address spoke1-vm-pip --vnet-name $spoke1_name --size Standard_B1s --subnet $spoke1_vm_subnet_name -o none
+
+echo "Creating spoke 2..."
+az network vnet create -g $rg -n $spoke2_name --address-prefix $spoke2_prefix --subnet-name $spoke2_vm_subnet_name --subnet-prefix $spoke2_vm_subnet_prefix -l $location -o none
+
+
+# Create test VM in spoke2
+az vm create -n spoke2-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
+        --admin-username "$username" \
+        --public-ip-address spoke2-vm-pip --vnet-name $spoke2_name --size Standard_B1s --subnet $spoke2_vm_subnet_name -o none
+
+```
+
+### 2. Create a Virtual Network Gateway in Hub VNet with SKU supporting Active/Active and BGP.
+```
+# Create VPN Gateway (IP Sec Tunnel to be established with on-prem. CSR Template provided in student guide)
+
+echo "Creating vnet gateway. command will finish running but gw creation takes a while"
+
+az network public-ip create -n $vpngw_pip -g $rg --allocation-method Dynamic
+az network vnet-gateway create -n $vpngw_name -l eastus --public-ip-address $vpngw_pip -g $rg --vnet $vnet_name --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --no-wait
+
+
+
+```
+### 3. Setup Local Network Gateway representing simulated on-prem branch. 
+```
+# Create Local Network Gateway representing simulated on-prem. Replace the actual Public IP of the CSR IPSec NVA from the simulated on-prem. 
+az network local-gateway create --gateway-ip-address 23.99.221.164 --name datacenter -g $rg --local-address-prefixes 172.16.1.0/24
+```
+
 ### 4. Setup VNet peering between spokes and hub VNet.
-See Sample deployment script below
-### 5. Setup Local Network Gateway reprenting simulated on-prem branch. 
-See Sample deployment script below
-### 6. Deploy the Cisco CSR template to simulate a branch office (on-premises). The said template also creates a "datacenter" VNet
+```
+echo "Creating Hub to Spoke1 Networking Peering"
+az network vnet peering create -n hubtospoke1 -g $rg --vnet-name $vnet_name --remote-vnet $spoke1_name --allow-vnet-access --allow-forwarded-traffic --allow-gateway-transit -o none
+echo "Creating Spoke1 to Hub Networking Peering"
+az network vnet peering create -n spoke1tohub -g $rg --vnet-name $spoke1_name --remote-vnet $vnet_name --allow-vnet-access --allow-forwarded-traffic --use-remote-gateways -o none
+
+echo "Creating Hub to Spoke2 Networking Peering"
+az network vnet peering create -n hubtospoke2 -g $rg --vnet-name $vnet_name --remote-vnet $spoke2_name --allow-vnet-access --allow-forwarded-traffic --allow-gateway-transit -o none
+echo "Creating Spoke2 to Hub Networking Peering"
+az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --remote-vnet $vnet_name --allow-vnet-access --allow-forwarded-traffic --use-remote-gateways -o none
+```
+
+### 5. Deploy the Cisco CSR template to simulate a branch office (on-premises). The said template also creates a "datacenter" VNet
 Student/Resources/wthcsronprem.md provided in the challenge section
-### 7. Setup 2-tunnels to one active/active virtual network gateway created earlier
+
+### 6. Setup 2-tunnels to one active/active virtual network gateway created earlier
 ```bash
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128 3des
@@ -106,16 +195,16 @@ end
 wr mem
 ```
 
-### 8. Deploy Cisco CSR template  to setup a central NVA (used as a BGP/Security NVA).
+### 7. Deploy Cisco CSR template  to setup a central NVA (used as a BGP/Security NVA).
    - Leverage: Student/Resources/centralnva.md provided in the challenge section
    - Note: no CSR configurations required on the Central NVA. I've tested it to work out of the box!
    - Note:
       - For the Central NVA to forward traffic:
          - NIC in Azure must be configured with ip forwarding flag on (done above)
          - CSR internal config. This not required. I've tested and it works
-### 9. Deploy VMs in all VNets (including Branch).
+### 8. Deploy VMs in all VNets (including Branch).
 
-### 10. Create Route Tables (UDRs) to steer traffic via NVAs for:
+### 9. Create Route Tables (UDRs) to steer traffic via NVAs for:
    - Original Recomendation:
       - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
          (This is required because branch VNet is really Azure vNet (think of SDN)).
@@ -127,14 +216,15 @@ wr mem
       - GW subnet, route to Spoke's VNET CIDR, next hop Central NVA
       - Every Spoke subnet, route to anywhere (0/0), next hop Central NVA
    - Note: Even without the above routes, traffic fill still flow but without going through the Central NVA **because Azure plumbs in the routes, but Azure does not plumb routes through the NVA!**
-#### BranchVMSubnetToHubSpokeVNet: Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance):
+
+#### 9.1 BranchVMSubnetToHubSpokeVNet: Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance):
 ```bash
 az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
 az network vnet subnet update -g $rg --vnet-name datacenter -n vm --route-table BranchVMSubnetToHubSpokeVNet
 az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n BranchVMSubnetToHubSpokeVNet --address-prefix 10.0.0.0/8 --next-hop-type VirtualAppliance  --next-hop-ip-address 172.16.1.10
 ```
 
-#### GWSubnetToHubAndSpokes: GW subnet, route to Hub and Spokes, next hop Central NVA:
+#### 9.2 GWSubnetToHubAndSpokes: GW subnet, route to Hub and Spokes, next hop Central NVA:
 ```bash
 az network route-table create -g $rg -n GWSubnetToHubAndSpokes
 az network vnet subnet update -g $rg --vnet-name hub -n GatewaySubnet --route-table GWSubnetToHubAndSpokes
@@ -143,7 +233,8 @@ az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSp
 az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSpokes -n GWSubnetToSpoke2 --address-prefix 10.2.0.0/16 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 ```
 Note: The GWSubnet can be associated with 1 route table, not two. Previously had separate route tables on GWSubnet, one for Hub and another for Spokes. The GWSubnet can have only 1 route table with different routes for the Hub, Spoke1 and Spoke2. 
-#### HubVMSubnetToSpokesAndBranch: Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface):
+
+#### 9.3 HubVMSubnetToSpokesAndBranch: Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface):
 ```bash
 az network route-table create -g $rg -n HubVMSubnetToSpokesAndBranch
 az network vnet subnet update -g $rg --vnet-name hub -n vm --route-table HubVMSubnetToSpokesAndBranch
@@ -153,19 +244,19 @@ az network route-table route create -g $rg --route-table-name HubVMSubnetToSpoke
 ```
 Note: Although the route attached to HubVMSubnet directs traffic to Branch via NVA (last line above to 172.16.1.0/24), it will still not go through the NVA because of the more specific route(/32) sent from the VNET gateway to direct all traffic to the datacenter NVA (/32) to the VNET gateway. The return traffic however from datacenter NVA to hubVM will always goes through the Central NVA because of the route on the Gateway subnet to Spoke subnet. 
 
-#### SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface):
+#### 9.4 SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface):
 ```bash
 az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
 az network vnet subnet update -g $rg --vnet-name spoke1 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
 az network vnet subnet update -g $rg --vnet-name spoke2 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
 ```
-##### If you put the below quad 0 route, it will break internet connectivity and will not be able to ssh into the vm
+#####9.3.1 If you put the below quad 0 route, it will break internet connectivity and will not be able to ssh into the vm
 ~~
 ```bash
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToOtherSpokeandBranch --address-prefix 0.0.0.0/0 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 ```
 ~~
-##### Instead use the following:
+##### 9.4.1 Instead use the following:
 ```bash
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke1 --address-prefix 10.1.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke2 --address-prefix 10.2.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
@@ -173,7 +264,7 @@ az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOth
 ```
 Note: Although you have a route attached to Spokes 1 and 2 to direct traffic to Branch via NVA (last line above to 172.16.1.0/24), it will still not go through the NVA because of the existance of a more specific route(/32) sent from the VNET gateway to direct all traffic to the datacenter NVA(/32) to the VNET gateway. The return traffic however from datacenter NVA to hubVM will always goes through the Central NVA because of the route on the Gateway subnet to Spoke subnet.  
 
-#### 11. Verify all traffic is going through the Central Network Virtual Appliance:
+#### 10. Verify all traffic is going through the Central Network Virtual Appliance:
    - spoke-to-spoke
    - spokes-to-onprem
    - onprem-to-hub
@@ -200,93 +291,3 @@ https://delme98.blob.core.windows.net/vpngwcaptures?sp=rw&st=2024-01-26T22:49:11
 ```
 
 
-## Sample deployment script
-
-You can use this script to deploy a Hub and Spoke VNet, Test VMs, Azure VPN Gateway. Other aspects such as configuring Active/Active VPN Gateway, BGP, setting up required Route Tables (UDRs) will need to be done manually. (Simulated on-premises and Central NVA templates are provided separately in the challange) <br/>
-(If you are not using Bash, add $ symbol to the variable and double quote the values).
-
-```bash
-
-# Variables (change location as relevant)
-rg=arshack-rg
-location=eastus
-vnet_name=hub
-vnet_prefix=10.0.0.0/16
-vnet_prefix_long='10.0.0.0 255.255.0.0'
-hub_vm_subnet_name=vm
-hub_vm_subnet_prefix=10.0.4.0/24
-gw_subnet_prefix=10.0.0.0/24
-username=azureuser
-
-# Spoke 1
-spoke1_name=spoke1
-spoke1_prefix=10.1.0.0/16
-spoke1_vm_subnet_name=vm
-spoke1_vm_subnet_prefix=10.1.4.0/24
-
-# Spoke 2
-spoke2_name=spoke2
-spoke2_prefix=10.2.0.0/16
-spoke2_vm_subnet_name=vm
-spoke2_vm_subnet_prefix=10.2.4.0/24
-
-# Azure VPN GW
-vpngw_name=vpngw
-vpngw_asn=65515
-vpngw_pip="${vpngw_name}-pip"
-
-# Create Vnet
-echo "Creating RG and VNet..."
-az group create -n $rg -l $location -o none
-az network vnet create -g $rg -n $vnet_name --address-prefix $vnet_prefix --subnet-name $hub_vm_subnet_name --subnet-prefix $hub_vm_subnet_prefix -o none
-az network vnet subnet create -n GatewaySubnet --address-prefix $gw_subnet_prefix --vnet-name $vnet_name -g $rg -o none
-
-# Create test VM in hub
-az vm create -n hubvm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
-    --admin-username "$username" \
-    --public-ip-address hubvm-pip --vnet-name $vnet_name --size Standard_B1s --subnet $hub_vm_subnet_name -o none
-
-# hub_vm_ip=$(az network public-ip show -n hubvm-pip --query ipAddress -o tsv -g $rg) && echo $hub_vm_ip
-# hub_vm_nic_id=$(az vm show -n hubvm -g "$rg" --query 'networkProfile.networkInterfaces[0].id' -o tsv) && echo $hub_vm_nic_id
-# hub_vm_private_ip=$(az network nic show --ids $hub_vm_nic_id --query 'ipConfigurations[0].privateIpAddress' -o tsv) && echo $hub_vm_private_ip
-
-echo "Creating spoke 1..."
-az network vnet create -g $rg -n $spoke1_name --address-prefix $spoke1_prefix --subnet-name $spoke1_vm_subnet_name --subnet-prefix $spoke1_vm_subnet_prefix -l $location -o none
-
-
-# Create test VM in spoke1
-az vm create -n spoke1-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
-        --admin-username "$username" \
-        --public-ip-address spoke1-vm-pip --vnet-name $spoke1_name --size Standard_B1s --subnet $spoke1_vm_subnet_name -o none
-
-echo "Creating spoke 2..."
-az network vnet create -g $rg -n $spoke2_name --address-prefix $spoke2_prefix --subnet-name $spoke2_vm_subnet_name --subnet-prefix $spoke2_vm_subnet_prefix -l $location -o none
-
-
-# Create test VM in spoke2
-az vm create -n spoke2-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
-        --admin-username "$username" \
-        --public-ip-address spoke2-vm-pip --vnet-name $spoke2_name --size Standard_B1s --subnet $spoke2_vm_subnet_name -o none
-
-
-# Create VPN Gateway (IP Sec Tunnel to be established with on-prem. CSR Template provided in student guide)
-
-echo "Creating vnet gateway. command will finish running but gw creation takes a while"
-
-az network public-ip create -n $vpngw_pip -g $rg --allocation-method Dynamic
-az network vnet-gateway create -n $vpngw_name -l eastus --public-ip-address $vpngw_pip -g $rg --vnet $vnet_name --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --no-wait
-
-# Create Local Network Gateway representing simulated on-prem. Replace the actual Public IP of the CSR IPSec NVA from the simulated on-prem. 
-az network local-gateway create --gateway-ip-address 23.99.221.164 --name datacenter -g $rg --local-address-prefixes 172.16.1.0/24
-
-echo "Creating Hub to Spoke1 Networking Peering"
-az network vnet peering create -n hubtospoke1 -g $rg --vnet-name $vnet_name --remote-vnet $spoke1_name --allow-vnet-access --allow-forwarded-traffic --allow-gateway-transit -o none
-echo "Creating Spoke1 to Hub Networking Peering"
-az network vnet peering create -n spoke1tohub -g $rg --vnet-name $spoke1_name --remote-vnet $vnet_name --allow-vnet-access --allow-forwarded-traffic --use-remote-gateways -o none
-
-echo "Creating Hub to Spoke2 Networking Peering"
-az network vnet peering create -n hubtospoke2 -g $rg --vnet-name $vnet_name --remote-vnet $spoke2_name --allow-vnet-access --allow-forwarded-traffic --allow-gateway-transit -o none
-echo "Creating Spoke2 to Hub Networking Peering"
-az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --remote-vnet $vnet_name --allow-vnet-access --allow-forwarded-traffic --use-remote-gateways -o none
-
-```
