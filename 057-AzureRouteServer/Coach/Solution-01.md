@@ -27,8 +27,6 @@ vnet_prefix=10.0.0.0/16
 vnet_prefix_long='10.0.0.0 255.255.0.0'
 hub_vm_subnet_name=vm
 hub_vm_subnet_prefix=10.0.4.0/24
-
-#Gateway
 gw_subnet_prefix=10.0.0.0/24
 
 #Credentials to access VMs
