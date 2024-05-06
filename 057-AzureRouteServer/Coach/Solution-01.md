@@ -27,6 +27,7 @@ hub_vm_subnet_name=vm
 hub_vm_subnet_prefix=10.0.4.0/24
 gw_subnet_prefix=10.0.0.0/24
 username=azureuser
+password=Msft123Msft123
 
 # Spoke 1
 spoke1_name=spoke1
@@ -54,6 +55,7 @@ az network vnet subnet create -n GatewaySubnet --address-prefix $gw_subnet_prefi
 # Create test VM in hub
 az vm create -n hubvm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
     --admin-username "$username" \
+    --admin-password "$password" \
     --public-ip-address hubvm-pip --vnet-name $vnet_name --size Standard_B1s --subnet $hub_vm_subnet_name -o none
 
 # hub_vm_ip=$(az network public-ip show -n hubvm-pip --query ipAddress -o tsv -g $rg) && echo $hub_vm_ip
@@ -67,6 +69,7 @@ az network vnet create -g $rg -n $spoke1_name --address-prefix $spoke1_prefix --
 # Create test VM in spoke1
 az vm create -n spoke1-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
         --admin-username "$username" \
+        --admin-password "$password" \
         --public-ip-address spoke1-vm-pip --vnet-name $spoke1_name --size Standard_B1s --subnet $spoke1_vm_subnet_name -o none
 
 echo "Creating spoke 2..."
@@ -76,6 +79,7 @@ az network vnet create -g $rg -n $spoke2_name --address-prefix $spoke2_prefix --
 # Create test VM in spoke2
 az vm create -n spoke2-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
         --admin-username "$username" \
+        --admin-password "$password" \
         --public-ip-address spoke2-vm-pip --vnet-name $spoke2_name --size Standard_B1s --subnet $spoke2_vm_subnet_name -o none
 
 ```
