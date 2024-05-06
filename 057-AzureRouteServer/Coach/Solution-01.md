@@ -202,9 +202,8 @@ wr mem
       - For the Central NVA to forward traffic:
          - NIC in Azure must be configured with ip forwarding flag on (done above)
          - CSR internal config. This not required. I've tested and it works
-### 8. Deploy VMs in all VNets (including Branch).
 
-### 9. Create Route Tables (UDRs) to steer traffic via NVAs for:
+### 8. Create Route Tables (UDRs) to steer traffic via NVAs for:
    - Original Recomendation:
       - Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance).
          (This is required because branch VNet is really Azure vNet (think of SDN)).
@@ -217,14 +216,14 @@ wr mem
       - Every Spoke subnet, route to anywhere (0/0), next hop Central NVA
    - Note: Even without the above routes, traffic fill still flow but without going through the Central NVA **because Azure plumbs in the routes, but Azure does not plumb routes through the NVA!**
 
-#### 9.1 BranchVMSubnetToHubSpokeVNet: Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance):
+#### 8.1 BranchVMSubnetToHubSpokeVNet: Branch VM subnet, Route to Hub/spoke VNets addres spaces (summarized should work as well) with next hop Branch NVA (CSR appliance):
 ```bash
 az network route-table create -g $rg -n BranchVMSubnetToHubSpokeVNet
 az network vnet subnet update -g $rg --vnet-name datacenter -n vm --route-table BranchVMSubnetToHubSpokeVNet
 az network route-table route create -g $rg --route-table-name BranchVMSubnetToHubSpokeVNet -n BranchVMSubnetToHubSpokeVNet --address-prefix 10.0.0.0/8 --next-hop-type VirtualAppliance  --next-hop-ip-address 172.16.1.10
 ```
 
-#### 9.2 GWSubnetToHubAndSpokes: GW subnet, route to Hub and Spokes, next hop Central NVA:
+#### 8.2 GWSubnetToHubAndSpokes: GW subnet, route to Hub and Spokes, next hop Central NVA:
 ```bash
 az network route-table create -g $rg -n GWSubnetToHubAndSpokes
 az network vnet subnet update -g $rg --vnet-name hub -n GatewaySubnet --route-table GWSubnetToHubAndSpokes
@@ -234,7 +233,7 @@ az network route-table route create -g $rg --route-table-name GWSubnetToHubAndSp
 ```
 Note: The GWSubnet can be associated with 1 route table, not two. Previously had separate route tables on GWSubnet, one for Hub and another for Spokes. The GWSubnet can have only 1 route table with different routes for the Hub, Spoke1 and Spoke2. 
 
-#### 9.3 HubVMSubnetToSpokesAndBranch: Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface):
+#### 8.3 HubVMSubnetToSpokesAndBranch: Hub VM subnet, route to Spokes and Branch, next hop Central NVA (Inside Interface):
 ```bash
 az network route-table create -g $rg -n HubVMSubnetToSpokesAndBranch
 az network vnet subnet update -g $rg --vnet-name hub -n vm --route-table HubVMSubnetToSpokesAndBranch
@@ -244,19 +243,19 @@ az network route-table route create -g $rg --route-table-name HubVMSubnetToSpoke
 ```
 Note: Although the route attached to HubVMSubnet directs traffic to Branch via NVA (last line above to 172.16.1.0/24), it will still not go through the NVA because of the more specific route(/32) sent from the VNET gateway to direct all traffic to the datacenter NVA (/32) to the VNET gateway. The return traffic however from datacenter NVA to hubVM will always goes through the Central NVA because of the route on the Gateway subnet to Spoke subnet. 
 
-#### 9.4 SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface):
+#### 8.4 SpokeVMSubnetToOtherSpokeandBranch: Spoke VM subnet, route to the other spoke and branch, next hop Central NVA (Inside Interface):
 ```bash
 az network route-table create -g $rg -n SpokeVMSubnetToOtherSpokeandBranch
 az network vnet subnet update -g $rg --vnet-name spoke1 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
 az network vnet subnet update -g $rg --vnet-name spoke2 -n vm --route-table SpokeVMSubnetToOtherSpokeandBranch
 ```
-#####9.3.1 If you put the below quad 0 route, it will break internet connectivity and will not be able to ssh into the vm
+##### 8.4.1 If you put the below quad 0 route, it will break internet connectivity and will not be able to ssh into the vm
 ~~
 ```bash
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToOtherSpokeandBranch --address-prefix 0.0.0.0/0 --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 ```
 ~~
-##### 9.4.1 Instead use the following:
+##### 8.4.2 Instead use the following:
 ```bash
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke1 --address-prefix 10.1.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
 az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOtherSpokeandBranch -n SpokeVMSubnetToSpoke2 --address-prefix 10.2.0.0/16   --next-hop-type VirtualAppliance  --next-hop-ip-address 10.0.1.4
@@ -264,7 +263,7 @@ az network route-table route create -g $rg --route-table-name SpokeVMSubnetToOth
 ```
 Note: Although you have a route attached to Spokes 1 and 2 to direct traffic to Branch via NVA (last line above to 172.16.1.0/24), it will still not go through the NVA because of the existance of a more specific route(/32) sent from the VNET gateway to direct all traffic to the datacenter NVA(/32) to the VNET gateway. The return traffic however from datacenter NVA to hubVM will always goes through the Central NVA because of the route on the Gateway subnet to Spoke subnet.  
 
-#### 10. Verify all traffic is going through the Central Network Virtual Appliance:
+#### 9. Verify all traffic is going through the Central Network Virtual Appliance:
    - spoke-to-spoke
    - spokes-to-onprem
    - onprem-to-hub
