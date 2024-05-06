@@ -20,12 +20,18 @@ You can use this script to deploy a Hub and Spoke VNet, Test VMs, Azure VPN Gate
 # Variables (change location as relevant)
 rg=wthars
 location=eastus
+
+#Hub
 vnet_name=hub
 vnet_prefix=10.0.0.0/16
 vnet_prefix_long='10.0.0.0 255.255.0.0'
 hub_vm_subnet_name=vm
 hub_vm_subnet_prefix=10.0.4.0/24
+
+#Gateway
 gw_subnet_prefix=10.0.0.0/24
+
+#Credentials to access VMs
 username=azureuser
 password=Msft123Msft123
 
