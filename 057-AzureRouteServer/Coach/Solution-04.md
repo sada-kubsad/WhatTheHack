@@ -12,18 +12,24 @@
 - Update Route advertisements as necessary. 
 - Internal Load Balancers are required for traffic symmetry.
 
-#1. Deploy another instance Central NVA for High Availability
+# 1. Deploy another instance Central NVA for HA
 </br>Use same "Hub" Azure Virtual network but add two new subnets.
 ```
 # Variables
 #Resource group name where the VPN VNG is located:
-RGNAME=wthars
-#Password to be used for the new NVA
+rg=wthars
+
+#Cisco Image
+publisher=cisco
+offer=cisco-c8000v-byol
+sku=17_13_01a-byol
+version=latest
+
+#Credentials
 ADMIN_PASSWORD=Msft123Msft123
-echo ""
-rg="$RGNAME"
 username=azureuser
-# You may change the name and address space of the subnets if desired or required. 
+
+# NVA goes in this subnet 
 nva_subnet_name=nva
 nva_subnet_prefix='10.0.1.0/24'
 
@@ -34,8 +40,8 @@ vpngw_name=$(az network vnet-gateway list -g "$rg" --query '[0].name' -o tsv)
 location=$(az network vnet-gateway show -n "$vpngw_name" -g "$rg" --query location -o tsv)
 vnet_name=$(az network vnet-gateway show -n "$vpngw_name" -g "$rg" --query 'ipConfigurations[0].subnet.id' -o tsv | cut -d/ -f 9)
 # Create NVA
-nva_name="${vnet_name}-nva1"
-nva_pip_name="${vnet_name}-nva1-pip"
+nva_name="${vnet_name}-nva2"
+nva_pip_name="${vnet_name}-nva2-pip"
 version=$(az vm image list -p $publisher -f $offer -s $sku --all --query '[0].version' -o tsv)
 echo "Creating NVA $nva_name in VNet $vnet_name in location $location from ${publisher}:${offer}:${sku}:${version}, in resource group $rg..."
 az vm create -n "$nva_name" -g "$rg" -l "$location" \
@@ -49,6 +55,7 @@ az network nic update --ids $nva_nic_id --ip-forwarding -o none --only-show-erro
 ```
 #2. Establish BGP Peering with new NVA
 ```
+
 ```
 #3. Setup Internal Load Balancer
 </br>Internal Load Balancers are required for traffic symmetry.
