@@ -13,7 +13,7 @@
 
 ## Solution Guide
 
-### 1. Create a Hub Virtual Network (VNet) and subnets
+### 1. Create Virtual Networks (VNet) and subnets
 You can use this script to deploy a Hub and Spoke VNet, Test VMs, Azure VPN Gateway. Other aspects such as configuring Active/Active VPN Gateway, BGP, setting up required Route Tables (UDRs) will need to be done manually. (Simulated on-premises and Central NVA templates are provided separately in the challange) <br/>
 (If you are not using Bash, add $ symbol to the variable and double quote the values).
 ```
