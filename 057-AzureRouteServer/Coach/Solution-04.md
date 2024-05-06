@@ -13,7 +13,7 @@
 - Internal Load Balancers are required for traffic symmetry.
 
 # 1. Deploy another instance Central NVA for HA
-</br>Use same "Hub" Azure Virtual network but add two new subnets.
+</br>Use existing "Hub" Virtual network and existing subnets
 ```
 # Variables
 #Resource group name where the VPN VNG is located:
