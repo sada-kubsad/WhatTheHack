@@ -21,17 +21,15 @@ You can use this script to deploy a Hub and Spoke VNet, Test VMs, Azure VPN Gate
 rg=wthars
 location=eastus
 
-#Hub
+# Hub
 vnet_name=hub
 vnet_prefix=10.0.0.0/16
 vnet_prefix_long='10.0.0.0 255.255.0.0'
+hub_nva_subnet_name=nva
+hub_nva_subnet_prefix=10.0.1.0/24
 hub_vm_subnet_name=vm
 hub_vm_subnet_prefix=10.0.4.0/24
 gw_subnet_prefix=10.0.0.0/24
-
-#Credentials to access VMs
-username=azureuser
-password=Msft123Msft123
 
 # Spoke 1
 spoke1_name=spoke1
@@ -49,6 +47,10 @@ spoke2_vm_subnet_prefix=10.2.4.0/24
 vpngw_name=vpngw
 vpngw_asn=65515
 vpngw_pip="${vpngw_name}-pip"
+
+#Credentials to access VMs
+username=azureuser
+password=Msft123Msft123
 
 # Create Vnet
 echo "Creating RG and VNet..."
@@ -120,7 +122,43 @@ az network vnet peering create -n spoke2tohub -g $rg --vnet-name $spoke2_name --
 ```
 
 ### 5. Deploy the Cisco CSR template to simulate a branch office (on-premises). The said template also creates a "datacenter" VNet
-Student/Resources/wthcsronprem.md provided in the challenge section
+Source: Student/Resources/wthcsronprem.md provided 
+If the [OnPrem.sh script](../Student/Resources/Onprem.sh?raw=true) didn't work for you, or you want to customize how the branch is created, you can use this code to deploy a Cisco CSR router to a new VNet.
+```
+rg=datacenter-rg
+location=<Azure region of your choice>
+publisher=cisco
+offer=cisco-c8000v-byol
+sku=17_13_01a-byol
+version=latest
+site_name=datacenter
+site_prefix=172.16.1.0/24
+site_subnet=172.16.1.0/26
+site_gateway=172.16.1.1
+site_bgp_ip=172.16.1.10
+site_asn=65501
+site_username=azureuser
+site_password=<select a password>
+
+# Create CSR
+# Replace -l with Azure region of your choice
+az group create -n $rg -l $location
+version=$(az vm image list -p $publisher -f $offer -s $sku --all --query '[0].version' -o tsv)
+# You only need to accept the image terms once per subscription
+az vm image terms accept --urn ${publisher}:${offer}:${sku}:${version}
+az vm create -n ${site_name}-nva -g $rg -l $location \
+    --image ${publisher}:${offer}:${sku}:${version} \
+    --admin-username "$site_username" --admin-password $site_password --authentication-type all --generate-ssh-keys \
+    --public-ip-address ${site_name}-pip --public-ip-address-allocation static \
+    --vnet-name ${site_name} --vnet-address-prefix $site_prefix \
+    --subnet nva --subnet-address-prefix $site_subnet \
+    --private-ip-address $site_bgp_ip
+
+# Connect to the CSR and run commands (ideally using SSH key authentication)
+site_ip=$(az network public-ip show -n ${site_name}-pip -g $rg --query ipAddress -o tsv)
+# Example 1-line command (the -n flag disables reading from stdin, the StrickHostKeyChecking=no flag automatically accepts the public key)
+ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no ${site_username}@${site_ip} "show ip interface brief"
+```
 
 ### 6. Setup 2-tunnels to one active/active virtual network gateway created earlier
 ```bash
