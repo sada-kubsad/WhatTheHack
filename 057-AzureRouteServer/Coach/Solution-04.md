@@ -84,7 +84,7 @@ wr mem
 ```
 ```
 #4. Update Route advertisements as necessary
-See [here](https://learn.microsoft.com/en-us/azure/route-server/next-hop-ip#active-active-nva-connectivity)
-You can deploy a set of active-active NVAs behind an internal load balancer to optimize connectivity performance. With the support for Next hop IP, you can define the next hop for both NVA instances as the IP address of the internal load balancer. Traffic that reaches the load balancer is sent to both NVA instances.
+</br>See [here](https://learn.microsoft.com/en-us/azure/route-server/next-hop-ip#active-active-nva-connectivity)
+</br>You can deploy a set of active-active NVAs behind an internal load balancer to optimize connectivity performance. With the support for Next hop IP, you can define the next hop for both NVA instances as the IP address of the internal load balancer. Traffic that reaches the load balancer is sent to both NVA instances.
 ```
 ```
