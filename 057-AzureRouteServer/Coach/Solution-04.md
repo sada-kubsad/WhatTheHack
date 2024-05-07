@@ -53,9 +53,31 @@ az vm create -n "$nva_name" -g "$rg" -l "$location" \
 nva_nic_id=$(az vm show -n $nva_name -g $rg --query 'networkProfile.networkInterfaces[0].id' -o tsv)
 az network nic update --ids $nva_nic_id --ip-forwarding -o none --only-show-errors
 ```
-#2. Establish BGP Peering with new NVA
-```
+#2. Establish BGP Peering between NVA-2 and Azure Route Server
+## 2.1 Configure ARS for BGP
+[Configure ARS](https://learn.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#set-up-peering-with-nva) with Peer ASN = 65001 and Peer (NVA) IP Address: 10.0.1.4
+Important Note:
 
+ARS ASN 65515
+NVA ASN 65001
+VPN gateway ASN 65515 (default value)
+On-Prem CSR ASN 65501
+
+## 2.2 Configure BGP on Central Hub CSR - 2:
+[Based on this guide](https://github.com/sada-kubsad/WhatTheHack/blob/master/057-AzureRouteServer/Student/Resources/whatthehackcentralnvachallenge2.md#sample-deployment-script)
+```
+conf t
+ router bgp 65001
+ bgp log-neighbor-changes
+ neighbor 10.0.3.4 remote-as 65515
+ neighbor 10.0.3.4 ebgp-multihop 255
+ neighbor 10.0.3.4 update-source GigabitEthernet1
+ neighbor 10.0.3.5 remote-as 65515
+ neighbor 10.0.3.5 ebgp-multihop 255
+ neighbor 10.0.3.5 update-source GigabitEthernet1
+exit
+exit
+wr mem
 ```
 #3. Setup Internal Load Balancer
 </br>Internal Load Balancers are required for traffic symmetry.
