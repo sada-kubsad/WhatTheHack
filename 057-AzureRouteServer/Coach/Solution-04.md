@@ -82,21 +82,25 @@ wr mem
 #3. Setup Internal Load Balancer
 </br>Internal Load Balancers are required for traffic symmetry.
 ```
+# Variables
+rgname=wthars
+LBName=NVALoadBalancer
+
 # Create the load balancer resource
-az network lb create --resource-group CreateIntLBQS-rg --name myLoadBalancer --sku Standard --vnet-name myVNet --subnet myBackendSubnet --backend-pool-name myBackEndPool --frontend-ip-name myFrontEnd
+az network lb create --resource-group wthars --name nvaLoadBalancer --sku Standard --vnet-name hub --backend-pool-name myBackEndPool --frontend-ip-name myFrontEnd
 
 # Create the health probe
  az network lb probe create \
-    --resource-group CreateIntLBQS-rg \
-    --lb-name myLoadBalancer \
+    --resource-group $rgname \
+    --lb-name $LBName \
     --name myHealthProbe \
     --protocol tcp \
     --port 80
 
 # Create a load balancer rule
  az network lb rule create \
-    --resource-group CreateIntLBQS-rg \
-    --lb-name myLoadBalancer \
+    --resource-group $rgname \
+    --lb-name $LBName \
     --name myHTTPRule \
     --protocol tcp \
     --frontend-port 80 \
@@ -109,11 +113,11 @@ az network lb create --resource-group CreateIntLBQS-rg --name myLoadBalancer --s
 
 # Create a network security group
 az network nsg create \
-    --resource-group CreateIntLBQS-rg \
+    --resource-group $rgname \
     --name myNSG
 # Create a network security group rule
 az network nsg rule create \
-    --resource-group CreateIntLBQS-rg \
+    --resource-group $rgname \
     --nsg-name myNSG \
     --name myNSGRuleHTTP \
     --protocol '*' \
@@ -133,8 +137,8 @@ az network nsg rule create \
    --address-pool myBackendPool \
    --ip-config-name ipconfig1 \
    --nic-name myNic$vm \
-   --resource-group CreateIntLBQS-rg \
-   --lb-name myLoadBalancer
+   --resource-group $rgname \
+   --lb-name $LBName
   done
 
 ```
