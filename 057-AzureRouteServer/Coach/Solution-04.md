@@ -82,6 +82,61 @@ wr mem
 #3. Setup Internal Load Balancer
 </br>Internal Load Balancers are required for traffic symmetry.
 ```
+# Create the load balancer resource
+az network lb create --resource-group CreateIntLBQS-rg --name myLoadBalancer --sku Standard --vnet-name myVNet --subnet myBackendSubnet --backend-pool-name myBackEndPool --frontend-ip-name myFrontEnd
+
+# Create the health probe
+ az network lb probe create \
+    --resource-group CreateIntLBQS-rg \
+    --lb-name myLoadBalancer \
+    --name myHealthProbe \
+    --protocol tcp \
+    --port 80
+
+# Create a load balancer rule
+ az network lb rule create \
+    --resource-group CreateIntLBQS-rg \
+    --lb-name myLoadBalancer \
+    --name myHTTPRule \
+    --protocol tcp \
+    --frontend-port 80 \
+    --backend-port 80 \
+    --frontend-ip-name myFrontEnd \
+    --backend-pool-name myBackEndPool \
+    --probe-name myHealthProbe \
+    --idle-timeout 15 \
+    --enable-tcp-reset true
+
+# Create a network security group
+az network nsg create \
+    --resource-group CreateIntLBQS-rg \
+    --name myNSG
+# Create a network security group rule
+az network nsg rule create \
+    --resource-group CreateIntLBQS-rg \
+    --nsg-name myNSG \
+    --name myNSGRuleHTTP \
+    --protocol '*' \
+    --direction inbound \
+    --source-address-prefix '*' \
+    --source-port-range '*' \
+    --destination-address-prefix '*' \
+    --destination-port-range 80 \
+    --access allow \
+    --priority 200
+
+# Add virtual machines to the backend pool
+ array=(VM1 VM2)
+  for vm in "${array[@]}"
+  do
+  az network nic ip-config address-pool add \
+   --address-pool myBackendPool \
+   --ip-config-name ipconfig1 \
+   --nic-name myNic$vm \
+   --resource-group CreateIntLBQS-rg \
+   --lb-name myLoadBalancer
+  done
+
 ```
 #4. Update Route advertisements as necessary
 </br>See [here](https://learn.microsoft.com/en-us/azure/route-server/next-hop-ip#active-active-nva-connectivity)
