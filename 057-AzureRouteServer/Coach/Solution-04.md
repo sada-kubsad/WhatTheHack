@@ -145,5 +145,35 @@ az network nsg rule create \
 #4. Update Route advertisements as necessary
 </br>See [here](https://learn.microsoft.com/en-us/azure/route-server/next-hop-ip#active-active-nva-connectivity)
 </br>You can deploy a set of active-active NVAs behind an internal load balancer to optimize connectivity performance. With the support for Next hop IP, you can define the next hop for both NVA instances as the IP address of the internal load balancer. Traffic that reaches the load balancer is sent to both NVA instances.
+
+Route-maps can be used to set next-hop. Since we are sending this route-map to your remote neighbor, it should be outbound
+
+On Hub-nva1 device, set next-hop ip to LB ip:
 ```
+conf t
+(config)#router bgp 65001
+(config-router)#address-family ipv4
+(config-router-af)#neighbor 10.0.3.4 route-map Change-Next-Hop out
+(config-router-af)#neighbor 10.0.3.5 route-map Change-Next-Hop out
+
+!Create the Routemap
+(config)#route-map To-ARS
+(config-route-map)#set ip next-hop 10.0.1.200           <-- LB private IP
+end
 ```
+
+On Hub-nva2 device, set next-hop ip to LB ip:
+```
+conf t
+(config)#router bgp 65001
+(config-router)#address-family ipv4
+(config-router-af)#neighbor 10.0.3.4 route-map Change-Next-Hop out
+(config-router-af)#neighbor 10.0.3.5 route-map Change-Next-Hop out
+
+!Create the Routemap
+(config)#route-map To-ARS
+(config-route-map)#set ip next-hop 10.0.1.200           <-- LB private IP
+end
+```
+
+
