@@ -115,6 +115,7 @@ az network lb create --resource-group wthars --name nvaLoadBalancer --sku Standa
 az network nsg create \
     --resource-group $rgname \
     --name myNSG
+
 # Create a network security group rule
 az network nsg rule create \
     --resource-group $rgname \
@@ -130,17 +131,16 @@ az network nsg rule create \
     --priority 200
 
 # Add virtual machines to the backend pool
- array=(VM1 VM2)
-  for vm in "${array[@]}"
+ BackendVMNICNameArray=(hub-nva1 hub-nva2)
+  for vm in "${BackendVMNICNameArray[@]}"
   do
   az network nic ip-config address-pool add \
    --address-pool myBackendPool \
-   --ip-config-name ipconfig1 \
-   --nic-name myNic$vm \
+   --ip-config-name ipconfig$vm \
+   --nic-name "$vm"VMNIC \
    --resource-group $rgname \
    --lb-name $LBName
   done
-
 ```
 #4. Update Route advertisements as necessary
 </br>See [here](https://learn.microsoft.com/en-us/azure/route-server/next-hop-ip#active-active-nva-connectivity)
