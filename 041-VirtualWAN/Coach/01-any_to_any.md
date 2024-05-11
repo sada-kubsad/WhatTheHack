@@ -33,13 +33,13 @@ branch1_prefix=172.16.1.0/24
 branch1_subnet=172.16.1.0/26
 branch1_gateway=172.16.1.1
 branch1_bgp_ip=172.16.1.10
-branch1_asn=65501
+branch1_asn=65001
 branch2_prefix=172.16.2.0/24
 branch2_subnet=172.16.2.0/26
 branch2_gateway=172.16.2.1
 branch2_bgp_ip=172.16.2.10
 branch2_2ary_bgp_ip=172.16.2.20
-branch2_asn=65502
+branch2_asn=65002
 # Create RG, VWAN, hubs
 az group create -n $rg -l $location1
 # vwan and hubs
