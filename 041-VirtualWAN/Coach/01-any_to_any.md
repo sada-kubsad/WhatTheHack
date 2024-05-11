@@ -16,12 +16,12 @@ To create Virtual WAN:
 
 ```bash
 # Variables
-rg=vwanwth
+rg=vthvwan
 vwan=vwan
 location1=westeurope
 location2=westus2
-username=labuser
-password=your_super_secret_password
+username=azureuser
+password=Msft123Msft123
 vwan_hub1_prefix=192.168.1.0/24
 vwan_hub2_prefix=192.168.2.0/24
 # Branches
