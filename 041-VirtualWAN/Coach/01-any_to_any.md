@@ -16,7 +16,7 @@ To create Virtual WAN:
 
 ```bash
 # Variables
-rg=vthvwan
+rg=wthvwan
 vwan=vwan
 location1=westeurope
 location2=westus2
