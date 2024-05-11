@@ -18,8 +18,8 @@ To create Virtual WAN:
 # Variables
 rg=wthvwan
 vwan=vwan
-location1=westeurope
-location2=westus2
+location1=westus2
+location2=eastus2
 username=azureuser
 password=Msft123Msft123
 vwan_hub1_prefix=192.168.1.0/24
