@@ -118,10 +118,10 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCY12aVXmISdwgxsWUEw7AeUdSfl9db16/dMDDDkNlh
 
 Username/password for access is azureuser/Msft123Maft123
 
-export spoke11vm=$(az network public-ip show -n spoke11-pip -g wthbgp --query ipAddress -o tsv)
-export spoke12vm=$(az network public-ip show -n spoke12-pip -g wthbgp --query ipAddress -o tsv)
-export spoke21vm=$(az network public-ip show -n spoke21-pip -g wthbgp --query ipAddress -o tsv)
-export spoke22vm=$(az network public-ip show -n spoke22-pip -g wthbgp --query ipAddress -o tsv)
+export spoke11vm=$(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
+export spoke12vm=$(az network public-ip show -n spoke12-pip -g wthvwan --query ipAddress -o tsv)
+export spoke21vm=$(az network public-ip show -n spoke21-pip -g wthvwan --query ipAddress -o tsv)
+export spoke22vm=$(az network public-ip show -n spoke22-pip -g wthvwan --query ipAddress -o tsv)
 
 
 Using SSH key: 
