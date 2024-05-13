@@ -110,8 +110,8 @@ az network vnet subnet update -n vm --vnet-name spoke21-$location2 -g $rg --rout
 az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --route-table spokes-$location2
 ```
 
-#Connecting to VMs
-cat ~/.ssh/id_rsa.pub returns the public key on the local VM.
+Connecting to VMs
+</BR>cat ~/.ssh/id_rsa.pub returns the public key on the local VM.
 Update local VM public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
 ```
 My public key is:
