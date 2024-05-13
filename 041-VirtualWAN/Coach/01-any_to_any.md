@@ -110,7 +110,7 @@ az network vnet subnet update -n vm --vnet-name spoke21-$location2 -g $rg --rout
 az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --route-table spokes-$location2
 ```
 
-### Connecting to VMs
+## Connecting to VMs
 </BR>cat ~/.ssh/id_rsa.pub returns the public key on the local VM.
 Update local VM public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
 ```
@@ -131,4 +131,12 @@ ssh azureuser@$spoke12vm
 ssh azureuser@$spoke21vm
 ssh azureuser@$spoke22vm
 
+```
+### VMs from different VNets on the same hub can communicate
+Pings within Hub VMs should be possible
+```
+```
+### VMs from different VNets on different hubs can communicate
+By default pings of VMs across Hubs does not work. 
+```
 ```
