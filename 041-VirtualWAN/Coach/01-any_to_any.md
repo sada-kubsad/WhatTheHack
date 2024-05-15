@@ -159,9 +159,9 @@ ssh azureuser@$spoke22vm
 Pings within Hub VMs should be possible
 ```
 ping -c 5 10.1.1.4
+ping -c 5 10.1.2.4
 ping -c 5 10.2.1.4
-ping -c 5 10.3.1.4
-ping -c 5 10.4.1.4
+ping -c 5 10.2.2.4
 
 ```
 ### VMs from different VNets on different hubs can communicate
