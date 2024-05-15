@@ -109,7 +109,30 @@ az network route-table route create -n mypc -g $rg --route-table-name spokes-$lo
 az network vnet subnet update -n vm --vnet-name spoke21-$location2 -g $rg --route-table spokes-$location2
 az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --route-table spokes-$location2
 ```
+## Start, Stop and Check status of VMs
+```
+Start All VMs:
+--------------
+az vm start  -g wthvwan -n spoke11-vm   > /dev/null 2>&1 & 
+az vm start  -g wthvwan -n spoke12-vm   > /dev/null 2>&1 & 
+az vm start  -g wthvwan -n spoke21-vm   > /dev/null 2>&1 & 
+az vm start  -g wthvwan -n spoke22-vm   > /dev/null 2>&1 & 
 
+Stop Deallocate All VMs:
+-------------------------
+az vm deallocate -g wthvwan -n spoke11-vm  > /dev/null 2>&1 & 
+az vm deallocate -g wthvwan -n spoke12-vm  > /dev/null 2>&1 & 
+az vm deallocate -g wthvwan -n spoke21-vm  > /dev/null 2>&1 & 
+az vm deallocate -g wthvwan -n spoke22-vm  > /dev/null 2>&1 & 
+
+Check the status of VMSs:
+-------------------------
+az vm get-instance-view -g wthvwan -n spoke11-vm    | grep -i power
+az vm get-instance-view -g wthvwan -n spoke12-vm   | grep -i power
+az vm get-instance-view -g wthvwan -n spoke21-vm   | grep -i power
+az vm get-instance-view -g wthvwan -n spoke22-vm   | grep -i power
+
+```
 ## Connecting to VMs
 </BR>cat ~/.ssh/id_rsa.pub returns the public key on the local VM.
 Update local VM public key to Azure VM > Reset Passsword > SSH public Key source = use Existing key 
