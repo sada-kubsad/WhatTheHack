@@ -57,6 +57,9 @@ hub2_none_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n no
 
 Create spokes and connect them to the Virtual Hub:
 
+Note: VNet and subnet are created at the time of VM creation with az vm create  --vnet-address-prefix and --subnet-address-prefix.
+
+default value: 10.0.0.0/16
 ```bash
 # Spoke11 in location1
 spoke_id=11
