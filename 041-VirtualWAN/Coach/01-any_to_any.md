@@ -10,7 +10,7 @@
 
 The following sections contain a possible solution based on Azure CLI
 
-### Creating RG, VWAN and hubs
+### Creat RG, VWAN and hubs
 
 To create Virtual WAN:
 
@@ -53,9 +53,9 @@ hub1_none_rt_id=$(az network vhub route-table show --vhub-name hub1 -g $rg -n no
 hub2_none_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n noneRouteTable --query id -o tsv)
 ```
 
-### Creating VNets
+### Creat VNets
 
-This code will create spokes and connect them to the Virtual Hub:
+Create spokes and connect them to the Virtual Hub:
 
 ```bash
 # Spoke11 in location1
