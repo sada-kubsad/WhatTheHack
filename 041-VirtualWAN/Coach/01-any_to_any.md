@@ -53,7 +53,7 @@ hub1_none_rt_id=$(az network vhub route-table show --vhub-name hub1 -g $rg -n no
 hub2_none_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n noneRouteTable --query id -o tsv)
 ```
 
-### Creat VNets
+### Create Spoke VNets, Subnets and a Test VM inside. Connect Spokes to hub 
 
 Create spokes and connect them to the Virtual Hub:
 
