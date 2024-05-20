@@ -187,7 +187,7 @@ ping -c 5 10.2.2.4
 By default pings of VMs across Hubs does not work. 
 ```
 ```
-## Effective Routes on VMs
+# Check Effective Routes on VMs
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke11-vmVMNic
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke12-vmVMNic
