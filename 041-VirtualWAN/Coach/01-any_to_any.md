@@ -175,7 +175,9 @@ ssh azureuser@$spoke22vm
 
 ```
 ### VMs from different VNets on the same hub can communicate
-Pings within Hub VMs should be possible
+Pings within Hub VMs will work out of the box
+
+
 ```
 ping -c 5 10.1.1.4
 ping -c 5 10.1.2.4
@@ -184,9 +186,15 @@ ping -c 5 10.2.2.4
 
 ```
 ### VMs from different VNets on different hubs can communicate
-By default pings of VMs across Hubs does not work. 
-```
-```
+
+By default pings across VMs in different Hubs will not work. This is because each hub has its own default routing table. All connections associated to a hub are "associated with" and "propagate to" only the default routing table of that hub. You should enable each connection to propagate to the default routing table of the remote hub before pings across hubs will work.
+
+To enable a connection to propagate to the remote routing table: Portal > vWAN > Virtual Network Connections > Progate to Route Tables should have the remote hub enabled:
+
+![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/ad5a9db9-baf3-4d5e-9869-6381246cb492)
+![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/9c85513f-c200-431a-8a27-c969b1e9e1ec)
+
+
 # Check Effective Routes on VMs
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke11-vmVMNic
