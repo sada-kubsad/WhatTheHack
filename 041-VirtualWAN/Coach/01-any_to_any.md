@@ -117,16 +117,6 @@ az vm create -n spoke${spoke_id}-vm -g $rg -l $location2 --image Ubuntu2204 --ad
 az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub2 --remote-vnet spoke${spoke_id}-$location2 \
     --internet-security true --associated-route-table $hub2_default_rt_id --propagated-route-tables $hub2_default_rt_id
 
-# Backdoor for access from the testing device over the Internet
-myip=$(curl -s4 ifconfig.co)
-az network route-table create -n spokes-$location1 -g $rg -l $location1
-az network route-table route create -n mypc -g $rg --route-table-name spokes-$location1 --address-prefix "${myip}/32" --next-hop-type Internet
-az network vnet subnet update -n vm --vnet-name spoke11-$location1 -g $rg --route-table spokes-$location1
-az network vnet subnet update -n vm --vnet-name spoke12-$location1 -g $rg --route-table spokes-$location1
-az network route-table create -n spokes-$location2 -g $rg -l $location2
-az network route-table route create -n mypc -g $rg --route-table-name spokes-$location2 --address-prefix "${myip}/32" --next-hop-type Internet
-az network vnet subnet update -n vm --vnet-name spoke21-$location2 -g $rg --route-table spokes-$location2
-az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --route-table spokes-$location2
 ```
 ## Start, Stop and Check status of VMs
 ```
