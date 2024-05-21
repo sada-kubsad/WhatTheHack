@@ -202,3 +202,139 @@ az network nic show-effective-route-table  -g wthvwan -o table -n spoke12-vmVMNi
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke21-vmVMNic
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke22-vmVMNic 
 ```
+
+## Effective Routes on VM-11
+```
+sada@OfficeLaptop:~$ az network nic show-effective-route-table  -g wthvwan -o table -n spoke11-vmVMNic
+Source                 State    Address Prefix    Next Hop Type          Next Hop IP
+---------------------  -------  ----------------  ---------------------  -------------
+Default                Active   10.1.1.0/24       VnetLocal
+Default                Active   192.168.1.0/24    VNetPeering
+VirtualNetworkGateway  Active   10.1.2.0/24       VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.2.1.0/24       VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.2.2.0/24       VirtualNetworkGateway  20.29.171.95
+Default                Active   0.0.0.0/0         Internet
+Default                Active   10.0.0.0/8        None
+Default                Active   127.0.0.0/8       None
+Default                Active   100.64.0.0/10     None
+Default                Active   172.16.0.0/12     None
+Default                Active   25.176.0.0/13     None
+Default                Active   25.152.0.0/14     None
+Default                Active   25.184.0.0/14     None
+Default                Active   25.4.0.0/14       None
+Default                Active   25.148.0.0/15     None
+Default                Active   198.18.0.0/15     None
+Default                Active   25.150.0.0/16     None
+Default                Active   25.156.0.0/16     None
+Default                Active   25.159.0.0/16     None
+Default                Active   40.109.0.0/16     None
+Default                Active   192.168.0.0/16    None
+Default                Active   104.147.0.0/16    None
+Default                Active   157.59.0.0/16     None
+Default                Active   40.108.0.0/17     None
+Default                Active   104.146.0.0/17    None
+Default                Active   23.103.0.0/18     None
+Default                Active   20.35.252.0/22    None
+```
+
+## Effective Routes on VM-12
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke12-vmVMNic
+Source                 State    Address Prefix    Next Hop Type          Next Hop IP
+---------------------  -------  ----------------  ---------------------  -------------
+Default                Active   10.1.2.0/24       VnetLocal
+Default                Active   192.168.1.0/24    VNetPeering
+VirtualNetworkGateway  Active   10.2.1.0/24       VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.2.2.0/24       VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.1.1.0/24       VirtualNetworkGateway  20.29.171.95
+Default                Active   0.0.0.0/0         Internet
+Default                Active   10.0.0.0/8        None
+Default                Active   127.0.0.0/8       None
+Default                Active   100.64.0.0/10     None
+Default                Active   172.16.0.0/12     None
+Default                Active   25.176.0.0/13     None
+Default                Active   25.152.0.0/14     None
+Default                Active   25.184.0.0/14     None
+Default                Active   25.4.0.0/14       None
+Default                Active   25.148.0.0/15     None
+Default                Active   198.18.0.0/15     None
+Default                Active   25.150.0.0/16     None
+Default                Active   25.156.0.0/16     None
+Default                Active   25.159.0.0/16     None
+Default                Active   40.109.0.0/16     None
+Default                Active   192.168.0.0/16    None
+Default                Active   104.147.0.0/16    None
+Default                Active   157.59.0.0/16     None
+Default                Active   40.108.0.0/17     None
+Default                Active   104.146.0.0/17    None
+Default                Active   23.103.0.0/18     None
+Default                Active   20.35.252.0/22    None
+```
+
+# Effective Routes on VM-21
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke21-vmVMNic
+Source                 State    Address Prefix    Next Hop Type          Next Hop IP
+---------------------  -------  ----------------  ---------------------  -------------
+Default                Active   10.2.1.0/24       VnetLocal
+Default                Active   192.168.2.0/24    VNetPeering
+VirtualNetworkGateway  Active   10.2.2.0/24       VirtualNetworkGateway  4.153.8.187
+VirtualNetworkGateway  Active   10.1.1.0/24       VirtualNetworkGateway  4.153.8.187
+VirtualNetworkGateway  Active   10.1.2.0/24       VirtualNetworkGateway  4.153.8.187
+Default                Active   0.0.0.0/0         Internet
+Default                Active   10.0.0.0/8        None
+Default                Active   127.0.0.0/8       None
+Default                Active   100.64.0.0/10     None
+Default                Active   172.16.0.0/12     None
+Default                Active   25.176.0.0/13     None
+Default                Active   25.152.0.0/14     None
+Default                Active   25.184.0.0/14     None
+Default                Active   25.4.0.0/14       None
+Default                Active   25.148.0.0/15     None
+Default                Active   198.18.0.0/15     None
+Default                Active   25.150.0.0/16     None
+Default                Active   25.156.0.0/16     None
+Default                Active   25.159.0.0/16     None
+Default                Active   40.109.0.0/16     None
+Default                Active   192.168.0.0/16    None
+Default                Active   104.147.0.0/16    None
+Default                Active   157.59.0.0/16     None
+Default                Active   40.108.0.0/17     None
+Default                Active   104.146.0.0/17    None
+Default                Active   23.103.0.0/18     None
+Default                Active   20.35.252.0/22    None
+```
+
+# Effective Routes on VM-22
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke22-vmVMNic
+Source                 State    Address Prefix    Next Hop Type          Next Hop IP
+---------------------  -------  ----------------  ---------------------  -------------
+Default                Active   10.2.2.0/24       VnetLocal
+Default                Active   192.168.2.0/24    VNetPeering
+VirtualNetworkGateway  Active   10.1.2.0/24       VirtualNetworkGateway  4.153.8.187
+VirtualNetworkGateway  Active   10.2.1.0/24       VirtualNetworkGateway  4.153.8.187
+VirtualNetworkGateway  Active   10.1.1.0/24       VirtualNetworkGateway  4.153.8.187
+Default                Active   0.0.0.0/0         Internet
+Default                Active   10.0.0.0/8        None
+Default                Active   127.0.0.0/8       None
+Default                Active   100.64.0.0/10     None
+Default                Active   172.16.0.0/12     None
+Default                Active   25.176.0.0/13     None
+Default                Active   25.152.0.0/14     None
+Default                Active   25.184.0.0/14     None
+Default                Active   25.4.0.0/14       None
+Default                Active   25.148.0.0/15     None
+Default                Active   198.18.0.0/15     None
+Default                Active   25.150.0.0/16     None
+Default                Active   25.156.0.0/16     None
+Default                Active   25.159.0.0/16     None
+Default                Active   40.109.0.0/16     None
+Default                Active   192.168.0.0/16    None
+Default                Active   104.147.0.0/16    None
+Default                Active   157.59.0.0/16     None
+Default                Active   40.108.0.0/17     None
+Default                Active   104.146.0.0/17    None
+Default                Active   23.103.0.0/18     None
+Default                Active   20.35.252.0/22    None
+```
