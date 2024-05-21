@@ -184,6 +184,9 @@ To enable a connection to propagate to the remote routing table: Portal > vWAN >
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/ad5a9db9-baf3-4d5e-9869-6381246cb492)
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/9c85513f-c200-431a-8a27-c969b1e9e1ec)
 
+<B>Note:</B>
+Only when *both* hubs are propagating their default routing table to the remote hub does ping actually work. 
+If only 1 of the hubs propagates it default routing table to the remote hub, ping from that hub will not even be received on the remote hub. Otherwise, ping traffic is not received on the remote hub even if default routing table is being propagated to it. 
 
 # Check Effective Routes on VMs
 ```
