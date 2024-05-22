@@ -122,9 +122,9 @@ Then reboot the SDWANs
 
 
 crypto ikev2 proposal azure-proposal
-  encryption aes-cbc-256 aes-cbc-128 3des
-  integrity sha1
-  group 2
+  encryption aes-cbc-256 aes-cbc-128
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 !
 crypto ikev2 policy azure-policy
@@ -277,9 +277,9 @@ license boot level network-essentials addon dna-essentials
 Then reboot the SDWANs
 
 crypto ikev2 proposal azure-proposal
-  encryption aes-cbc-256 aes-cbc-128 3des
-  integrity sha1
-  group 2
+  encryption aes-cbc-256 aes-cbc-128
+  integrity sha1 sha256 sha384 sha512 
+  group 14 15 16 
   exit
 !
 crypto ikev2 policy azure-policy
