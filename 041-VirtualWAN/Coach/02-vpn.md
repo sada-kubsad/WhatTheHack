@@ -72,7 +72,7 @@ vpngw1_bgp_asn=$(echo $vpngw1_config | jq -r '.bgpSettings.asn')  # This is toda
 echo "Extracted info for hubvpn1: Gateway0 $vpngw1_gw0_pip, $vpngw1_gw0_bgp_ip. Gateway1 $vpngw1_gw1_pip, $vpngw1_gw0_bgp_ip. ASN $vpngw1_bgp_asn"
 
 # Create CSR config for branch 1
-csr_config_url="https://raw.githubusercontent.com/erjosito/azure-wan-lab/master/csr_config_2tunnels_tokenized.txt"
+csr_config_url="https://raw.githubusercontent.com/sada-kubsad/WhatTheHack/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt"
 config_file_csr='branch1_csr.cfg'
 config_file_local='./branch1_csr.cfg'
 wget $csr_config_url -O $config_file_local
