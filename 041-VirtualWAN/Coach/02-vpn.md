@@ -9,7 +9,7 @@
 
 ## Solution Guide
 
-### 1, Create VPN Gateways in the vHubs
+### 1. Create VPN Gateways in the vHubs
 
 Note that VPN creation can take some time:
 
