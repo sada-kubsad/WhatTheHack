@@ -59,7 +59,7 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
 
 Configuring the CSRs will add the required IPsec and BGP configuration:
 
-#### 3.1 Configure CSR for Hub 1
+#### 3.1 Generate configurion for CSR for Hub 1
 ```bash
 # Get parameters for VPN GW in hub1
 vpngw1_config=$(az network vpn-gateway show -n hubvpn1 -g $rg)
@@ -110,9 +110,16 @@ config t
 end
 EOF
 ```
-##### 3.1.1 CSR for Hub 1 Configuration Details:
+##### 3.1.1 Generated CSR for Hub 1 Configuration Details:
 The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 1: 
 ```
+# Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
+
+config t
+license boot level network-essentials addon dna-essentials
+
+Then reboot the SDWANs
+
 
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128 3des
@@ -262,6 +269,12 @@ EOF
 The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 2: 
 
 ```
+# Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
+
+config t
+license boot level network-essentials addon dna-essentials
+
+Then reboot the SDWANs
 
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128 3des
