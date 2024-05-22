@@ -220,7 +220,7 @@ vpngw2_gw1_bgp_ip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresse
 vpngw2_bgp_asn=$(echo $vpngw2_config | jq -r '.bgpSettings.asn')  # This is today always 65515
 echo "Extracted info for hubvpn2: Gateway0 $vpngw2_gw0_pip, $vpngw2_gw0_bgp_ip. Gateway1 $vpngw2_gw1_pip, $vpngw2_gw0_bgp_ip. ASN $vpngw2_bgp_asn"
 
-csr_config_url="https://raw.githubusercontent.com/erjosito/azure-wan-lab/master/csr_config_2tunnels_tokenized.txt"
+csr_config_url="https://raw.githubusercontent.com/sada-kubsad/WhatTheHack/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt"
 config_file_csr='branch2_csr.cfg'
 config_file_local='./branch2_csr.cfg'
 wget $csr_config_url -O $config_file_local
