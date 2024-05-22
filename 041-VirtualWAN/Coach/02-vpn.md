@@ -111,7 +111,7 @@ end
 EOF
 ```
 
-# Configure CSR for Hub 2
+### 3.2 Configure CSR for Hub 2
 
 ```
 # Get parameters for VPN GW in hub2
@@ -163,7 +163,7 @@ end
 EOF
 ```
 
-### Verification: 
+### 4. Verification: 
 Verify that all tunnels are up, and BGP adjacencies established:
 ```bash
 # Verify
