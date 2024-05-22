@@ -26,7 +26,11 @@ Cisco CSRs will only cost the VM pricing:
 ```bash
 # Create CSR to simulate branch1
 az vm image terms accept --urn ${publisher}:${offer}:${sku}:${version}
-az vm create -n branch1-nva -g $rg -l $location1 --image ${publisher}:${offer}:${sku}:${version} --admin-username "$username" --admin-password "$password" --generate-ssh-keys --public-ip-address branch1-pip --public-ip-address-allocation static --vnet-name branch1 --vnet-address-prefix $branch1_prefix --subnet nva --subnet-address-prefix $branch1_subnet --private-ip-address $branch1_bgp_ip
+az vm create -n branch1-nva -g $rg -l $location1 --image ${publisher}:${offer}:${sku}:${version} \
+    --admin-username "$username" --admin-password "$password" --authentication-type all --generate-ssh-keys \
+    --public-ip-address branch1-pip --public-ip-address-allocation static \
+    --vnet-name branch1 --vnet-address-prefix $branch1_prefix --subnet nva --subnet-address-prefix $branch1_subnet \
+    --private-ip-address $branch1_bgp_ip
 branch1_ip=$(az network public-ip show -n branch1-pip -g $rg --query ipAddress -o tsv)
 az network vpn-site create -n branch1 -g $rg -l $location1 --virtual-wan $vwan \
     --asn $branch1_asn --bgp-peering-address $branch1_bgp_ip --ip-address $branch1_ip --address-prefixes ${branch1_ip}/32 --device-vendor cisco --device-model csr --link-speed 100
@@ -35,7 +39,11 @@ az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $r
     --associated-route-table $hub1_default_rt_id --propagated-route-tables $hub1_default_rt_id --labels default --internet-security true
 
 # Create CSR to simulate branch2
-az vm create -n branch2-nva -g $rg -l $location2 --image ${publisher}:${offer}:${sku}:${version} --admin-username "$username" --admin-password "$password" --generate-ssh-keys --public-ip-address branch2-pip --public-ip-address-allocation static --vnet-name branch2 --vnet-address-prefix $branch2_prefix --subnet nva --subnet-address-prefix $branch2_subnet --private-ip-address $branch2_bgp_ip
+az vm create -n branch2-nva -g $rg -l $location2 --image ${publisher}:${offer}:${sku}:${version} \
+    --admin-username "$username" --admin-password "$password" --authentication-type all --generate-ssh-keys \
+    --public-ip-address branch2-pip --public-ip-address-allocation static \
+    --vnet-name branch2 --vnet-address-prefix $branch2_prefix --subnet nva --subnet-address-prefix $branch2_subnet \
+    --private-ip-address $branch2_bgp_ip
 branch2_ip=$(az network public-ip show -n branch2-pip -g $rg --query ipAddress -o tsv)
 az network vpn-site create -n branch2 -g $rg -l $location2 --virtual-wan $vwan \
     --asn $branch2_asn --bgp-peering-address $branch2_bgp_ip --ip-address $branch2_ip --address-prefixes ${branch2_ip}/32
