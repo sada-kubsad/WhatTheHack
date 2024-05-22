@@ -25,6 +25,7 @@ Cisco CSRs will only cost the VM pricing:
 
 ```bash
 # Create CSR to simulate branch1
+az vm image terms accept --urn ${publisher}:${offer}:${sku}:${version}
 az vm create -n branch1-nva -g $rg -l $location1 --image ${publisher}:${offer}:${sku}:${version} --admin-username "$username" --generate-ssh-keys --public-ip-address branch1-pip --public-ip-address-allocation static --vnet-name branch1 --vnet-address-prefix $branch1_prefix --subnet nva --subnet-address-prefix $branch1_subnet --private-ip-address $branch1_bgp_ip
 branch1_ip=$(az network public-ip show -n branch1-pip -g $rg --query ipAddress -o tsv)
 az network vpn-site create -n branch1 -g $rg -l $location1 --virtual-wan $vwan \
