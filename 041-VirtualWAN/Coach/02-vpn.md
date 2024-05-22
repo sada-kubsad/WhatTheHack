@@ -88,7 +88,7 @@ sed -i "s|\*\*GW1_Private_IP\*\*|${vpngw1_gw1_bgp_ip}|g" $config_file_local
 sed -i "s|\*\*GW0_Public_IP\*\*|${vpngw1_gw0_pip}|g" $config_file_local
 sed -i "s|\*\*GW1_Public_IP\*\*|${vpngw1_gw1_pip}|g" $config_file_local
 sed -i "s|\*\*BGP_ID\*\*|${branch1_asn}|g" $config_file_local
-ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip <<EOF
+ssh -o BatchMode=yes -o StrictHostKeyChecking=no $username@$branch1_ip <<EOF
   config t
     file prompt quiet
 EOF
@@ -127,7 +127,7 @@ sed -i "s|\*\*GW1_Private_IP\*\*|${vpngw2_gw1_bgp_ip}|g" $config_file_local
 sed -i "s|\*\*GW0_Public_IP\*\*|${vpngw2_gw0_pip}|g" $config_file_local
 sed -i "s|\*\*GW1_Public_IP\*\*|${vpngw2_gw1_pip}|g" $config_file_local
 sed -i "s|\*\*BGP_ID\*\*|${branch2_asn}|g" $config_file_local
-ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip <<EOF
+ssh -o BatchMode=yes -o StrictHostKeyChecking=no $username@$branch2_ip <<EOF
   config t
     file prompt quiet
 EOF
