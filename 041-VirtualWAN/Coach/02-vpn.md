@@ -191,8 +191,21 @@ end
 !
 wr mem
 ```
-
+Second section does this:
 ```
+config t
+    username azureuser password 0 Msft123Msft123
+    no ip domain lookup
+    interface Loopback0
+        ip address 10.11.11.11 255.255.255.255
+    router bgp 65001
+        redistribute connected
+    ip route 20.115.177.8 255.255.255.255 172.16.1.1
+    ip route 20.115.177.15 255.255.255.255 172.16.1.1
+    ip route 172.251.40.139 255.255.255.255 172.16.1.1
+    line vty 0 15
+        exec-timeout 0 0
+end
 ```
 ### 3.2 Configure CSR for Hub 2
 
@@ -327,7 +340,21 @@ end
 wr mem
 ```
 
+Second section does this:
 ```
+config t
+    username azureuser password 0 Msft123Msft123
+    no ip domain lookup
+    interface Loopback0
+        ip address 10.22.22.22 255.255.255.255
+    router bgp 65002
+        redistribute connected
+    ip route 4.152.26.209 255.255.255.255 172.16.2.1
+    ip route 4.152.29.218 255.255.255.255 172.16.2.1
+    ip route 172.251.40.139 255.255.255.255 172.16.2.1
+    line vty 0 15
+        exec-timeout 0 0
+end
 ```
 ### 4. Verification: 
 Verify that all tunnels are up, and BGP adjacencies established:
