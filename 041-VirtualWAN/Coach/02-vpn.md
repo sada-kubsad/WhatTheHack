@@ -111,7 +111,7 @@ end
 EOF
 ```
 ##### 3.1.1 CSR for Hub 1 Configuration Details:
-The above commands result in the following config being applied to CSR for Hub 1: 
+The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 1: 
 ```
 
 crypto ikev2 proposal azure-proposal
@@ -259,7 +259,8 @@ end
 EOF
 ```
 #### 3.2.1 CSR for Hub 2 Configuration Details:
-The above commands result in the following config being applied to CSR for Hub 2: 
+The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 2: 
+
 ```
 
 crypto ikev2 proposal azure-proposal
