@@ -74,7 +74,7 @@ echo "Extracted info for hubvpn1: Gateway0 $vpngw1_gw0_pip, $vpngw1_gw0_bgp_ip. 
 # Create CSR config for branch 1
 csr_config_url="https://raw.githubusercontent.com/erjosito/azure-wan-lab/master/csr_config_2tunnels_tokenized.txt"
 config_file_csr='branch1_csr.cfg'
-config_file_local='/tmp/branch1_csr.cfg'
+config_file_local='./branch1_csr.cfg'
 wget $csr_config_url -O $config_file_local
 sed -i "s|\*\*PSK\*\*|${password}|g" $config_file_local
 sed -i "s|\*\*GW0_Private_IP\*\*|${vpngw1_gw0_bgp_ip}|g" $config_file_local
@@ -126,7 +126,7 @@ echo "Extracted info for hubvpn2: Gateway0 $vpngw2_gw0_pip, $vpngw2_gw0_bgp_ip. 
 
 csr_config_url="https://raw.githubusercontent.com/erjosito/azure-wan-lab/master/csr_config_2tunnels_tokenized.txt"
 config_file_csr='branch2_csr.cfg'
-config_file_local='/tmp/branch2_csr.cfg'
+config_file_local='./branch2_csr.cfg'
 wget $csr_config_url -O $config_file_local
 sed -i "s|\*\*PSK\*\*|${password}|g" $config_file_local
 sed -i "s|\*\*GW0_Private_IP\*\*|${vpngw2_gw0_bgp_ip}|g" $config_file_local
