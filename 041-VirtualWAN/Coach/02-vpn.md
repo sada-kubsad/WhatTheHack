@@ -173,7 +173,7 @@ ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "sh ip int b"
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "sh ip bgp summary"
 ```
 
-# Start, Stop and Check status of VMs
+### 5. Start, Stop and Check status of VMs
 ```
 Start All VMs:
 --------------
