@@ -9,7 +9,7 @@
 
 ## Solution Guide
 
-### Create VPN Gateways in the vHubs
+### 1, Create VPN Gateways in the vHubs
 
 Note that VPN creation can take some time:
 
@@ -19,12 +19,13 @@ az network vpn-gateway create -n hubvpn1 -g $rg -l $location1 --vhub hub1 --asn 
 az network vpn-gateway create -n hubvpn2 -g $rg -l $location2 --vhub hub2 --asn 65515
 ```
 
-### Create CSRs
+### 2. Create CSRs
 
 Cisco CSRs will only cost the VM pricing:
 
-```bash
-# Create CSR to simulate branch1
+
+#### 2.1 Create CSR to simulate branch1
+```
 az vm image terms accept --urn ${publisher}:${offer}:${sku}:${version}
 az vm create -n branch1-nva -g $rg -l $location1 --image ${publisher}:${offer}:${sku}:${version} \
     --admin-username "$username" --admin-password "$password" --authentication-type all --generate-ssh-keys \
@@ -37,8 +38,10 @@ az network vpn-site create -n branch1 -g $rg -l $location1 --virtual-wan $vwan \
 az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $rg --remote-vpn-site branch1 \
     --enable-bgp true --protocol-type IKEv2 --shared-key "$password" --connection-bandwidth 100 --routing-weight 10 \
     --associated-route-table $hub1_default_rt_id --propagated-route-tables $hub1_default_rt_id --labels default --internet-security true
+```
 
-# Create CSR to simulate branch2
+#### 2.2 Create CSR to simulate branch2
+```
 az vm create -n branch2-nva -g $rg -l $location2 --image ${publisher}:${offer}:${sku}:${version} \
     --admin-username "$username" --admin-password "$password" --authentication-type all --generate-ssh-keys \
     --public-ip-address branch2-pip --public-ip-address-allocation static \
@@ -52,10 +55,11 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
     --associated-route-table $hub2_default_rt_id --propagated-route-tables $hub2_default_rt_id  --labels default --internet-security true
 ```
 
-### Configure CSRs
+### 3. Configure CSRs
 
 Configuring the CSRs will add the required IPsec and BGP configuration:
 
+#### 3.1 Configure CSR for Hub 1
 ```bash
 # Get parameters for VPN GW in hub1
 vpngw1_config=$(az network vpn-gateway show -n hubvpn1 -g $rg)
@@ -66,16 +70,6 @@ vpngw1_gw0_bgp_ip=$(echo $vpngw1_config | jq -r '.bgpSettings.bgpPeeringAddresse
 vpngw1_gw1_bgp_ip=$(echo $vpngw1_config | jq -r '.bgpSettings.bgpPeeringAddresses[1].defaultBgpIpAddresses[0]')
 vpngw1_bgp_asn=$(echo $vpngw1_config | jq -r '.bgpSettings.asn')  # This is today always 65515
 echo "Extracted info for hubvpn1: Gateway0 $vpngw1_gw0_pip, $vpngw1_gw0_bgp_ip. Gateway1 $vpngw1_gw1_pip, $vpngw1_gw0_bgp_ip. ASN $vpngw1_bgp_asn"
-
-# Get parameters for VPN GW in hub2
-vpngw2_config=$(az network vpn-gateway show -n hubvpn2 -g $rg)
-site=branch2
-vpngw2_gw0_pip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[0].tunnelIpAddresses[0]')
-vpngw2_gw1_pip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[1].tunnelIpAddresses[0]')
-vpngw2_gw0_bgp_ip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[0].defaultBgpIpAddresses[0]')
-vpngw2_gw1_bgp_ip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[1].defaultBgpIpAddresses[0]')
-vpngw2_bgp_asn=$(echo $vpngw2_config | jq -r '.bgpSettings.asn')  # This is today always 65515
-echo "Extracted info for hubvpn2: Gateway0 $vpngw2_gw0_pip, $vpngw2_gw0_bgp_ip. Gateway1 $vpngw2_gw1_pip, $vpngw2_gw0_bgp_ip. ASN $vpngw2_bgp_asn"
 
 # Create CSR config for branch 1
 csr_config_url="https://raw.githubusercontent.com/erjosito/azure-wan-lab/master/csr_config_2tunnels_tokenized.txt"
@@ -115,8 +109,21 @@ config t
         exec-timeout 0 0
 end
 EOF
+```
 
-# Create CSR config for branch 2
+# Configure CSR for Hub 2
+
+```
+# Get parameters for VPN GW in hub2
+vpngw2_config=$(az network vpn-gateway show -n hubvpn2 -g $rg)
+site=branch2
+vpngw2_gw0_pip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[0].tunnelIpAddresses[0]')
+vpngw2_gw1_pip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[1].tunnelIpAddresses[0]')
+vpngw2_gw0_bgp_ip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[0].defaultBgpIpAddresses[0]')
+vpngw2_gw1_bgp_ip=$(echo $vpngw2_config | jq -r '.bgpSettings.bgpPeeringAddresses[1].defaultBgpIpAddresses[0]')
+vpngw2_bgp_asn=$(echo $vpngw2_config | jq -r '.bgpSettings.asn')  # This is today always 65515
+echo "Extracted info for hubvpn2: Gateway0 $vpngw2_gw0_pip, $vpngw2_gw0_bgp_ip. Gateway1 $vpngw2_gw1_pip, $vpngw2_gw0_bgp_ip. ASN $vpngw2_bgp_asn"
+
 csr_config_url="https://raw.githubusercontent.com/erjosito/azure-wan-lab/master/csr_config_2tunnels_tokenized.txt"
 config_file_csr='branch2_csr.cfg'
 config_file_local='/tmp/branch2_csr.cfg'
@@ -156,8 +163,8 @@ end
 EOF
 ```
 
-You can verify that all tunnels are up, and BGP adjacencies established:
-
+### Verification: 
+Verify that all tunnels are up, and BGP adjacencies established:
 ```bash
 # Verify
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "sh ip int b"
