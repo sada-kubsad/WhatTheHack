@@ -157,3 +157,39 @@ ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "sh ip bgp summa
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "sh ip int b"
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "sh ip bgp summary"
 ```
+
+# Start, Stop and Check status of VMs
+```
+Start All VMs:
+--------------
+az vm start  -g wthvwan -n spoke11-vm   > /dev/null 2>&1 & 
+az vm start  -g wthvwan -n spoke12-vm   > /dev/null 2>&1 & 
+az vm start  -g wthvwan -n spoke21-vm   > /dev/null 2>&1 & 
+az vm start  -g wthvwan -n spoke22-vm   > /dev/null 2>&1 &
+
+az vm start  -g wthvwan -n branch1-nva   > /dev/null 2>&1 &
+az vm start  -g wthvwan -n branch2-nva   > /dev/null 2>&1 &
+ 
+
+Stop Deallocate All VMs:
+-------------------------
+az vm deallocate -g wthvwan -n spoke11-vm  > /dev/null 2>&1 & 
+az vm deallocate -g wthvwan -n spoke12-vm  > /dev/null 2>&1 & 
+az vm deallocate -g wthvwan -n spoke21-vm  > /dev/null 2>&1 & 
+az vm deallocate -g wthvwan -n spoke22-vm  > /dev/null 2>&1 & 
+
+az vm deallocate -g wthvwan -n branch1-nva  > /dev/null 2>&1 & 
+az vm deallocate -g wthvwan -n branch2-nva  > /dev/null 2>&1 & 
+
+
+Check the status of VMSs:
+-------------------------
+az vm get-instance-view -g wthvwan -n spoke11-vm    | grep -i power
+az vm get-instance-view -g wthvwan -n spoke12-vm   | grep -i power
+az vm get-instance-view -g wthvwan -n spoke21-vm   | grep -i power
+az vm get-instance-view -g wthvwan -n spoke22-vm   | grep -i power
+
+az vm get-instance-view -g wthvwan -n branch1-nva   | grep -i power
+az vm get-instance-view -g wthvwan -n branch2-nva   | grep -i power
+
+```
