@@ -201,8 +201,9 @@ wr mem
 Second section does this:
 ```
 config t
-    username azureuser password 0 Msft123Msft123
-    no ip domain lookup
+    username azureuser password 0 Msft123Msft123        --> 0 means unencrypted password follows. Errors: ERROR: Can
+                                                            not have both a user password and a user secret.
+    no ip domain lookup                            --> no IP DNS hostname translation
     interface Loopback0
         ip address 10.11.11.11 255.255.255.255
     router bgp 65001
@@ -210,9 +211,12 @@ config t
     ip route 20.115.177.8 255.255.255.255 172.16.1.1
     ip route 20.115.177.15 255.255.255.255 172.16.1.1
     ip route 172.251.40.139 255.255.255.255 172.16.1.1
-    line vty 0 15
-        exec-timeout 0 0
+    line vty 0 15                                --> Config Visual terminal line with first line number =0 & last
+                                                    line number=15
+        exec-timeout 0 0                        --> Set Exec Timeout 0 mins & 0 seconds
 end
+!
+wr mem
 ```
 ### 3.2 Configure CSR for Hub 2
 
@@ -357,7 +361,8 @@ wr mem
 Second section does this:
 ```
 config t
-    username azureuser password 0 Msft123Msft123
+    username azureuser password 0 Msft123Msft123        --> ERROR: Can not have both a user password and a user
+                                                            secret.
     no ip domain lookup
     interface Loopback0
         ip address 10.22.22.22 255.255.255.255
@@ -369,6 +374,7 @@ config t
     line vty 0 15
         exec-timeout 0 0
 end
+! wr mem
 ```
 ### 4. Verification: 
 Verify that all tunnels are up, and BGP adjacencies established:
