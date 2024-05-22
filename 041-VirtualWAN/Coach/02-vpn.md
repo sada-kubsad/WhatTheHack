@@ -113,7 +113,7 @@ EOF
 ##### 3.1.1 CSR for Hub 1 Configuration Details:
 The above commands result in the following config being applied to CSR for Hub 1: 
 ```
-sada@OfficeLaptop:~/whatTheHack/vWAN$ cat branch1_csr.cfg
+
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128 3des
   integrity sha1
@@ -261,7 +261,7 @@ EOF
 #### 3.2.1 CSR for Hub 2 Configuration Details:
 The above commands result in the following config being applied to CSR for Hub 2: 
 ```
-sada@OfficeLaptop:~/whatTheHack/vWAN$ cat branch2_csr.cfg
+
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128 3des
   integrity sha1
