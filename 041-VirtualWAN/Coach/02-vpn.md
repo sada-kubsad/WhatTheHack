@@ -96,7 +96,6 @@ loopback_ip=10.11.11.11
 default_gateway=$branch1_gateway
 ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip <<EOF
 config t
-    username $username password 0 $password
     no ip domain lookup
     interface Loopback0
         ip address ${loopback_ip} 255.255.255.255
@@ -201,8 +200,6 @@ wr mem
 Second section does this:
 ```
 config t
-    username azureuser password 0 Msft123Msft123        --> 0 means unencrypted password follows. Errors: ERROR: Can
-                                                            not have both a user password and a user secret.
     no ip domain lookup                            --> no IP DNS hostname translation
     interface Loopback0
         ip address 10.11.11.11 255.255.255.255
@@ -255,7 +252,6 @@ loopback_ip=10.22.22.22
 default_gateway=$branch2_gateway
 ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip <<EOF
 config t
-    username $username password 0 $password
     no ip domain lookup
     interface Loopback0
         ip address ${loopback_ip} 255.255.255.255
@@ -361,8 +357,6 @@ wr mem
 Second section does this:
 ```
 config t
-    username azureuser password 0 Msft123Msft123        --> ERROR: Can not have both a user password and a user
-                                                            secret.
     no ip domain lookup
     interface Loopback0
         ip address 10.22.22.22 255.255.255.255
