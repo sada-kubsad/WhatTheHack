@@ -370,10 +370,10 @@ config t
 end
 ! wr mem
 ```
-### 4. Verification: 
-Verify that all tunnels are up, and BGP adjacencies established:
+### 4. Verify that all tunnels are up, and BGP adjacencies established:
+#### 4.1 Branch 1:
+Initially Tunnels were down
 ```bash
-# Verify
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "show ip interface brief"
 branch1-nva#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
@@ -400,8 +400,9 @@ BGP activity 2/0 prefixes, 2/0 paths, scan interval 60 secs
 Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 192.168.1.12    4        65515       0       0        1    0    0 never    Idle
 192.168.1.13    4        65515       0       0        1    0    0 never    Idle
-
-
+```
+#### 4.2 Branch 2:
+```
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "show ip interface brief"
 branch2-nva#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
