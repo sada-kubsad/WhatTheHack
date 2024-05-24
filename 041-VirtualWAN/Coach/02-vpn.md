@@ -183,7 +183,7 @@ end
 wr mem
 ```
 #### 3.1.2 Configure BGP:
-Generage the BGP configuration for Branch 1 CSR 1 with:
+Generate the BGP configuration for Branch 1 CSR with:
 ```
 myip=$(curl -s4 ifconfig.co)
 loopback_ip=10.11.11.11
