@@ -57,9 +57,11 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
 
 ## 3. Configure CSRs
 
-Configuring the CSRs will add the required IPsec and BGP configuration:
+Configuring the CSRs will add the required IPsec and BGP configurations
 
-### 3.1 Generate configurion for CSR for Hub 1
+### 3.1 Branch 1
+#### 3.1.1 Generate VPN configurion 
+
 ```bash
 # Get parameters for VPN GW in hub1
 vpngw1_config=$(az network vpn-gateway show -n hubvpn1 -g $rg)
@@ -91,26 +93,10 @@ ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "copy bootflash:
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "wr mem"
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "sh ip int b"
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "sh ip bgp summary"
-myip=$(curl -s4 ifconfig.co)
-loopback_ip=10.11.11.11
-default_gateway=$branch1_gateway
-ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip <<EOF
-config t
-    no ip domain lookup
-    interface Loopback0
-        ip address ${loopback_ip} 255.255.255.255
-    router bgp ${branch1_asn}
-        redistribute connected
-    ip route ${vpngw1_gw0_pip} 255.255.255.255 ${default_gateway}
-    ip route ${vpngw1_gw1_pip} 255.255.255.255 ${default_gateway}
-    ip route ${myip} 255.255.255.255 ${default_gateway}
-    line vty 0 15
-        exec-timeout 0 0
-end
-EOF
+
 ```
-#### 3.1.1 Generated CSR for Hub 1 Configuration Details:
-The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 1: 
+
+The above commands turns [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 1: 
 ```
 # Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
 
@@ -197,7 +183,29 @@ end
 !
 wr mem
 ```
-Second section does this:
+#### 3.1.2 Configure BGP:
+Generage the BGP configuration for CSR 1 in Branch 1 with:
+```
+myip=$(curl -s4 ifconfig.co)
+loopback_ip=10.11.11.11
+default_gateway=$branch1_gateway
+ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip <<EOF
+config t
+    no ip domain lookup
+    interface Loopback0
+        ip address ${loopback_ip} 255.255.255.255
+    router bgp ${branch1_asn}
+        redistribute connected
+    ip route ${vpngw1_gw0_pip} 255.255.255.255 ${default_gateway}
+    ip route ${vpngw1_gw1_pip} 255.255.255.255 ${default_gateway}
+    ip route ${myip} 255.255.255.255 ${default_gateway}
+    line vty 0 15
+        exec-timeout 0 0
+end
+EOF
+```
+The above results in the following BGP configuration: 
+
 ```
 config t
     no ip domain lookup                            --> no IP DNS hostname translation
@@ -215,8 +223,8 @@ end
 !
 wr mem
 ```
-## 3.2 Configure CSR for Hub 2
-
+## 3.2 Branch 2
+#### 3.2.1 Generate VPN configurion 
 ```
 # Get parameters for VPN GW in hub2
 vpngw2_config=$(az network vpn-gateway show -n hubvpn2 -g $rg)
@@ -247,25 +255,9 @@ ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "copy bootflash:
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "wr mem"
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "sh ip int b"
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip "sh ip bgp summary"
-myip=$(curl -s4 ifconfig.co)
-loopback_ip=10.22.22.22
-default_gateway=$branch2_gateway
-ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip <<EOF
-config t
-    no ip domain lookup
-    interface Loopback0
-        ip address ${loopback_ip} 255.255.255.255
-    router bgp ${branch2_asn}
-        redistribute connected
-    ip route ${vpngw2_gw0_pip} 255.255.255.255 ${default_gateway}
-    ip route ${vpngw2_gw1_pip} 255.255.255.255 ${default_gateway}
-    ip route ${myip} 255.255.255.255 ${default_gateway}
-    line vty 0 15
-        exec-timeout 0 0
-end
-EOF
+
 ```
-### 3.2.1 CSR for Hub 2 Configuration Details:
+
 The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 2: 
 
 ```
@@ -353,8 +345,28 @@ end
 !
 wr mem
 ```
-
-Second section does this:
+#### 3.2.2 Configure BGP:
+Generage the BGP configuration for CSR in Branch 2 with:
+```
+myip=$(curl -s4 ifconfig.co)
+loopback_ip=10.22.22.22
+default_gateway=$branch2_gateway
+ssh -o BatchMode=yes -o StrictHostKeyChecking=no $branch2_ip <<EOF
+config t
+    no ip domain lookup
+    interface Loopback0
+        ip address ${loopback_ip} 255.255.255.255
+    router bgp ${branch2_asn}
+        redistribute connected
+    ip route ${vpngw2_gw0_pip} 255.255.255.255 ${default_gateway}
+    ip route ${vpngw2_gw1_pip} 255.255.255.255 ${default_gateway}
+    ip route ${myip} 255.255.255.255 ${default_gateway}
+    line vty 0 15
+        exec-timeout 0 0
+end
+EOF
+```
+The above results in the following BGP configuration: 
 ```
 config t
     no ip domain lookup
