@@ -9,7 +9,7 @@
 
 ## Solution Guide
 
-### 1. Create VPN Gateways in the vHubs
+## 1. Create VPN Gateways in the vHubs
 
 Note that VPN creation can take some time:
 
@@ -19,12 +19,12 @@ az network vpn-gateway create -n hubvpn1 -g $rg -l $location1 --vhub hub1 --asn 
 az network vpn-gateway create -n hubvpn2 -g $rg -l $location2 --vhub hub2 --asn 65515
 ```
 
-### 2. Create CSRs
+## 2. Create CSRs
 
 Cisco CSRs will only cost the VM pricing:
 
 
-#### 2.1 Create CSR to simulate branch1
+### 2.1 Create CSR to simulate branch1
 ```
 az vm image terms accept --urn ${publisher}:${offer}:${sku}:${version}
 az vm create -n branch1-nva -g $rg -l $location1 --image ${publisher}:${offer}:${sku}:${version} \
@@ -40,7 +40,7 @@ az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $r
     --associated-route-table $hub1_default_rt_id --propagated-route-tables $hub1_default_rt_id --labels default --internet-security true
 ```
 
-#### 2.2 Create CSR to simulate branch2
+### 2.2 Create CSR to simulate branch2
 ```
 az vm create -n branch2-nva -g $rg -l $location2 --image ${publisher}:${offer}:${sku}:${version} \
     --admin-username "$username" --admin-password "$password" --authentication-type all --generate-ssh-keys \
@@ -55,11 +55,11 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
     --associated-route-table $hub2_default_rt_id --propagated-route-tables $hub2_default_rt_id  --labels default --internet-security true
 ```
 
-### 3. Configure CSRs
+## 3. Configure CSRs
 
 Configuring the CSRs will add the required IPsec and BGP configuration:
 
-#### 3.1 Generate configurion for CSR for Hub 1
+### 3.1 Generate configurion for CSR for Hub 1
 ```bash
 # Get parameters for VPN GW in hub1
 vpngw1_config=$(az network vpn-gateway show -n hubvpn1 -g $rg)
@@ -109,7 +109,7 @@ config t
 end
 EOF
 ```
-##### 3.1.1 Generated CSR for Hub 1 Configuration Details:
+#### 3.1.1 Generated CSR for Hub 1 Configuration Details:
 The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 1: 
 ```
 # Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
@@ -215,7 +215,7 @@ end
 !
 wr mem
 ```
-### 3.2 Configure CSR for Hub 2
+## 3.2 Configure CSR for Hub 2
 
 ```
 # Get parameters for VPN GW in hub2
@@ -265,7 +265,7 @@ config t
 end
 EOF
 ```
-#### 3.2.1 CSR for Hub 2 Configuration Details:
+### 3.2.1 CSR for Hub 2 Configuration Details:
 The above commands turn [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 2: 
 
 ```
@@ -370,7 +370,7 @@ config t
 end
 ! wr mem
 ```
-### 4. Verify that all tunnels are up, and BGP adjacencies established:
+## 4. Verify that all tunnels are up, and BGP adjacencies established:
 Initially both Tunnels at Branch 1 and 2 were down:
 ```bash
 ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "show ip interface brief"
@@ -427,11 +427,20 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 192.168.2.12    4        65515       0       0        1    0    0 never    Idle
 192.168.2.13    4        65515       0       0        1    0    0 never    Idle
 ```
-### 5. Troubleshooting down tunnels
+## 5. Troubleshooting down tunnels
+### 5.1 
 ```
+#Check complete logs:
+show logging
+
+#Check Tunnnel status:
+show crypto ikev2 sa
+
+
+
 
 ```
-### 6. Start, Stop and Check status of VMs
+## 6. Start, Stop and Check status of VMs
 ```
 Start All VMs:
 --------------
