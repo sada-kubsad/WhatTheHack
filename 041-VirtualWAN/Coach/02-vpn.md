@@ -19,12 +19,11 @@ az network vpn-gateway create -n hubvpn1 -g $rg -l $location1 --vhub hub1 --asn 
 az network vpn-gateway create -n hubvpn2 -g $rg -l $location2 --vhub hub2 --asn 65515
 ```
 
-## 2. Create CSRs
+## 2. Create Branch 1 and 2
 
 Cisco CSRs will only cost the VM pricing:
 
-
-### 2.1 Create CSR to simulate branch1
+### 2.1 Create CSR to simulate branch 1
 ```
 az vm image terms accept --urn ${publisher}:${offer}:${sku}:${version}
 az vm create -n branch1-nva -g $rg -l $location1 --image ${publisher}:${offer}:${sku}:${version} \
@@ -40,7 +39,7 @@ az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $r
     --associated-route-table $hub1_default_rt_id --propagated-route-tables $hub1_default_rt_id --labels default --internet-security true
 ```
 
-### 2.2 Create CSR to simulate branch2
+### 2.2 Create CSR to simulate branch 2
 ```
 az vm create -n branch2-nva -g $rg -l $location2 --image ${publisher}:${offer}:${sku}:${version} \
     --admin-username "$username" --admin-password "$password" --authentication-type all --generate-ssh-keys \
@@ -55,12 +54,12 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
     --associated-route-table $hub2_default_rt_id --propagated-route-tables $hub2_default_rt_id  --labels default --internet-security true
 ```
 
-## 3. Configure CSRs
+## 3. Configure CSRs of Brnach 1 and 2
 
 Configuring the CSRs will add the required IPsec and BGP configurations
 
 ### 3.1 Branch 1
-#### 3.1.1 Generate VPN configurion 
+#### 3.1.1 Generate VPN configuration 
 
 ```bash
 # Get parameters for VPN GW in hub1
@@ -96,9 +95,9 @@ ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "sh ip bgp summa
 
 ```
 
-The above commands turns [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to CSR for Hub 1: 
+The above commands turns [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to Branch 1 CSR: 
 ```
-# Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
+# Note: Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
 
 config t
 license boot level network-essentials addon dna-essentials
@@ -184,7 +183,7 @@ end
 wr mem
 ```
 #### 3.1.2 Configure BGP:
-Generage the BGP configuration for CSR 1 in Branch 1 with:
+Generage the BGP configuration for Branch 1 CSR 1 with:
 ```
 myip=$(curl -s4 ifconfig.co)
 loopback_ip=10.11.11.11
@@ -346,7 +345,7 @@ end
 wr mem
 ```
 #### 3.2.2 Configure BGP:
-Generage the BGP configuration for CSR in Branch 2 with:
+Generate BGP configuration for Branch 2 CSR with:
 ```
 myip=$(curl -s4 ifconfig.co)
 loopback_ip=10.22.22.22
