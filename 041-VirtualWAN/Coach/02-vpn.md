@@ -479,3 +479,20 @@ az vm get-instance-view -g wthvwan -n branch1-nva   | grep -i power
 az vm get-instance-view -g wthvwan -n branch2-nva   | grep -i power
 
 ```
+
+## Connect to VMs
+```
+export spoke11vm=$(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
+export spoke12vm=$(az network public-ip show -n spoke12-pip -g wthvwan --query ipAddress -o tsv)
+export spoke21vm=$(az network public-ip show -n spoke21-pip -g wthvwan --query ipAddress -o tsv)
+export spoke22vm=$(az network public-ip show -n spoke22-pip -g wthvwan --query ipAddress -o tsv)
+
+
+
+export branch1_ip=$(az network public-ip show -n branch1-pip -g wthvwan --query ipAddress -o tsv)
+export branch2_ip=$(az network public-ip show -n branch2-pip -g wthvwan --query ipAddress -o tsv)
+
+
+ssh azureuser@$branch1_ip
+ssh azureuser@$branch2_ip
+```
