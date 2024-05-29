@@ -101,8 +101,9 @@ The above commands turns [this config file](https://github.com/sada-kubsad/WhatT
 
 config t
 license boot level network-essentials addon dna-essentials
-
-Then reboot the SDWANs
+exit
+wr mem
+reload         --> Reboot required for license to take effect
 
 
 crypto ikev2 proposal azure-proposal
@@ -264,8 +265,10 @@ The above commands turn [this config file](https://github.com/sada-kubsad/WhatTh
 
 config t
 license boot level network-essentials addon dna-essentials
+exit
+wr mem
+reload         --> Reboot required for license to take effect
 
-Then reboot the SDWANs
 
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128
