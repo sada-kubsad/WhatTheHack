@@ -390,6 +390,7 @@ Initially both Tunnels at Branch 1 and 2 were down:
 #
 show ip interface brief"
 branch1-nva#show ip interface brief
+# Tunnels not setup:
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       172.16.1.10     YES DHCP   up                    up
 Loopback0              10.11.11.11     YES NVRAM  up                    up
@@ -397,9 +398,19 @@ Tunnel0                172.16.1.10     YES TFTP   up                    down
 Tunnel1                172.16.1.10     YES TFTP   up                    down
 VirtualPortGroup0      192.168.35.101  YES NVRAM  up                    up
 
+# Tunnels correctly setup:
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       172.16.1.10     YES DHCP   up                    up
+Loopback0              10.11.11.11     YES NVRAM  up                    up
+Tunnel0                172.16.1.10     YES TFTP   up                    up
+Tunnel1                172.16.1.10     YES TFTP   up                    up
+VirtualPortGroup0      192.168.35.101  YES NVRAM  up                    up
+
 #
 show ip bgp summary
 branch1-nva#show ip bgp summary
+
+# BGP NOT correctly setup:
 BGP router identifier 10.11.11.11, local AS number 65001
 BGP table version is 3, main routing table version 3
 2 network entries using 496 bytes of memory
@@ -411,9 +422,25 @@ BGP using 1064 total bytes of memory
 BGP activity 2/0 prefixes, 2/0 paths, scan interval 60 secs
 2 networks peaked at 15:29:21 May 23 2024 UTC (01:06:24.217 ago)
 
-Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-192.168.1.12    4        65515       0       0        1    0    0 never    Idle
-192.168.1.13    4        65515       0       0        1    0    0 never    Idle
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ         Up/Down      State/PfxRcd
+192.168.1.12    4        65515       0       0        1    0    0         never        Idle
+192.168.1.13    4        65515       0       0        1    0    0         never        Idle
+
+# BGP correctly setup:
+BGP router identifier 10.11.11.11, local AS number 65001
+BGP table version is 3, main routing table version 3
+2 network entries using 496 bytes of memory
+2 path entries using 272 bytes of memory
+1/1 BGP path/bestpath attribute entries using 296 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 1064 total bytes of memory
+BGP activity 2/0 prefixes, 2/0 paths, scan interval 60 secs
+2 networks peaked at 15:29:21 May 23 2024 UTC (01:06:24.217 ago)
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ         Up/Down          State/PfxRcd
+192.168.1.12    4        65515       3       6        1    0    0         00:00:31         3
+192.168.1.13    4        65515       3       6        1    0    0         00:00:31         3
 
 ```
 ## 5. Troubleshoot VPN+BGP setup
