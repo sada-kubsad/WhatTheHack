@@ -444,8 +444,64 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ         Up/Dow
 
 ```
 ## 5. Troubleshoot VPN+BGP setup
-### 5.1 See Crypto session info
+### 5.1 Troubleshoot Crypto session
 ```
+show crypto ikev2 session
+# Healthy output:
+IPv4 Crypto IKEv2 Session
+
+Session-id:1, Status:UP-ACTIVE, IKE count:1, CHILD count:1
+
+Tunnel-id Local Remote fvrf/ivrf Status 
+1 10.4.5.224/500 10.4.5.225/500 none/90 READY 
+Encr: AES-CBC, keysize: 128, PRF: SHA1, Hash: SHA96, DH Grp:14, Auth sign: PSK, Auth verify: PSK
+Life/Active Time: 86400/207 sec
+Child sa: local selector 0.0.0.0/0 - 255.255.255.255/65535
+remote selector 0.0.0.0/0 - 255.255.255.255/65535
+ESP spi in/out: 0xFC13A6B7/0x1A2AC4A0
+
+# Not healthly output:
+<blank>
+```
+
+```
+show crypto ipsec sa sa interface Tunnel<id>
+
+# Healthy output:
+
+# Not Healthy ouput:
+interface: Tunnel0
+    Crypto map tag: Tunnel0-head-0, local addr 172.16.1.10
+
+   protected vrf: (none)
+   local  ident (addr/mask/prot/port): (0.0.0.0/0.0.0.0/0/0)
+   remote ident (addr/mask/prot/port): (0.0.0.0/0.0.0.0/0/0)
+   current_peer 20.115.177.8 port 500
+     PERMIT, flags={origin_is_acl,}
+    #pkts encaps: 0, #pkts encrypt: 0, #pkts digest: 0
+    #pkts decaps: 0, #pkts decrypt: 0, #pkts verify: 0
+    #pkts compressed: 0, #pkts decompressed: 0
+    #pkts not compressed: 0, #pkts compr. failed: 0
+    #pkts not decompressed: 0, #pkts decompress failed: 0
+    #send errors 0, #recv errors 0
+
+     local crypto endpt.: 172.16.1.10, remote crypto endpt.: 20.115.177.8
+     plaintext mtu 1500, path mtu 1500, ip mtu 1500, ip mtu idb GigabitEthernet1
+     current outbound spi: 0x0(0)
+     PFS (Y/N): N, DH group: none
+
+     inbound esp sas:
+
+     inbound ah sas:
+
+     inbound pcp sas:
+
+     outbound esp sas:
+
+     outbound ah sas:
+
+     outbound pcp sas:
+
 show crypto ikev2 sa
 ```
 #### Sample output of not established tunnel:
