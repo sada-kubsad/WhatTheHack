@@ -439,6 +439,13 @@ show crypto ikev2 stats
 ### 5.3 Check logs:
 ```
 show logging
+
+#Result when down:
+*May 30 16:57:21.189: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel0, changed state to down
+*May 30 16:57:32.232: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel1, changed state to down
+
+#Reuslt when normal:
+
 ```
 
 ### 5.4 Check Tunnnel status:
