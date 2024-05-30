@@ -453,6 +453,17 @@ show logging  | include Tunnel
 show crypto ikev2 sa
 ```
 
+### 5.5 Check ping connectivity
+```
+#From the Branch 1 CSR console
+ping 192.168.1.12
+ping 192.168.1.13
+
+#From the Branch 2 CSR console
+ping 192.168.2.12
+ping 192.168.2.13
+
+```
 
 ## 6. Start, Stop and Check status of VMs
 ```
