@@ -416,34 +416,33 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 192.168.1.13    4        65515       0       0        1    0    0 never    Idle
 
 ```
-# See Crypto session info
+##5. Troubleshoot VPN+BGP setup
+###5.1 See Crypto session info
 show crypto ikev2 sa
 
-#Sample output of not established tunnel:
+####Sample output of not established tunnel:
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/6709ed02-e2c4-46cd-995a-38ff417268be)
 
-#Sample output of established tunnel:
+#####Sample output of established tunnel:
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/602aaf79-ed04-4b63-b74d-273392f5571b)
 
-show crypto ikev2 stats 
-#Sample output:
+###5.2 show crypto ikev2 stats 
+####Sample output:
 
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/aedca6b6-c97b-476a-8c60-54ddc0ceaeaa)
 
 
-## 5. Troubleshooting down tunnels
-### 5.1 
+###5.3 Check complete logs:
 ```
-#Check complete logs:
 show logging
-
-#Check Tunnnel status:
-show crypto ikev2 sa
-
-
-
-
 ```
+
+###5.4 Check Tunnnel status:
+```
+show crypto ikev2 sa
+```
+
+
 ## 6. Start, Stop and Check status of VMs
 ```
 Start All VMs:
