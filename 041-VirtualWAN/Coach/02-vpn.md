@@ -444,7 +444,21 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ         Up/Dow
 
 ```
 ## 5. Troubleshoot VPN+BGP setup
-### 5.1 Troubleshoot Crypto session
+
+### 5.1 Check ping connectivity
+```
+#From the Branch 1 CSR console
+ping 192.168.1.12
+ping 192.168.1.13
+
+#From the Branch 2 CSR console
+ping 192.168.2.12
+ping 192.168.2.13
+
+```
+
+
+### 5.2 Troubleshoot Crypto session
 ```
 show crypto ikev2 session
 # Healthy output:
@@ -510,7 +524,7 @@ show crypto ikev2 sa
 ##### Sample output of established tunnel:
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/602aaf79-ed04-4b63-b74d-273392f5571b)
 
-### 5.2 See Ikev2 info 
+### 5.3 See Ikev2 info 
 ```
 show crypto ikev2 stats 
 ```
@@ -519,7 +533,7 @@ show crypto ikev2 stats
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/aedca6b6-c97b-476a-8c60-54ddc0ceaeaa)
 
 
-### 5.3 Check logs:
+### 5.4 Check logs:
 ```
 show logging  | include Tunnel
 
@@ -531,22 +545,11 @@ show logging  | include Tunnel
 
 ```
 
-### 5.4 Check Tunnnel status:
+### 5.5 Check Tunnnel status:
 ```
 show crypto ikev2 sa
 ```
 
-### 5.5 Check ping connectivity
-```
-#From the Branch 1 CSR console
-ping 192.168.1.12
-ping 192.168.1.13
-
-#From the Branch 2 CSR console
-ping 192.168.2.12
-ping 192.168.2.13
-
-```
 
 ## 6. Start, Stop and Check status of VMs
 ```
