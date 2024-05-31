@@ -456,9 +456,25 @@ ping 192.168.2.12
 ping 192.168.2.13
 
 ```
+### 5.2 Capture on CSR devices:
+See section: [Cisco IOS-XE Configuration Example](https://www.cisco.com/c/en/us/support/docs/ios-nx-os-software/ios-embedded-packet-capture/116045-productconfig-epc-00.html)
+```
+monitor capture CAP interface GigabitEthernet1 both
+monitor capture CAP match ipv4 protocol 1 any any limit pps 1000000
+monitor capture CAP start
+monitor capture CAP stop
+show monitor capture CAP buffer brief
+no monitor capture CAP
+```
+
+### 5.3 Capture on VPN Gateway:
+Packet Capture URL - SAS URL: 
+```
+https://delme98.blob.core.windows.net/vpngwcaptures?sp=r&st=2024-05-31T20:14:11Z&se=2026-10-29T04:14:11Z&spr=https&sv=2022-11-02&sr=c&sig=H9hVLuFF%2FyNGXzYEk3zugpiFn2k2QHzJtrZNFA13Zw4%3D
+```
 
 
-### 5.2 Troubleshoot Crypto session
+### 5.4 Troubleshoot Crypto session
 ```
 show crypto ikev2 session
 # Healthy output:
@@ -524,7 +540,7 @@ show crypto ikev2 sa
 ##### Sample output of established tunnel:
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/602aaf79-ed04-4b63-b74d-273392f5571b)
 
-### 5.3 See Ikev2 info 
+### 5.5 See Ikev2 info 
 ```
 show crypto ikev2 stats 
 ```
@@ -533,7 +549,7 @@ show crypto ikev2 stats
 ![image](https://github.com/sada-kubsad/WhatTheHack/assets/11302503/aedca6b6-c97b-476a-8c60-54ddc0ceaeaa)
 
 
-### 5.4 Check logs:
+### 5.6 Check logs:
 ```
 show logging  | include Tunnel
 
@@ -545,7 +561,7 @@ show logging  | include Tunnel
 
 ```
 
-### 5.5 Check Tunnnel status:
+### 5.7 Check Tunnnel status:
 ```
 show crypto ikev2 sa
 ```
