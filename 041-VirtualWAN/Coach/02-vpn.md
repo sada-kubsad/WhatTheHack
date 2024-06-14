@@ -557,7 +557,7 @@ show logging  | include Tunnel
 *May 30 16:57:21.189: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel0, changed state to down
 *May 30 16:57:32.232: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel1, changed state to down
 
-#Reuslt when normal:
+#Result when normal:
 
 ```
 
