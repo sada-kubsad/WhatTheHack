@@ -612,8 +612,8 @@ export spoke22vm=$(az network public-ip show -n spoke22-pip -g wthvwan --query i
 
 
 
-export branch1_ip=$(az network public-ip show -n branch1-pip -g wthvwan --query ipAddress -o tsv)
-export branch2_ip=$(az network public-ip show -n branch2-pip -g wthvwan --query ipAddress -o tsv)
+export branch1_nva_ip=$(az network public-ip show -n branch1-pip -g wthvwan --query ipAddress -o tsv)
+export branch2_nva_ip=$(az network public-ip show -n branch2-pip -g wthvwan --query ipAddress -o tsv)
 
 
 ssh azureuser@$branch1_ip
