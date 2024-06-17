@@ -107,7 +107,7 @@ reload         --> Reboot required for license to take effect
 
 
 crypto ikev2 proposal azure-proposal
-  encryption aes-cbc-256 aes-cbc-128
+  encryption aes-cbc-128 aes-cbc-256 
   integrity sha1 sha256 sha384 sha512 
   group 14 15 16 
   exit
@@ -139,7 +139,7 @@ crypto ikev2 profile azure-profile
 crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
  mode tunnel
  exit
-
+!
 crypto ipsec profile azure-vti
   set transform-set azure-ipsec-proposal-set
   set ikev2-profile azure-profile
@@ -164,7 +164,6 @@ interface Tunnel1
  tunnel destination 20.115.177.15
  tunnel protection ipsec profile azure-vti
 exit
-
 !
 router bgp 65001
  bgp router-id interface GigabitEthernet1
