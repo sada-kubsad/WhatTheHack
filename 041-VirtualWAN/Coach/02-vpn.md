@@ -566,7 +566,10 @@ show crypto ikev2 sa
 ```
 
 ## 6. The solution to 5
-Azure [only supports DH 2](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-ipsec#default-ipsec-policies). Either in CSR enable 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html), or in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support 14
+VPN Gateway of vHUB [only supports DH 2](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-ipsec#default-ipsec-policies). 
+The solution is to either
+- in CSR enable 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html),
+-  in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support 14
 
 ## 7. Start, Stop and Check status of VMs
 ```
