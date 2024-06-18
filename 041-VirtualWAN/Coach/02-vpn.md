@@ -565,11 +565,15 @@ show logging  | include Tunnel
 show crypto ikev2 sa
 ```
 
-## 6. The solution to 5
-VPN Gateway of vHUB [only supports DH 2](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-ipsec#default-ipsec-policies). 
+## 6. 
+### 6.1 The problem: 
+VPN Gateway of vHUB [only supports DH 2](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-ipsec#default-ipsec-policies). But [Cisco has sunset DH 2 due to security concerns](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html) 
+
+### 6.2 The solution:
 The solution is to either
 - in CSR enable 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html),
 -  in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support 14
+
 
 ## 7. Start, Stop and Check status of VMs
 ```
