@@ -447,6 +447,13 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ         Up/Dow
 ```
 ## 5. Troubleshoot VPN+BGP setup
 
+### 5.1 Enable Crypto loggin
+By default, crypto debug messages are not turned on. Turn it on with:
+```
+#debug crypto ikev2
+```
+Be careful: turning on debug logging can crash the CSR. Remember to wr mem before doing it. 
+
 ### 5.1 Check ping connectivity
 - Ping did not work from the NVA/CSRs. But ping worked from a newly introduced test VM inside the same subnet that the Cisco CSR resided in. 
 - You cannot packet capture ICMP ping messages from the hub VPN gateway. But you can packet capture ESP and IKE messages
@@ -570,9 +577,9 @@ show crypto ikev2 sa
 VPN Gateway of vHUB [only supports DH 2](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-ipsec#default-ipsec-policies). But [Cisco has sunset DH 2 due to security concerns](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html) 
 
 ### 6.2 The solution:
-The solution is to either
-- in CSR enable 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html),
--  in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support 14
+Either
+- in CSR enable DH 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html)
+- in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support DH 14
 
 
 ## 7. Start, Stop and Check status of VMs
