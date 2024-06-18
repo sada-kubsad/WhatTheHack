@@ -143,12 +143,12 @@ crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
 crypto ipsec profile azure-vti
   set transform-set azure-ipsec-proposal-set
   set ikev2-profile azure-profile
-  set security-association lifetime kilobytes 102400000
-  set security-association lifetime seconds 3600
+  set security-association lifetime kilobytes 102400000   <-- Remove this
+  set security-association lifetime seconds 3600   <-- Remove this
  exit
 !
 interface Tunnel0
- ip unnumbered GigabitEthernet1
+ ip unnumbered GigabitEthernet1   <-- Match IP addresses as in other confi
  ip tcp adjust-mss 1350
  tunnel source GigabitEthernet1
  tunnel mode ipsec ipv4
@@ -157,7 +157,7 @@ interface Tunnel0
 exit
 !
 interface Tunnel1
- ip unnumbered GigabitEthernet1
+ ip unnumbered GigabitEthernet1    <-- Match IP addresses as in other confi
  ip tcp adjust-mss 1350
  tunnel source GigabitEthernet1
  tunnel mode ipsec ipv4
