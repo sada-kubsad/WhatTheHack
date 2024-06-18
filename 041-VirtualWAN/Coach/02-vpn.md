@@ -109,7 +109,7 @@ reload         --> Reboot required for license to take effect
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-128 aes-cbc-256 
   integrity sha1 sha256 sha384 sha512 
-  group 14 15 16 
+  group 14 15 16 --> Azure [only supports DH 2](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-ipsec#default-ipsec-policies). Either in CSR enable 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html), or in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support 14
   exit
 !
 crypto ikev2 policy azure-policy
