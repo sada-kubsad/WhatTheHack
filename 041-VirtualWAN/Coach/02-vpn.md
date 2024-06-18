@@ -156,6 +156,9 @@ interface Tunnel0
  tunnel protection ipsec profile azure-vti
 exit
 !
+
+<--- Add DPD detection
+
 interface Tunnel1
  ip unnumbered GigabitEthernet1    <-- Match IP addresses as in other confi
  ip tcp adjust-mss 1350
