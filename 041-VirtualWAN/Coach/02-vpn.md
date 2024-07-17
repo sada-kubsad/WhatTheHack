@@ -586,12 +586,19 @@ Either
 - Option 2: in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support DH 14
 
 #### 6.2.1 Option 1: 
+See here for details [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html)
 ```
+config t
 #crypto engine compliance shield disable
+exit
+wr mem
+
 reload         --> Reboot required for the change to take effect
 ```
 
 #### 6.2.1 Option 2: 
+in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support DH 14
+
 
 ## 7. Success Criteria: Confirm connectivity between branches as well as between branches and VNets (same hub and across hubs)
 
