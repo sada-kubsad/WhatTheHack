@@ -54,7 +54,7 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
     --associated-route-table $hub2_default_rt_id --propagated-route-tables $hub2_default_rt_id  --labels default --internet-security true
 ```
 
-## 3. Configure CSRs of Brnach 1 and 2
+## 3. Configure CSRs of Branch 1 and 2
 
 Configuring the CSRs will add the required IPsec and BGP configurations
 
