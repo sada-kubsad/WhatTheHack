@@ -581,8 +581,9 @@ Either
 - in CSR enable DH 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html)
 - in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support DH 14
 
+## 7. Success Criteria: Confirm connectivity between branches as well as between branches and VNets (same hub and across hubs)
 
-## 7. Start, Stop and Check status of VMs
+## 8. Start, Stop and Check status of VMs
 ```
 Start All VMs:
 --------------
