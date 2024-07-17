@@ -568,7 +568,9 @@ show logging  | include Tunnel
 *May 30 16:57:32.232: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel1, changed state to down
 
 #Result when normal:
-
+branch1-nva#show logging | include Tunnel
+*Jul 17 16:50:23.430: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel1, changed state to up
+*Jul 17 16:50:23.466: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel0, changed state to up
 ```
 
 ### 5.7 Check Tunnnel status:
