@@ -393,6 +393,7 @@ Initially both Tunnels at Branch 1 and 2 were down:
 show ip interface brief"
 branch1-nva#show ip interface brief
 # Tunnels not setup:
+--------------------
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       172.16.1.10     YES DHCP   up                    up
 Loopback0              10.11.11.11     YES NVRAM  up                    up
@@ -401,6 +402,7 @@ Tunnel1                172.16.1.10     YES TFTP   up                    down
 VirtualPortGroup0      192.168.35.101  YES NVRAM  up                    up
 
 # Tunnels correctly setup:
+--------------------------
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       172.16.1.10     YES DHCP   up                    up
 Loopback0              10.11.11.11     YES NVRAM  up                    up
@@ -413,6 +415,7 @@ show ip bgp summary
 branch1-nva#show ip bgp summary
 
 # BGP NOT correctly setup:
+--------------------------
 BGP router identifier 10.11.11.11, local AS number 65001
 BGP table version is 3, main routing table version 3
 2 network entries using 496 bytes of memory
@@ -429,6 +432,7 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ         Up/Dow
 192.168.1.13    4        65515       0       0        1    0    0         never        Idle
 
 # BGP correctly setup:
+----------------------
 BGP router identifier 10.11.11.11, local AS number 65001
 BGP table version is 3, main routing table version 3
 2 network entries using 496 bytes of memory
