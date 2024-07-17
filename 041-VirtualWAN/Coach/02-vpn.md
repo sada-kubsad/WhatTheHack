@@ -576,14 +576,22 @@ show logging  | include Tunnel
 show crypto ikev2 sa
 ```
 
-## 6. 
+## 6. Major Learning: 
 ### 6.1 The problem: 
 VPN Gateway of vHUB [only supports DH 2](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-ipsec#default-ipsec-policies). But [Cisco has sunset DH 2 due to security concerns](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html) 
 
 ### 6.2 The solution:
 Either
-- in CSR enable DH 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html)
-- in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support DH 14
+- Option 1: in CSR enable DH 2 using [this](https://www.cisco.com/c/en/us/support/docs/field-notices/725/fn72510.html)
+- Option 2: in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-custom-ipsec-portal#configure-a-policy) to support DH 14
+
+#### 6.2.1 Option 1: 
+```
+#crypto engine compliance shield disable
+reload         --> Reboot required for the change to take effect
+```
+
+#### 6.2.1 Option 2: 
 
 ## 7. Success Criteria: Confirm connectivity between branches as well as between branches and VNets (same hub and across hubs)
 
