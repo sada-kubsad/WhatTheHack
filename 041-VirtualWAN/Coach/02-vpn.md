@@ -632,8 +632,8 @@ export branch1_nva_ip=$(az network public-ip show -n branch1-pip -g wthvwan --qu
 export branch2_nva_ip=$(az network public-ip show -n branch2-pip -g wthvwan --query ipAddress -o tsv)
 
 
-ssh azureuser@$branch1_ip
-ssh azureuser@$branch2_ip
+ssh azureuser@$branch1_nva_ip
+ssh azureuser@$branch2_nva_ip
 
 My public key is:
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCY12aVXmISdwgxsWUEw7AeUdSfl9db16/dMDDDkNlhBYDeNVALZD0NncYOa8Fa/l4GHN0+2jfPuUPnQtVJwdLXUynQuMmPOQ384jhe8VzV0vd3JZW8GAxf6EZVye50ZduWl7cX/vM9OyeuAcESSwC3tuSfk8WwTijW7nvczW1z5dDuAPq6ceO3MaPe5uBy3ZaC5xhvGfPAKdbKvNXTGbNOQ/QnVsAhYAWWVVkiOILtVqxqs/p+sEHsDGDM0a/o1Qjo/M8xHKEmsbfp8VyzmXATD455H/80tnmN6KwyzYZNIP/5DDscyEhthDqxJ/p9Qd1kb42DAFO6g6dSKLuufzAJ
