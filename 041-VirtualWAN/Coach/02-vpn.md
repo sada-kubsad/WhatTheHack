@@ -98,12 +98,19 @@ ssh -n -o BatchMode=yes -o StrictHostKeyChecking=no $branch1_ip "sh ip bgp summa
 The above commands turns [this config file](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/csr_config_2tunnels_tokenized.txt) into the following config being applied to Branch 1 CSR: 
 ```
 # Note: Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
-
+--------------------------
 config t
 license boot level network-essentials addon dna-essentials
 exit
 wr mem
 reload         --> Reboot required for license to take effect
+
+# Note: Before you can use Group 2 for DH in " ikev2 proposal azure-proposal", perform the following. See section 6.2.1 below for details:
+config t
+#crypto engine compliance shield disable
+exit
+wr mem
+reload         --> Reboot required for the change to take effect
 
 
 crypto ikev2 proposal azure-proposal
@@ -264,13 +271,19 @@ The above commands turn [this config file](https://github.com/sada-kubsad/WhatTh
 
 ```
 # Before you can apply the configuration below, enable DNA licensing by running the below. This is required so that the crypto ikev2... command gets enabled: 
-
+------------------------------
 config t
 license boot level network-essentials addon dna-essentials
 exit
 wr mem
 reload         --> Reboot required for license to take effect
 
+# Note: Before you can use Group 2 for DH in " ikev2 proposal azure-proposal", perform the following. See section 6.2.1 below for details:
+config t
+#crypto engine compliance shield disable
+exit
+wr mem
+reload         --> Reboot required for the change to take effect
 
 crypto ikev2 proposal azure-proposal
   encryption aes-cbc-256 aes-cbc-128
