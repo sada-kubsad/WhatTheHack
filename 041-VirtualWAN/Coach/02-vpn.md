@@ -318,7 +318,7 @@ crypto ikev2 profile azure-profile
 crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
  mode tunnel
  exit
-
+!
 crypto ipsec profile azure-vti
   set transform-set azure-ipsec-proposal-set
   set ikev2-profile azure-profile
@@ -343,7 +343,6 @@ interface Tunnel1
  tunnel destination 4.152.29.218
  tunnel protection ipsec profile azure-vti
 exit
-
 !
 router bgp 65002
  bgp router-id interface GigabitEthernet1
@@ -397,7 +396,8 @@ config t
     line vty 0 15
         exec-timeout 0 0
 end
-! wr mem
+!
+wr mem
 ```
 ## 4. Verify that all tunnels are up, and BGP adjacencies established:
 Initially both Tunnels at Branch 1 and 2 were down:
