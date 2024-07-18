@@ -11,7 +11,7 @@
 
 ## 1. Create VPN Gateways in the vHubs
 
-Note that VPN creation can take some time:
+Note: VPN creation can take some time:
 
 ```bash
 # Create VPN gateways
