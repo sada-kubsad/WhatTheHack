@@ -617,7 +617,304 @@ in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/vir
 
 ## 7. Success Criteria: Confirm connectivity between branches as well as between branches and VNets (same hub and across hubs)
 
-## 8. Start, Stop and Check status of VMs
+## 8. Check Effective Route
+# Check Effective Routes on VMs
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke11-vmVMNic
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke12-vmVMNic
+az network nic show-effective-route-table  -g wthvwan -o table -n branch1-nvaVMNic
+az network nic show-effective-route-table  -g wthvwan -o table -n branch1-nva-vm893_z1
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke21-vmVMNic
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke22-vmVMNic
+az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nvaVMNic
+az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nva-vm103
+```
+
+## Effective Routes on VM-11
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke11-vmVMNic
+Source                 State    Address Prefix     Next Hop Type          Next Hop IP
+---------------------  -------  -----------------  ---------------------  -------------
+Default                Active   10.1.1.0/24        VnetLocal
+Default                Active   192.168.1.0/24     VNetPeering
+VirtualNetworkGateway  Active   10.1.2.0/24        VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.13
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.13
+VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.13
+Default                Active   0.0.0.0/0          Internet
+Default                Active   10.0.0.0/8         None
+Default                Active   127.0.0.0/8        None
+Default                Active   100.64.0.0/10      None
+Default                Active   172.16.0.0/12      None
+Default                Active   25.176.0.0/13      None
+Default                Active   25.152.0.0/14      None
+Default                Active   25.184.0.0/14      None
+Default                Active   25.4.0.0/14        None
+Default                Active   25.148.0.0/15      None
+Default                Active   198.18.0.0/15      None
+Default                Active   25.150.0.0/16      None
+Default                Active   25.156.0.0/16      None
+Default                Active   25.159.0.0/16      None
+Default                Active   40.109.0.0/16      None
+Default                Active   192.168.0.0/16     None
+Default                Active   104.147.0.0/16     None
+Default                Active   157.59.0.0/16      None
+Default                Active   40.108.0.0/17      None
+Default                Active   104.146.0.0/17     None
+Default                Active   23.103.0.0/18      None
+Default                Active   20.35.252.0/22     None
+```
+
+## Effective Routes on VM-12
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke12-vmVMNic
+Source                 State    Address Prefix     Next Hop Type          Next Hop IP
+---------------------  -------  -----------------  ---------------------  -------------
+Default                Active   10.1.2.0/24        VnetLocal
+Default                Active   192.168.1.0/24     VNetPeering
+VirtualNetworkGateway  Active   10.1.1.0/24        VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.13
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.13
+VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.13
+Default                Active   0.0.0.0/0          Internet
+Default                Active   10.0.0.0/8         None
+Default                Active   127.0.0.0/8        None
+Default                Active   100.64.0.0/10      None
+Default                Active   172.16.0.0/12      None
+Default                Active   25.176.0.0/13      None
+Default                Active   25.152.0.0/14      None
+Default                Active   25.184.0.0/14      None
+Default                Active   25.4.0.0/14        None
+Default                Active   25.148.0.0/15      None
+Default                Active   198.18.0.0/15      None
+Default                Active   25.150.0.0/16      None
+Default                Active   25.156.0.0/16      None
+Default                Active   25.159.0.0/16      None
+Default                Active   40.109.0.0/16      None
+Default                Active   192.168.0.0/16     None
+Default                Active   104.147.0.0/16     None
+Default                Active   157.59.0.0/16      None
+Default                Active   40.108.0.0/17      None
+Default                Active   104.146.0.0/17     None
+Default                Active   23.103.0.0/18      None
+Default                Active   20.35.252.0/22     None
+```
+## Effective Routes on Branch 1 NVA
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n branch1-nvaVMNic
+Source    State    Address Prefix    Next Hop Type    Next Hop IP
+--------  -------  ----------------  ---------------  -------------
+Default   Active   172.16.1.0/24     VnetLocal
+Default   Active   0.0.0.0/0         Internet
+Default   Active   10.0.0.0/8        None
+Default   Active   127.0.0.0/8       None
+Default   Active   100.64.0.0/10     None
+Default   Active   172.16.0.0/12     None
+Default   Active   25.176.0.0/13     None
+Default   Active   25.152.0.0/14     None
+Default   Active   25.184.0.0/14     None
+Default   Active   25.4.0.0/14       None
+Default   Active   25.148.0.0/15     None
+Default   Active   198.18.0.0/15     None
+Default   Active   25.150.0.0/16     None
+Default   Active   25.156.0.0/16     None
+Default   Active   25.159.0.0/16     None
+Default   Active   40.109.0.0/16     None
+Default   Active   192.168.0.0/16    None
+Default   Active   104.147.0.0/16    None
+Default   Active   157.59.0.0/16     None
+Default   Active   40.108.0.0/17     None
+Default   Active   104.146.0.0/17    None
+Default   Active   23.103.0.0/18     None
+Default   Active   20.35.252.0/22    None
+```
+## Effective Routes on Branch 1 NVA VM
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n branch1-nva-vm893_z1
+Source    State    Address Prefix    Next Hop Type    Next Hop IP
+--------  -------  ----------------  ---------------  -------------
+Default   Active   172.16.1.0/24     VnetLocal
+Default   Active   0.0.0.0/0         Internet
+Default   Active   10.0.0.0/8        None
+Default   Active   127.0.0.0/8       None
+Default   Active   100.64.0.0/10     None
+Default   Active   172.16.0.0/12     None
+Default   Active   25.176.0.0/13     None
+Default   Active   25.152.0.0/14     None
+Default   Active   25.184.0.0/14     None
+Default   Active   25.4.0.0/14       None
+Default   Active   25.148.0.0/15     None
+Default   Active   198.18.0.0/15     None
+Default   Active   25.150.0.0/16     None
+Default   Active   25.156.0.0/16     None
+Default   Active   25.159.0.0/16     None
+Default   Active   40.109.0.0/16     None
+Default   Active   192.168.0.0/16    None
+Default   Active   104.147.0.0/16    None
+Default   Active   157.59.0.0/16     None
+Default   Active   40.108.0.0/17     None
+Default   Active   104.146.0.0/17    None
+Default   Active   23.103.0.0/18     None
+Default   Active   20.35.252.0/22    None
+```
+
+## Effective Routes on VM-21
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke21-vmVMNic
+Source                 State    Address Prefix     Next Hop Type          Next Hop IP
+---------------------  -------  -----------------  ---------------------  -------------
+Default                Active   10.2.1.0/24        VnetLocal
+Default                Active   192.168.2.0/24     VNetPeering
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   10.2.2.0/24        VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   10.1.1.0/24        VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   10.1.2.0/24        VirtualNetworkGateway  4.152.58.159
+Default                Active   0.0.0.0/0          Internet
+Default                Active   10.0.0.0/8         None
+Default                Active   127.0.0.0/8        None
+Default                Active   100.64.0.0/10      None
+Default                Active   172.16.0.0/12      None
+Default                Active   25.176.0.0/13      None
+Default                Active   25.152.0.0/14      None
+Default                Active   25.184.0.0/14      None
+Default                Active   25.4.0.0/14        None
+Default                Active   25.148.0.0/15      None
+Default                Active   198.18.0.0/15      None
+Default                Active   25.150.0.0/16      None
+Default                Active   25.156.0.0/16      None
+Default                Active   25.159.0.0/16      None
+Default                Active   40.109.0.0/16      None
+Default                Active   192.168.0.0/16     None
+Default                Active   104.147.0.0/16     None
+Default                Active   157.59.0.0/16      None
+Default                Active   40.108.0.0/17      None
+Default                Active   104.146.0.0/17     None
+Default                Active   23.103.0.0/18      None
+Default                Active   20.35.252.0/22     None
+```
+
+## Effective Routes on VM-22
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n spoke22-vmVMNic
+Source                 State    Address Prefix     Next Hop Type          Next Hop IP
+---------------------  -------  -----------------  ---------------------  -------------
+Default                Active   10.2.2.0/24        VnetLocal
+Default                Active   192.168.2.0/24     VNetPeering
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   10.1.2.0/24        VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   10.2.1.0/24        VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   10.1.1.0/24        VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.13
+Default                Active   0.0.0.0/0          Internet
+Default                Active   10.0.0.0/8         None
+Default                Active   127.0.0.0/8        None
+Default                Active   100.64.0.0/10      None
+Default                Active   172.16.0.0/12      None
+Default                Active   25.176.0.0/13      None
+Default                Active   25.152.0.0/14      None
+Default                Active   25.184.0.0/14      None
+Default                Active   25.4.0.0/14        None
+Default                Active   25.148.0.0/15      None
+Default                Active   198.18.0.0/15      None
+Default                Active   25.150.0.0/16      None
+Default                Active   25.156.0.0/16      None
+Default                Active   25.159.0.0/16      None
+Default                Active   40.109.0.0/16      None
+Default                Active   192.168.0.0/16     None
+Default                Active   104.147.0.0/16     None
+Default                Active   157.59.0.0/16      None
+Default                Active   40.108.0.0/17      None
+Default                Active   104.146.0.0/17     None
+Default                Active   23.103.0.0/18      None
+Default                Active   20.35.252.0/22     None
+```
+## Effective Routes on Branch 2 NVA:
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nvaVMNic
+Source    State    Address Prefix    Next Hop Type    Next Hop IP
+--------  -------  ----------------  ---------------  -------------
+Default   Active   172.16.2.0/24     VnetLocal
+Default   Active   0.0.0.0/0         Internet
+Default   Active   10.0.0.0/8        None
+Default   Active   127.0.0.0/8       None
+Default   Active   100.64.0.0/10     None
+Default   Active   172.16.0.0/12     None
+Default   Active   25.176.0.0/13     None
+Default   Active   25.152.0.0/14     None
+Default   Active   25.184.0.0/14     None
+Default   Active   25.4.0.0/14       None
+Default   Active   25.148.0.0/15     None
+Default   Active   198.18.0.0/15     None
+Default   Active   25.150.0.0/16     None
+Default   Active   25.156.0.0/16     None
+Default   Active   25.159.0.0/16     None
+Default   Active   40.109.0.0/16     None
+Default   Active   192.168.0.0/16    None
+Default   Active   104.147.0.0/16    None
+Default   Active   157.59.0.0/16     None
+Default   Active   40.108.0.0/17     None
+Default   Active   104.146.0.0/17    None
+Default   Active   23.103.0.0/18     None
+Default   Active   20.35.252.0/22    None
+```
+## Effective Routes on Branch 2 NVA VM:
+```
+az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nva-vm103
+Source    State    Address Prefix    Next Hop Type    Next Hop IP
+--------  -------  ----------------  ---------------  -------------
+Default   Active   172.16.2.0/24     VnetLocal
+Default   Active   0.0.0.0/0         Internet
+Default   Active   10.0.0.0/8        None
+Default   Active   127.0.0.0/8       None
+Default   Active   100.64.0.0/10     None
+Default   Active   172.16.0.0/12     None
+Default   Active   25.176.0.0/13     None
+Default   Active   25.152.0.0/14     None
+Default   Active   25.184.0.0/14     None
+Default   Active   25.4.0.0/14       None
+Default   Active   25.148.0.0/15     None
+Default   Active   198.18.0.0/15     None
+Default   Active   25.150.0.0/16     None
+Default   Active   25.156.0.0/16     None
+Default   Active   25.159.0.0/16     None
+Default   Active   40.109.0.0/16     None
+Default   Active   192.168.0.0/16    None
+Default   Active   104.147.0.0/16    None
+Default   Active   157.59.0.0/16     None
+Default   Active   40.108.0.0/17     None
+Default   Active   104.146.0.0/17    None
+Default   Active   23.103.0.0/18     None
+Default   Active   20.35.252.0/22    None
+```
+
+## 9. Start, Stop and Check status of VMs
 ```
 Start All VMs:
 --------------
