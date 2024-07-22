@@ -26,6 +26,7 @@ crypto ikev2 profile azure-profile
   authentication remote pre-share
   authentication local pre-share
   keyring local azure-keyring
+  dpd 10 5 on-demand
   exit
 !
 crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
