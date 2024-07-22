@@ -265,7 +265,7 @@ Default                Active   23.103.0.0/18     None
 Default                Active   20.35.252.0/22    None
 ```
 
-# Effective Routes on VM-21
+## Effective Routes on VM-21
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke21-vmVMNic
 Source                 State    Address Prefix    Next Hop Type          Next Hop IP
@@ -299,7 +299,7 @@ Default                Active   23.103.0.0/18     None
 Default                Active   20.35.252.0/22    None
 ```
 
-# Effective Routes on VM-22
+## Effective Routes on VM-22
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke22-vmVMNic
 Source                 State    Address Prefix    Next Hop Type          Next Hop IP
