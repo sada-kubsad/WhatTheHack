@@ -31,7 +31,7 @@ crypto ikev2 profile azure-profile
 crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
  mode tunnel
  exit
-
+!
 crypto ipsec profile azure-vti
   set transform-set azure-ipsec-proposal-set
   set ikev2-profile azure-profile
@@ -56,7 +56,6 @@ interface Tunnel1
  tunnel destination **GW1_Public_IP**
  tunnel protection ipsec profile azure-vti
 exit
-
 !
 router bgp **BGP_ID**
  bgp router-id interface GigabitEthernet1
