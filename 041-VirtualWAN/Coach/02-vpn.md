@@ -141,6 +141,7 @@ crypto ikev2 profile azure-profile
   authentication remote pre-share
   authentication local pre-share
   keyring local azure-keyring
+  dpd 10 5 on-demand
   exit
 !
 crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
@@ -163,9 +164,6 @@ interface Tunnel0
  tunnel protection ipsec profile azure-vti
 exit
 !
-
-<--- Add DPD detection
-
 interface Tunnel1
  ip unnumbered GigabitEthernet1    <-- Match IP addresses as in other confi
  ip tcp adjust-mss 1350
@@ -192,7 +190,7 @@ end
 !
 wr mem
 ```
-#### 3.1.2 Configure BGP:
+#### 3.1.2 Configure BGP for Branch 1 CSR:
 Generate the BGP configuration for Branch 1 CSR with:
 ```
 myip=$(curl -s4 ifconfig.co)
@@ -286,9 +284,9 @@ wr mem
 reload         --> Reboot required for the change to take effect
 
 crypto ikev2 proposal azure-proposal
-  encryption aes-cbc-256 aes-cbc-128
-  integrity sha1 sha256 sha384 sha512 
-  group 2 14 15 16 
+  encryption aes-cbc-128 aes-cbc-256
+  integrity sha1
+  group 2 14 15 16
   exit
 !
 crypto ikev2 policy azure-policy
@@ -296,23 +294,24 @@ crypto ikev2 policy azure-policy
   exit
 !
 crypto ikev2 keyring azure-keyring
-  peer 4.152.26.209
-    address 4.152.26.209
+  peer 4.152.106.174
+    address 4.152.106.174
     pre-shared-key Msft123Msft123
     exit
-  peer 4.152.29.218
-    address 4.152.29.218
+  peer 4.152.106.165
+    address 4.152.106.165
     pre-shared-key Msft123Msft123
     exit
   exit
 !
 crypto ikev2 profile azure-profile
   match address local interface GigabitEthernet1
-  match identity remote address 4.152.26.209 255.255.255.255
-  match identity remote address 4.152.29.218 255.255.255.255
+  match identity remote address 4.152.106.174 255.255.255.255
+  match identity remote address 4.152.106.165 255.255.255.255
   authentication remote pre-share
   authentication local pre-share
   keyring local azure-keyring
+  dpd 10 5 on-demand
   exit
 !
 crypto ipsec transform-set azure-ipsec-proposal-set esp-aes 256 esp-sha-hmac
@@ -331,7 +330,7 @@ interface Tunnel0
  ip tcp adjust-mss 1350
  tunnel source GigabitEthernet1
  tunnel mode ipsec ipv4
- tunnel destination 4.152.26.209
+ tunnel destination 4.152.106.174
  tunnel protection ipsec profile azure-vti
 exit
 !
@@ -340,7 +339,7 @@ interface Tunnel1
  ip tcp adjust-mss 1350
  tunnel source GigabitEthernet1
  tunnel mode ipsec ipv4
- tunnel destination 4.152.29.218
+ tunnel destination 4.152.106.165
  tunnel protection ipsec profile azure-vti
 exit
 !
@@ -360,8 +359,9 @@ ip route 192.168.2.13 255.255.255.255 Tunnel1
 end
 !
 wr mem
+
 ```
-#### 3.2.2 Configure BGP:
+#### 3.2.2 Configure BGP for Branch 2:
 Generate BGP configuration for Branch 2 CSR with:
 ```
 myip=$(curl -s4 ifconfig.co)
