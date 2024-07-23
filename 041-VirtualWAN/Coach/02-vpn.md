@@ -625,7 +625,7 @@ Check ping from each VM to all the others.
 
 
 ## 8. Check Effective Route
-# Check Effective Routes on VMs
+## 8.1 Check Effective Routes on VMs
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke11-vmVMNic
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke12-vmVMNic
@@ -637,7 +637,7 @@ az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nvaVMN
 az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nva-vm103
 ```
 
-## Effective Routes on VM-11
+## 8.2 Effective Routes on VM-11
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke11-vmVMNic
 Source                 State    Address Prefix     Next Hop Type          Next Hop IP
@@ -680,7 +680,7 @@ Default                Active   23.103.0.0/18      None
 Default                Active   20.35.252.0/22     None
 ```
 
-## Effective Routes on VM-12
+## 8.3 Effective Routes on VM-12
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke12-vmVMNic
 Source                 State    Address Prefix     Next Hop Type          Next Hop IP
@@ -722,7 +722,7 @@ Default                Active   104.146.0.0/17     None
 Default                Active   23.103.0.0/18      None
 Default                Active   20.35.252.0/22     None
 ```
-## Effective Routes on Branch 1 NVA
+## 8.4 Effective Routes on Branch 1 NVA
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n branch1-nvaVMNic
 Source    State    Address Prefix    Next Hop Type    Next Hop IP
@@ -751,7 +751,7 @@ Default   Active   104.146.0.0/17    None
 Default   Active   23.103.0.0/18     None
 Default   Active   20.35.252.0/22    None
 ```
-## Effective Routes on Branch 1 NVA VM
+## 8.5 Effective Routes on Branch 1 NVA VM
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n branch1-nva-vm893_z1
 Source    State    Address Prefix    Next Hop Type    Next Hop IP
@@ -781,7 +781,7 @@ Default   Active   23.103.0.0/18     None
 Default   Active   20.35.252.0/22    None
 ```
 
-## Effective Routes on VM-21
+## 8.6 Effective Routes on VM-21
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke21-vmVMNic
 Source                 State    Address Prefix     Next Hop Type          Next Hop IP
@@ -824,7 +824,7 @@ Default                Active   23.103.0.0/18      None
 Default                Active   20.35.252.0/22     None
 ```
 
-## Effective Routes on VM-22
+## 8.7 Effective Routes on VM-22
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n spoke22-vmVMNic
 Source                 State    Address Prefix     Next Hop Type          Next Hop IP
@@ -866,7 +866,7 @@ Default                Active   104.146.0.0/17     None
 Default                Active   23.103.0.0/18      None
 Default                Active   20.35.252.0/22     None
 ```
-## Effective Routes on Branch 2 NVA:
+## 8.8 Effective Routes on Branch 2 NVA:
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nvaVMNic
 Source    State    Address Prefix    Next Hop Type    Next Hop IP
@@ -895,7 +895,7 @@ Default   Active   104.146.0.0/17    None
 Default   Active   23.103.0.0/18     None
 Default   Active   20.35.252.0/22    None
 ```
-## Effective Routes on Branch 2 NVA VM:
+## 8.9 Effective Routes on Branch 2 NVA VM:
 ```
 az network nic show-effective-route-table  -g wthvwan -o table -n branch2-nva-vm103
 Source    State    Address Prefix    Next Hop Type    Next Hop IP
