@@ -8,7 +8,7 @@
 
 ## Solution Guide
 
-### Creating VNets 3 and 4 in hubs
+## 1 Creating VNets 3 and 4 in hubs
 
 Creates two additional VNets:
 
@@ -17,7 +17,7 @@ Creates two additional VNets:
 spoke_id=13
 vnet_prefix=10.1.3.0/24
 subnet_prefix=10.1.3.0/26
-az vm create -n spoke${spoke_id}-vm -g $rg -l $location1 --image ubuntuLTS --admin-username $username --generate-ssh-keys \
+az vm create -n spoke${spoke_id}-vm -g $rg -l $location1 --image Ubuntu2204 --admin-username $username --generate-ssh-keys \
     --public-ip-address spoke${spoke_id}-pip --vnet-name spoke${spoke_id}-$location1 \
     --vnet-address-prefix $vnet_prefix --subnet vm --subnet-address-prefix $subnet_prefix
 az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub1 --remote-vnet spoke${spoke_id}-$location1 \
@@ -26,7 +26,7 @@ az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub1 --
 spoke_id=14
 vnet_prefix=10.1.4.0/24
 subnet_prefix=10.1.4.0/26
-az vm create -n spoke${spoke_id}-vm -g $rg -l $location1 --image ubuntuLTS --admin-username $username --generate-ssh-keys \
+az vm create -n spoke${spoke_id}-vm -g $rg -l $location1 --image Ubuntu2204 --admin-username $username --generate-ssh-keys \
     --public-ip-address spoke${spoke_id}-pip --vnet-name spoke${spoke_id}-$location1 \
     --vnet-address-prefix $vnet_prefix --subnet vm --subnet-address-prefix $subnet_prefix
 az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub1 --remote-vnet spoke${spoke_id}-$location1 \
@@ -35,7 +35,7 @@ az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub1 --
 spoke_id=23
 vnet_prefix=10.2.3.0/24
 subnet_prefix=10.2.3.0/26
-az vm create -n spoke${spoke_id}-vm -g $rg -l $location2 --image ubuntuLTS --admin-username $username --generate-ssh-keys \
+az vm create -n spoke${spoke_id}-vm -g $rg -l $location2 --image Ubuntu2204 --admin-username $username --generate-ssh-keys \
     --public-ip-address spoke${spoke_id}-pip --vnet-name spoke${spoke_id}-$location2 \
     --vnet-address-prefix $vnet_prefix --subnet vm --subnet-address-prefix $subnet_prefix
 az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub2 --remote-vnet spoke${spoke_id}-$location2 \
@@ -44,7 +44,7 @@ az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub2 --
 spoke_id=24
 vnet_prefix=10.2.4.0/24
 subnet_prefix=10.2.4.0/26
-az vm create -n spoke${spoke_id}-vm -g $rg -l $location2 --image ubuntuLTS --admin-username $username --generate-ssh-keys \
+az vm create -n spoke${spoke_id}-vm -g $rg -l $location2 --image Ubuntu2204 --admin-username $username --generate-ssh-keys \
     --public-ip-address spoke${spoke_id}-pip --vnet-name spoke${spoke_id}-$location2 \
     --vnet-address-prefix $vnet_prefix --subnet vm --subnet-address-prefix $subnet_prefix
 az network vhub connection create -n spoke${spoke_id} -g $rg --vhub-name hub2 --remote-vnet spoke${spoke_id}-$location2 \
