@@ -8,7 +8,7 @@
 
 ## Solution Guide
 
-## 1 Creating VNets 3 and 4 in hubs
+## 1. Create VNets 3 and 4 in hubs
 
 Creates two additional VNets:
 
