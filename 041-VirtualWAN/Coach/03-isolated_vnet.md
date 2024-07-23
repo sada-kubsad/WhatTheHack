@@ -20,9 +20,9 @@ Branches	    →	    Direct	     |   Direct	      |    Direct	         |    Dire
 --------------------------------------------------------------------------------------------
 
 | From | To | Dev VNets | Prod VNet | Serivces VNets | Branches |
-| --- | --- | --- | --- | --- | --- | --- |
-| git status | List all new or modified files |
-| git diff | Show file differences that haven't been staged |
+| --- | --- | --- | --- | --- | --- |
+| Dev Vnets | -> | Direct | Direct | Direct | Direct |
+| git diff | ->  | Direct | Direct | Direct | Direct |
 
 ## 2. Create VNets 3 and 4 in hubs 1 and 2
 
