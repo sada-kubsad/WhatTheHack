@@ -9,8 +9,8 @@
 ## Solution Guide
 ## 1. Plan the Route Tables needed, their associations and propagations
 
-Success Criteria
-The Development VNet should be able to communicate with the other Development VNet in the other hub, and to both Common Services VNets
+Success Criteria</B>
+The Development VNet should be able to communicate with the other Development VNet in the other hub, and to both Common Services VNets</B>
 The Production VNets should be able to communicate with the other Production VNets (same hub and across hubs), and to both Common Services VNets
 The Development VNets should not be able to communicate to the Production VNets
 All VNets should be able to communicate with the VPN branches
