@@ -130,7 +130,7 @@ export branch2_nva_ip=$(az network public-ip show -n branch2-pip -g wthvwan --qu
 export branch1_nva_vm=$(az network public-ip show -n branch1-nva-VM-ip -g wthvwan --query ipAddress -o tsv)
 export branch2_nva_vm=$(az network public-ip show -n branch2-nva-VM-ip -g wthvwan --query ipAddress -o tsv)
 
-ssh azureuser@$branch1_nva_ip
+ssh azureuser@$spoke11vm
 ssh azureuser@$branch2_nva_ip
 
 My public key is:
