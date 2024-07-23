@@ -10,14 +10,6 @@
 ## 1. Plan the Route Tables needed, their associations and propagations
 
 Requirements translate to this:
---------------------------------------------------------------------------------------------
-From	        To:	    Dev VNets    |	Prod VNets    |    Services Vnets    |    Branches  |
---------------------------------------------------------------------------------------------|
-Dev VNets	    →	    Direct		 |                |    Direct	         |    Direct    |  
-Prod VNets	    →			         |   Direct	      |    Direct            |    Direct    |
-Services VNet	→		             |                |                      |    Direct    |
-Branches	    →	    Direct	     |   Direct	      |    Direct	         |    Direct    |
---------------------------------------------------------------------------------------------
 
 | From | To | Dev VNets | Prod VNet | Serivces VNets | Branches |
 | --- | --- | --- | --- | --- | --- |
