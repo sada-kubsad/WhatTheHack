@@ -619,7 +619,10 @@ in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/vir
 
 Check ping from each VM to all the others.
 
-Check that "Propagate to remote route table" is enabled on vWAN > Hub > Virtual network Connection [detailed here](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/01-any_to_any.md#vms-from-different-vnets-on-different-hubs-can-communicate)
+1. Check that "Propagate to remote route table" is enabled on vWAN > Hub > Virtual network Connection [detailed here](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/01-any_to_any.md#vms-from-different-vnets-on-different-hubs-can-communicate)
+2. Check that Branch to Branch Communication is enabled on vWAN > Configuration:
+![image](https://github.com/user-attachments/assets/37984736-a1ef-4897-8bb5-080a2ca437b4)
+
 
 ## 8. Check Effective Route
 # Check Effective Routes on VMs
