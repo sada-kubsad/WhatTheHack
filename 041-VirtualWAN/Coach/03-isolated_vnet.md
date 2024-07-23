@@ -18,6 +18,8 @@ Requirements translate to this:
 | Services VNets | ->  |  |  |  | Direct |
 | Branches VNets | ->  | Direct | Direct | Direct | Direct |
 
+These translate to 3 different Routing Tables, one each for Dev VNets, Prod Vnets and Services VNets.
+
 ## 2. Create VNets 3 and 4 in hubs 1 and 2
 
 Creates two additional VNets:
