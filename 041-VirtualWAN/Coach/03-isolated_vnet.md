@@ -19,6 +19,11 @@ Services VNet	→		             |                |                      |    Dir
 Branches	    →	    Direct	     |   Direct	      |    Direct	         |    Direct    |
 --------------------------------------------------------------------------------------------
 
+| From | To | Dev VNets | Prod VNet | Serivces VNets | Branches |
+| --- | --- | --- | --- | --- | --- | --- |
+| git status | List all new or modified files |
+| git diff | Show file differences that haven't been staged |
+
 ## 2. Create VNets 3 and 4 in hubs 1 and 2
 
 Creates two additional VNets:
