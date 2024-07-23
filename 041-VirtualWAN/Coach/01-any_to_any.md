@@ -175,7 +175,7 @@ ping -c 5 10.2.1.4
 ping -c 5 10.2.2.4
 
 ```
-### VMs from different VNets on different hubs can communicate: Check Propagate to Remote Route Table is checked on the vWAN > Hub > Virtual Network Connections
+### VMs from different VNets on different hubs can communicate: <B>"Propagate to Remote Route Table"</B> checked on the vWAN > Hub > Virtual Network Connections
 
 By default pings across VMs in different Hubs will not work. This is because each hub has its own default routing table. All connections associated to a hub are "associated with" and "propagate to" only the default routing table of that hub. You should enable each connection to propagate to the default routing table of the remote hub before pings across hubs will work.
 
