@@ -21,9 +21,9 @@ Branches	    →	    Direct	     |   Direct	      |    Direct	         |    Dire
 
 | From | To | Dev VNets | Prod VNet | Serivces VNets | Branches |
 | --- | --- | --- | --- | --- | --- |
-| Dev Vnets | -> | Direct | Direct | Direct | Direct |
-| Prod VNets | ->  | Direct | Direct | Direct | Direct |
-| Services VNets | ->  | Direct | Direct | Direct | Direct |
+| Dev Vnets | -> | Direct |  | Direct | Direct |
+| Prod VNets | ->  |  | Direct | Direct | Direct |
+| Services VNets | ->  |  |  |  | Direct |
 | Branches VNets | ->  | Direct | Direct | Direct | Direct |
 
 ## 2. Create VNets 3 and 4 in hubs 1 and 2
