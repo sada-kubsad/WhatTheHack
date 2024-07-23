@@ -7,8 +7,19 @@
 - Here again, you might want to create the VNets before the actual event
 
 ## Solution Guide
+## 1. Plan the Route Tables needed, their associations and propagations
 
-## 1. Create VNets 3 and 4 in hubs 1 and 2
+Requirements translate to this:
+--------------------------------------------------------------------------------------------
+From	        To:	    Dev VNets    |	Prod VNets    |    Services Vnets    |    Branches  |
+--------------------------------------------------------------------------------------------|
+Dev VNets	    →	    Direct		 |                |    Direct	         |    Direct    |  
+Prod VNets	    →			         |   Direct	      |    Direct            |    Direct    |
+Services VNet	→		             |                |                      |    Direct    |
+Branches	    →	    Direct	     |   Direct	      |    Direct	         |    Direct    |
+--------------------------------------------------------------------------------------------
+
+## 2. Create VNets 3 and 4 in hubs 1 and 2
 
 Creates two additional VNets:
 
@@ -62,10 +73,10 @@ az network vnet subnet update -n vm --vnet-name spoke21-$location2 -g $rg --rout
 az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --route-table spokes-$location2
 ```
 
-## 2. Modify custom routing to achieve VNet isolation
+## 3. Modify custom routing to achieve VNet isolation
 
-### 2.1 Create new route tables:
-#### 2.1.1 Create Route Tables in Hub1:
+### 3.1 Create new route tables:
+#### 3.1.1 Create Route Tables in Hub1:
 ```bash
 # Create separate RTs in hub1
 az network vhub route-table create -n hub1DEV --vhub-name hub1 -g $rg --labels dev
@@ -75,7 +86,7 @@ hub1_dev_rt_id=$(az network vhub route-table show --vhub-name hub1 -g $rg -n hub
 hub1_prod_rt_id=$(az network vhub route-table show --vhub-name hub1 -g $rg -n hub1PROD --query id -o tsv)
 hub1_cs_rt_id=$(az network vhub route-table show --vhub-name hub1 -g $rg -n hub1CS --query id -o tsv)
 ```
-#### 2.1.2 Create Route Tables in Hub2:
+#### 3.1.2 Create Route Tables in Hub2:
 ```
 # Create separate RTs in hub2
 az network vhub route-table create -n hub2DEV --vhub-name hub2 -g $rg --labels dev
@@ -85,14 +96,14 @@ hub2_dev_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub
 hub2_prod_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub2PROD --query id -o tsv)
 hub2_cs_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub2CS --query id -o tsv)
 ```
-### 2.2 Change association/propagation settings
+### 3.2 Change association/propagation settings
 ```
 # Setup:
 # * Spoke11/21: DEV
 # * Spoke12/13/22/23: PROD
 # * Spoke14/24: CS
 ```
-#### 2.2.1 Modify VNet Connections in Hub1:
+#### 3.2.1 Modify VNet Connections in Hub1:
 In Hub1, for each Spoke, attach its associated & propagated route table.
 Note: Connection <B>modifications</B> are via <B>create</B> on az network vhub route-table 
 ```
@@ -106,7 +117,7 @@ az network vhub connection create -n spoke13 -g $rg --vhub-name hub1 --remote-vn
 az network vhub connection create -n spoke14 -g $rg --vhub-name hub1 --remote-vnet spoke14-$location1 --internet-security true \
     --associated-route-table $hub1_cs_rt_id --propagated-route-tables $hub1_cs_rt_id --labels dev prod cs default
 ```
-#### 2.2.2 Modify connections in Hub2:
+#### 3.2.2 Modify connections in Hub2:
 In Hub2, for each Spoke, attach its associated & propagated route table.
 Note: Connection <B>modifications</B> are via <B>create</B> on az network vhub route-table 
 ```
@@ -120,7 +131,7 @@ az network vhub connection create -n spoke23 -g $rg --vhub-name hub2 --remote-vn
 az network vhub connection create -n spoke24 -g $rg --vhub-name hub2 --remote-vnet spoke24-$location2 --internet-security true \
     --associated-route-table $hub2_cs_rt_id --propagated-route-tables $hub2_cs_rt_id --labels dev prod cs default
 ```
-### 2.3 Modify VPN Connections
+### 3.3 Modify VPN Connections
 ```
 # Modify VPN connections
 az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $rg --remote-vpn-site branch1 \
@@ -131,7 +142,7 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
     --associated-route-table $hub2_default_rt_id --propagated-route-tables $hub2_default_rt_id --labels default dev prod cs
 ```
 
-## Connect to VMs
+## 4. Connect to VMs
 ```
 export spoke11vm=$(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
 export spoke12vm=$(az network public-ip show -n spoke12-pip -g wthvwan --query ipAddress -o tsv)
