@@ -116,7 +116,7 @@ az network vhub connection create -n spoke23 -g $rg --vhub-name hub2 --remote-vn
 az network vhub connection create -n spoke24 -g $rg --vhub-name hub2 --remote-vnet spoke24-$location2 --internet-security true \
     --associated-route-table $hub2_cs_rt_id --propagated-route-tables $hub2_cs_rt_id --labels dev prod cs default
 ```
-#### 2.3 Modify VPN Connections
+### 2.3 Modify VPN Connections
 ```
 # Modify VPN connections
 az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $rg --remote-vpn-site branch1 \
