@@ -8,7 +8,7 @@
 
 ## Solution Guide
 
-## 1. Create VNets 3 and 4 in hubs
+## 1. Create VNets 3 and 4 in hubs 1 and 2
 
 Creates two additional VNets:
 
@@ -62,9 +62,9 @@ az network vnet subnet update -n vm --vnet-name spoke21-$location2 -g $rg --rout
 az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --route-table spokes-$location2
 ```
 
-### Modifying custom routing to achieve VNet isolation
+## 2. Modify custom routing to achieve VNet isolation
 
-Creates new route tables and changes association/propagation settings:
+Create new route tables and changes association/propagation settings:
 
 ```bash
 # Create separate RTs in hub1
