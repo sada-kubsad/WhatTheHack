@@ -93,6 +93,9 @@ hub2_cs_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub2
 # * Spoke14/24: CS
 ```
 #### 2.2.1 Modify VNet Connections in Hub1:
+In Hub1, for each Spoke, attach its 
+- associated route table
+- propagated route table
 Note: Connection <B>modifications</B> are via <B>create</B> on az network vhub route-table 
 ```
 # Modify VNet connections in hub1:
@@ -106,6 +109,9 @@ az network vhub connection create -n spoke14 -g $rg --vhub-name hub1 --remote-vn
     --associated-route-table $hub1_cs_rt_id --propagated-route-tables $hub1_cs_rt_id --labels dev prod cs default
 ```
 #### 2.2.2 Modify connections in Hub2:
+In Hub2, for each Spoke, attach its 
+- associated route table
+- propagated route table
 Note: Connection <B>modifications</B> are via <B>create</B> on az network vhub route-table 
 ```
 # Modify VNet connections in hub2:
