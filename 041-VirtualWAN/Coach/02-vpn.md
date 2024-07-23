@@ -619,7 +619,7 @@ in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/vir
 
 Check ping from each VM to all the others.
 
-Be sure to check that propagate to remote route table is checked on the vWAN > Hub > Virtual network Connection [like this](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/01-any_to_any.md#vms-from-different-vnets-on-different-hubs-can-communicate)
+Check that "Propagate to remote route table" is enabled on vWAN > Hub > Virtual network Connection [detailed here](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/01-any_to_any.md#vms-from-different-vnets-on-different-hubs-can-communicate)
 
 ## 8. Check Effective Route
 # Check Effective Routes on VMs
@@ -641,14 +641,16 @@ Source                 State    Address Prefix     Next Hop Type          Next H
 ---------------------  -------  -----------------  ---------------------  -------------
 Default                Active   10.1.1.0/24        VnetLocal
 Default                Active   192.168.1.0/24     VNetPeering
+VirtualNetworkGateway  Active   10.2.1.0/24        VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   10.1.2.0/24        VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.2.2.0/24        VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.12
 VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.13
-VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  20.29.171.95
-VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.13
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.12
 VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.12
 VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.13
 Default                Active   0.0.0.0/0          Internet
@@ -683,13 +685,15 @@ Source                 State    Address Prefix     Next Hop Type          Next H
 Default                Active   10.1.2.0/24        VnetLocal
 Default                Active   192.168.1.0/24     VNetPeering
 VirtualNetworkGateway  Active   10.1.1.0/24        VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.2.2.0/24        VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  20.29.171.95
+VirtualNetworkGateway  Active   10.2.1.0/24        VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.12
 VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  192.168.1.13
-VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  20.29.171.95
-VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  20.29.171.95
 VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.13
+VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  192.168.1.12
 VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.12
 VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  192.168.1.13
 Default                Active   0.0.0.0/0          Internet
@@ -781,16 +785,16 @@ Source                 State    Address Prefix     Next Hop Type          Next H
 ---------------------  -------  -----------------  ---------------------  -------------
 Default                Active   10.2.1.0/24        VnetLocal
 Default                Active   192.168.2.0/24     VNetPeering
-VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.13
-VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.12
-VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.12
-VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.13
-VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.12
 VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.13
 VirtualNetworkGateway  Active   10.2.2.0/24        VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   10.1.1.0/24        VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   10.1.2.0/24        VirtualNetworkGateway  4.152.58.159
 Default                Active   0.0.0.0/0          Internet
@@ -824,15 +828,15 @@ Source                 State    Address Prefix     Next Hop Type          Next H
 ---------------------  -------  -----------------  ---------------------  -------------
 Default                Active   10.2.2.0/24        VnetLocal
 Default                Active   192.168.2.0/24     VNetPeering
-VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.13
-VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.12
-VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.12
-VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.13
-VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   10.1.2.0/24        VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   10.2.1.0/24        VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   172.16.1.0/26      VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   52.191.161.155/32  VirtualNetworkGateway  4.152.58.159
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   172.200.87.131/32  VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.12
+VirtualNetworkGateway  Active   10.22.22.22/32     VirtualNetworkGateway  192.168.2.13
+VirtualNetworkGateway  Active   10.11.11.11/32     VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   10.1.1.0/24        VirtualNetworkGateway  4.152.58.159
 VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.12
 VirtualNetworkGateway  Active   172.16.2.0/26      VirtualNetworkGateway  192.168.2.13
