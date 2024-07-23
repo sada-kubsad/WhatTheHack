@@ -66,6 +66,7 @@ az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --rout
 
 ### 2.1 Create new route tables:
 #### 2.1.1 Create Route Tables in Hub1:
+Note: Connection modifications are done done through az network vhub route-table </B>create</B>
 ```bash
 # Create separate RTs in hub1
 az network vhub route-table create -n hub1DEV --vhub-name hub1 -g $rg --labels dev
