@@ -103,7 +103,7 @@ hub2_dev_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub
 hub2_prod_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub2PROD --query id -o tsv)
 hub2_cs_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub2CS --query id -o tsv)
 ```
-### 3.2 Change association/propagation settings
+### 3.2 Change association/propagation settings of connections to leverage the newly created routing tables
 ```
 # Setup:
 # * Spoke11/21: DEV
