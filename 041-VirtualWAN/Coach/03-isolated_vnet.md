@@ -111,3 +111,30 @@ az network vpn-gateway connection create -n branch2 --gateway-name hubvpn2 -g $r
     --enable-bgp true --protocol-type IKEv2 --shared-key "$password" --connection-bandwidth 100 --routing-weight 10 --internet-security true \
     --associated-route-table $hub2_default_rt_id --propagated-route-tables $hub2_default_rt_id --labels default dev prod cs
 ```
+
+## Connect to VMs
+```
+export spoke11vm=$(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
+export spoke12vm=$(az network public-ip show -n spoke12-pip -g wthvwan --query ipAddress -o tsv)
+export spoke13vm=$(az network public-ip show -n spoke13-pip -g wthvwan --query ipAddress -o tsv)
+export spoke14vm=$(az network public-ip show -n spoke14-pip -g wthvwan --query ipAddress -o tsv)
+
+export spoke21vm=$(az network public-ip show -n spoke21-pip -g wthvwan --query ipAddress -o tsv)
+export spoke22vm=$(az network public-ip show -n spoke22-pip -g wthvwan --query ipAddress -o tsv)
+export spoke23vm=$(az network public-ip show -n spoke23-pip -g wthvwan --query ipAddress -o tsv)
+export spoke24vm=$(az network public-ip show -n spoke24-pip -g wthvwan --query ipAddress -o tsv)
+
+export branch1_nva_ip=$(az network public-ip show -n branch1-pip -g wthvwan --query ipAddress -o tsv)
+export branch2_nva_ip=$(az network public-ip show -n branch2-pip -g wthvwan --query ipAddress -o tsv)
+
+export branch1_nva_vm=$(az network public-ip show -n branch1-nva-VM-ip -g wthvwan --query ipAddress -o tsv)
+export branch2_nva_vm=$(az network public-ip show -n branch2-nva-VM-ip -g wthvwan --query ipAddress -o tsv)
+
+ssh azureuser@$branch1_nva_ip
+ssh azureuser@$branch2_nva_ip
+
+My public key is:
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCY12aVXmISdwgxsWUEw7AeUdSfl9db16/dMDDDkNlhBYDeNVALZD0NncYOa8Fa/l4GHN0+2jfPuUPnQtVJwdLXUynQuMmPOQ384jhe8VzV0vd3JZW8GAxf6EZVye50ZduWl7cX/vM9OyeuAcESSwC3tuSfk8WwTijW7nvczW1z5dDuAPq6ceO3MaPe5uBy3ZaC5xhvGfPAKdbKvNXTGbNOQ/QnVsAhYAWWVVkiOILtVqxqs/p+sEHsDGDM0a/o1Qjo/M8xHKEmsbfp8VyzmXATD455H/80tnmN6KwyzYZNIP/5DDscyEhthDqxJ/p9Qd1kb42DAFO6g6dSKLuufzAJ
+
+```
+
