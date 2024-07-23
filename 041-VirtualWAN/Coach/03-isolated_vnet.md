@@ -88,6 +88,9 @@ hub2_cs_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub2
 # * Spoke11/21: DEV
 # * Spoke12/13/22/23: PROD
 # * Spoke14/24: CS
+```
+#### 2.2.1 Modify VNet Connections in Hub1:
+```
 # Modify VNet connections in hub1:
 az network vhub connection create -n spoke11 -g $rg --vhub-name hub1 --remote-vnet spoke11-$location1 --internet-security true \
     --associated-route-table $hub1_dev_rt_id --propagated-route-tables $hub1_dev_rt_id --labels dev cs default
@@ -97,6 +100,9 @@ az network vhub connection create -n spoke13 -g $rg --vhub-name hub1 --remote-vn
     --associated-route-table $hub1_prod_rt_id --propagated-route-tables $hub1_prod_rt_id --labels prod cs default
 az network vhub connection create -n spoke14 -g $rg --vhub-name hub1 --remote-vnet spoke14-$location1 --internet-security true \
     --associated-route-table $hub1_cs_rt_id --propagated-route-tables $hub1_cs_rt_id --labels dev prod cs default
+```
+#### 2.2.2 Modify connections in Hub2:
+```
 # Modify VNet connections in hub2:
 az network vhub connection create -n spoke21 -g $rg --vhub-name hub2 --remote-vnet spoke21-$location2 --internet-security true \
     --associated-route-table $hub2_dev_rt_id --propagated-route-tables $hub2_dev_rt_id --labels dev cs default
@@ -106,6 +112,9 @@ az network vhub connection create -n spoke23 -g $rg --vhub-name hub2 --remote-vn
     --associated-route-table $hub2_prod_rt_id --propagated-route-tables $hub2_prod_rt_id --labels prod cs default
 az network vhub connection create -n spoke24 -g $rg --vhub-name hub2 --remote-vnet spoke24-$location2 --internet-security true \
     --associated-route-table $hub2_cs_rt_id --propagated-route-tables $hub2_cs_rt_id --labels dev prod cs default
+```
+#### 2.3 Modify VPN Connections
+```
 # Modify VPN connections
 az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $rg --remote-vpn-site branch1 \
     --enable-bgp true --protocol-type IKEv2 --shared-key "$password" --connection-bandwidth 100 --routing-weight 10 --internet-security true \
