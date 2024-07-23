@@ -93,7 +93,7 @@ hub2_cs_rt_id=$(az network vhub route-table show --vhub-name hub2 -g $rg -n hub2
 # * Spoke14/24: CS
 ```
 #### 2.2.1 Modify VNet Connections in Hub1:
-Note: Connection <B>modifications</B> are via az network vhub route-table <B>create</B>
+Note: Connection <U>modifications</U> are via az network vhub route-table <U>create</U>
 ```
 # Modify VNet connections in hub1:
 az network vhub connection create -n spoke11 -g $rg --vhub-name hub1 --remote-vnet spoke11-$location1 --internet-security true \
