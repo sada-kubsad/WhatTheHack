@@ -82,7 +82,7 @@ az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --rout
 
 ## 3. Modify custom routing to achieve VNet isolation
 
-### 3.1 Create new route tables:
+### 3.1 Create 3 new route tables as identified in Step 1:
 #### 3.1.1 Create Route Tables in Hub1:
 ```bash
 # Create separate RTs in hub1
