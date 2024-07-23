@@ -619,7 +619,7 @@ in Azure [create policy](https://learn.microsoft.com/en-us/azure/virtual-wan/vir
 
 Check ping from each VM to all the others.
 
-Be sure to check (this)[https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/01-any_to_any.md#vms-from-different-vnets-on-different-hubs-can-communicate]
+Be sure to check that propagate to remote route table is checked on the vWAN > Hub > Virtual network Connection [like this](https://github.com/sada-kubsad/WhatTheHack/blob/master/041-VirtualWAN/Coach/01-any_to_any.md#vms-from-different-vnets-on-different-hubs-can-communicate)
 
 ## 8. Check Effective Route
 # Check Effective Routes on VMs
