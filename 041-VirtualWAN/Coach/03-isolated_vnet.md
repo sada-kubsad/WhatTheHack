@@ -28,7 +28,7 @@ These translate to the need for 3 different Routing Tables, one each for Dev VNe
 
 ## 2. Create VNets 3 and 4 in hubs 1 and 2
 
-Creates two additional VNets:
+Create two additional VNets per Hub. Also connect those Vnets to their Hubs using default routing tables. We will change the routing tables (default routing tables) in a future step:
 
 ```bash
 # Spoke13 in location1
