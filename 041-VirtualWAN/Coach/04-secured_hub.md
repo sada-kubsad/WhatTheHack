@@ -102,3 +102,38 @@ while IFS= read -r fw_id; do
                 {"category": "AzureFirewallNetworkRule", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}}]' >/dev/null
 done <<< "$fw_id_list"
 ```
+## Success Criteria
+Prove that certain traffic (e.g. ping, SSH or HTTP) is either blocked by the firewall or allowed through. Confirm this for each of the configured flows (VHV, VHB and V2I)
+
+### 1. Check if ping is blocked or allowed through FW
+#### 1.1 Check VNet-Hub-VNet
+```
+```
+#### 1.2 Check VNet-Hub-Branch
+```
+```
+#### 1.3 Check VNet-Hub-Internet
+```
+```
+
+### 2. Check if SSH is blocked or allowed through FW
+#### 2.1 Check VNet-Hub-VNet
+```
+```
+#### 2.2 Check VNet-Hub-Branch
+```
+```
+#### 2.3 Check VNet-Hub-Internet
+```
+```
+
+### 3. Check if HTTP is blocked or allowed through FW
+#### 3.1 Check VNet-Hub-VNet
+```
+```
+#### 3.2 Check VNet-Hub-Branch
+```
+```
+#### 3.3 Check VNet-Hub-Internet
+```
+```
