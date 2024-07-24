@@ -83,7 +83,11 @@ az network vnet subnet update -n vm --vnet-name spoke22-$location2 -g $rg --rout
 ## 3. Modify custom routing to achieve VNet isolation
 Note: 
 - When you create Routes tables in a vhub, it does not show up in the Portal > Route tables list nor in the resource group as a route table resource.
-- A Route Table in vHub is an allow all for the VNets that the route table gets attached to.
+- A Route Table in vHub is an allow all for the VNets that the route table gets attached to. Hence if you just assign the route tables to the appropriate VNet connections, it will ensure that only the VNets that the route table is assigned to can talk amongst themselves:
+# Setup:
+# * Spoke11/21: DEV
+# * Spoke12/13/22/23: PROD
+# * Spoke14/24: CS
 
 ### 3.1 Create 3 new route tables as identified in Step 1:
 #### 3.1.1 Create 3 new Route Tables in Hub1:
