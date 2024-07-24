@@ -145,6 +145,7 @@ az network vhub connection create -n spoke24 -g $rg --vhub-name hub2 --remote-vn
     --associated-route-table $hub2_cs_rt_id --propagated-route-tables $hub2_cs_rt_id --labels dev prod cs default
 ```
 ### 3.3 Modify VPN Connections
+Because on-prem sites are represented by VNets, in each Hub, for each spoke, attach the newly created route table as the associated & propagated route table. Same as 3.2 above, but for on-prem representing VNets.  
 ```
 # Modify VPN connections
 az network vpn-gateway connection create -n branch1 --gateway-name hubvpn1 -g $rg --remote-vpn-site branch1 \
