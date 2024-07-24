@@ -24,7 +24,7 @@
 | Services VNets | ->  | Direct | Direct | Direct | Direct |
 | Branches VNets | ->  | Direct | Direct | Direct | Direct |
 
-These translate to the need for 3 patterns of Routing Tables, one each for Dev VNets, Prod Vnets and Services VNets.
+These translate to the need for 3 patterns of Routing Tables, one each for Dev VNets, Prod Vnets and onepattern for Services VNets & Branches VNets.
 
 ## 2. Create VNets 3 and 4 in hubs 1 and 2
 
