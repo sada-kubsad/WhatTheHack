@@ -106,34 +106,80 @@ done <<< "$fw_id_list"
 Prove that certain traffic (e.g. ping, SSH or HTTP) is either blocked by the firewall or allowed through. Confirm this for each of the configured flows (VHV, VHB and V2I)
 
 ### 1. Check if ping is blocked or allowed through FW
-#### 1.1 Check VNet-Hub-VNet
+#### 1.1 From Hub1:
 ```
+#check ping from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
+#Check ping from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
+#Check ping from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
+#Check ping from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
+
+#check ping from Hub1-Dev to Hub2-Prod/Services/Branches/Internet
+#Check ping from Hub1-Prod to Hub2-Dev/Services/Branches/Internet
+#Check ping from Hub1-Services to Hub2-Dev/Prod/Branches/Internet
+#Check ping from Hub1-Branches to Hub2-Dev/Prod/Services/Internet
 ```
-#### 1.2 Check VNet-Hub-Branch
+#### 1.2 From Hub2:
 ```
-```
-#### 1.3 Check VNet-Hub-Internet
-```
+#check ping from Hub2-Dev to Hub1-Prod/Services/Branches/Internet
+#Check ping from Hub2-Prod to Hub1-Dev/Services/Branches/Internet
+#Check ping from Hub2-Services to Hub1-Dev/Prod/Branches/Internet
+#Check ping from Hub2-Branches to Hub1-Dev/Prod/Services/Internet
+
+#check ping from Hub2-Dev to Hub2-Prod/Services/Branches/Internet
+#Check ping from Hub2-Prod to Hub2-Dev/Services/Branches/Internet
+#Check ping from Hub2-Services to Hub2-Dev/Prod/Branches/Internet
+#Check ping from Hub2-Branches to Hub2-Dev/Prod/Services/Internet
 ```
 
+
 ### 2. Check if SSH is blocked or allowed through FW
-#### 2.1 Check VNet-Hub-VNet
+#### 2.1 From Hub1:
 ```
+#check SSH from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
+#Check SSH from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
+#Check SSH from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
+#Check SSH from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
+
+#check SSH from Hub1-Dev to Hub2-Prod/Services/Branches/Internet
+#Check SSH from Hub1-Prod to Hub2-Dev/Services/Branches/Internet
+#Check SSH from Hub1-Services to Hub2-Dev/Prod/Branches/Internet
+#Check SSH from Hub1-Branches to Hub2-Dev/Prod/Services/Internet
 ```
-#### 2.2 Check VNet-Hub-Branch
+#### 2.2 From Hub2:
 ```
-```
-#### 2.3 Check VNet-Hub-Internet
-```
+#check SSH from Hub2-Dev to Hub1-Prod/Services/Branches/Internet
+#Check SSH from Hub2-Prod to Hub1-Dev/Services/Branches/Internet
+#Check SSH from Hub2-Services to Hub1-Dev/Prod/Branches/Internet
+#Check SSH from Hub2-Branches to Hub1-Dev/Prod/Services/Internet
+
+#check SSH from Hub2-Dev to Hub2-Prod/Services/Branches/Internet
+#Check SSH from Hub2-Prod to Hub2-Dev/Services/Branches/Internet
+#Check SSH from Hub2-Services to Hub2-Dev/Prod/Branches/Internet
+#Check SSH from Hub2-Branches to Hub2-Dev/Prod/Services/Internet
 ```
 
 ### 3. Check if HTTP is blocked or allowed through FW
-#### 3.1 Check VNet-Hub-VNet
+#### 3.1 From Hub1:
 ```
+#check HTTP from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
+#Check HTTP from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
+#Check HTTP from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
+#Check HTTP from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
+
+#check HTTP from Hub1-Dev to Hub2-Prod/Services/Branches/Internet
+#Check HTTP from Hub1-Prod to Hub2-Dev/Services/Branches/Internet
+#Check HTTP from Hub1-Services to Hub2-Dev/Prod/Branches/Internet
+#Check HTTP from Hub1-Branches to Hub2-Dev/Prod/Services/Internet
 ```
-#### 3.2 Check VNet-Hub-Branch
+#### 3.2 From Hub2:
 ```
-```
-#### 3.3 Check VNet-Hub-Internet
-```
+#check HTTP from Hub2-Dev to Hub1-Prod/Services/Branches/Internet
+#Check HTTP from Hub2-Prod to Hub1-Dev/Services/Branches/Internet
+#Check HTTP from Hub2-Services to Hub1-Dev/Prod/Branches/Internet
+#Check HTTP from Hub2-Branches to Hub1-Dev/Prod/Services/Internet
+
+#check HTTP from Hub2-Dev to Hub2-Prod/Services/Branches/Internet
+#Check HTTP from Hub2-Prod to Hub2-Dev/Services/Branches/Internet
+#Check HTTP from Hub2-Services to Hub2-Dev/Prod/Branches/Internet
+#Check HTTP from Hub2-Branches to Hub2-Dev/Prod/Services/Internet
 ```
