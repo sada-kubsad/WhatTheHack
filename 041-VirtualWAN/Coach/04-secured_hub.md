@@ -3,7 +3,7 @@
 [< Previous Challenge](./03-isolated_vnet.md) - **[Home](./README.md)** - [Next Challenge >](./05-nva.md)
 
 ## Notes and Guidance
-
+Previously: 
 - No multi-region support at the time of this writing, inter-region traffic is going to be silently dropped
 - Branch-to-branch traffic is not secured by the Azure Firewall at this time
 
