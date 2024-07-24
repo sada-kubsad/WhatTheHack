@@ -21,7 +21,7 @@
 | --- | --- | --- | --- | --- | --- |
 | Dev Vnets | -> | Direct |  | Direct | Direct |
 | Prod VNets | ->  |  | Direct | Direct | Direct |
-| Services VNets | ->  |  |  |  | Direct |
+| Services VNets | ->  | Direct | Direct | Direct | Direct |
 | Branches VNets | ->  | Direct | Direct | Direct | Direct |
 
 These translate to the need for 3 different Routing Tables, one each for Dev VNets, Prod Vnets and Services VNets.
