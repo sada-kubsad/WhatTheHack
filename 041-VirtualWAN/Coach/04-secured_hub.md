@@ -86,7 +86,7 @@ echo "Configuring VPN gateways..."
 gw_id_list=$(az network vpn-gateway list -g $rg --query '[].id' -o tsv)
 while IFS= read -r gw_id; do
     az monitor diagnostic-settings create -n mydiag --resource $gw_id --workspace $logws_id \
-        --metrics '[{"category": "AllMetrics", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false }, "timeGrain": null}]' \
+        --metrics '[{"category": "AllMetrics", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false } }]' \
         --logs '[{"category": "GatewayDiagnosticLog", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}}, 
                 {"category": "TunnelDiagnosticLog", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}},
                 {"category": "RouteDiagnosticLog", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}},
@@ -97,7 +97,7 @@ echo "Configuring Azure Firewalls..."
 fw_id_list=$(az network firewall list -g $rg --query '[].id' -o tsv)
 while IFS= read -r fw_id; do
     az monitor diagnostic-settings create -n mydiag --resource $fw_id --workspace $logws_id \
-        --metrics '[{"category": "AllMetrics", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false }, "timeGrain": null}]' \
+        --metrics '[{"category": "AllMetrics", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false } }]' \
         --logs '[{"category": "AzureFirewallApplicationRule", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}}, 
                 {"category": "AzureFirewallNetworkRule", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}}]' >/dev/null
 done <<< "$fw_id_list"
