@@ -109,6 +109,7 @@ Prove that certain traffic (e.g. ping, SSH or HTTP) is either blocked by the fir
 #### 1.1 From Hub1:
 ```
 #check ping from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
+ping $(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
 #Check ping from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
 #Check ping from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
 #Check ping from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
@@ -136,6 +137,7 @@ Prove that certain traffic (e.g. ping, SSH or HTTP) is either blocked by the fir
 #### 2.1 From Hub1:
 ```
 #check SSH from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
+ssh azureuser@$(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
 #Check SSH from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
 #Check SSH from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
 #Check SSH from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
@@ -162,6 +164,7 @@ Prove that certain traffic (e.g. ping, SSH or HTTP) is either blocked by the fir
 #### 3.1 From Hub1:
 ```
 #check HTTP from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
+curl 
 #Check HTTP from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
 #Check HTTP from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
 #Check HTTP from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
