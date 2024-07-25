@@ -96,7 +96,7 @@ done <<< "$gw_id_list"
 echo "Configuring Azure Firewalls..."
 fw_id_list=$(az network firewall list -g $rg --query '[].id' -o tsv)
 while IFS= read -r fw_id; do
-    az monitor diagnostic-settings create -n mydiag --resource $fw_id --workspace $logws_id \
+    az monitor diagnostic-settings create -n mydiag --resource $fw_id --workspace $logws_id --export-to-resource-specific\
         --metrics '[{"category": "AllMetrics", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false } }]' \
         --logs '[{"category": "AzureFirewallApplicationRule", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}}, 
                 {"category": "AzureFirewallNetworkRule", "enabled": true, "retentionPolicy": {"days": 0, "enabled": false}}]' >/dev/null
