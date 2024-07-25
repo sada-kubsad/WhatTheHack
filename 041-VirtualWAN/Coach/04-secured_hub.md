@@ -109,7 +109,8 @@ Prove that certain traffic (e.g. ping, SSH or HTTP) is either blocked by the fir
 #### 1.1 From Hub1:
 ```
 #check ping from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
-ping $(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
+Example: ping 10.1.1.4. 10.1.2.4, 10.1.3.4, 10.1.4.4. 172.16.1.10, 172.16.2.10
+ping 10.1.1.4. 10.1.2.4, 10.1.3.4, 10.1.4.4. 172.16.1.10, 172.16.2.10
 #Check ping from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
 #Check ping from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
 #Check ping from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
@@ -137,7 +138,7 @@ ping $(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o 
 #### 2.1 From Hub1:
 ```
 #check SSH from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
-ssh azureuser@$(az network public-ip show -n spoke11-pip -g wthvwan --query ipAddress -o tsv)
+ssh azureuser@10.1.1.4, azureuser@10.1.2.4, azureuser@10.1.3.4, azureuser@10.1.4.4, azureuser@10.1.1.4 
 #Check SSH from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
 #Check SSH from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
 #Check SSH from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
@@ -164,7 +165,7 @@ ssh azureuser@$(az network public-ip show -n spoke11-pip -g wthvwan --query ipAd
 #### 3.1 From Hub1:
 ```
 #check HTTP from Hub1-Dev to Hub1-Prod/Services/Branches/Internet
-curl 
+Example: curl 10.1.1.4 
 #Check HTTP from Hub1-Prod to Hub1-Dev/Services/Branches/Internet
 #Check HTTP from Hub1-Services to Hub1-Dev/Prod/Branches/Internet
 #Check HTTP from Hub1-Branches to Hub1-Dev/Prod/Services/Internet
