@@ -56,6 +56,8 @@ These commands will take time to execute.
 # Create Azure Firewalls in the virtual hubs
 az network firewall create -n azfw1 -g $rg --vhub hub1 --policy $azfw_policy_name -l $location1 --sku AZFW_Hub --public-ip-count 1
 az network firewall create -n azfw2 -g $rg --vhub hub2 --policy $azfw_policy_name -l $location2 --sku AZFW_Hub --public-ip-count 1
+### consider Adding --tier Basic to the above commands?
+
 # Configure static routes to firewall
 azfw1_id=$(az network firewall show -n azfw1 -g $rg --query id -o tsv)
 azfw2_id=$(az network firewall show -n azfw2 -g $rg --query id -o tsv)
