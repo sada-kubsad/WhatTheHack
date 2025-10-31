@@ -96,7 +96,7 @@ az vm create -n spoke2-vm -g $rg -l $location --image Ubuntu2404 --generate-ssh-
 
 echo "Creating vnet gateway. command will finish running but gw creation takes a while"
 
-az network public-ip create -n $vpngw_pip -g $rg --allocation-method Dynamic
+az network public-ip create -n $vpngw_pip -g $rg --allocation-method Static
 az network vnet-gateway create -n $vpngw_name -l eastus --public-ip-address $vpngw_pip -g $rg --vnet $vnet_name --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --no-wait
 
 
