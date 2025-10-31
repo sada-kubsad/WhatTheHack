@@ -59,7 +59,7 @@ az network vnet create -g $rg -n $vnet_name --address-prefix $vnet_prefix --subn
 az network vnet subnet create -n GatewaySubnet --address-prefix $gw_subnet_prefix --vnet-name $vnet_name -g $rg -o none
 
 # Create test VM in hub
-az vm create -n hubvm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
+az vm create -n hubvm -g $rg -l $location --image Ubuntu2404 --generate-ssh-keys \
     --admin-username "$username" \
     --admin-password "$password" \
     --public-ip-address hubvm-pip --vnet-name $vnet_name --size Standard_B1s --subnet $hub_vm_subnet_name -o none
@@ -73,7 +73,7 @@ az network vnet create -g $rg -n $spoke1_name --address-prefix $spoke1_prefix --
 
 
 # Create test VM in spoke1
-az vm create -n spoke1-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
+az vm create -n spoke1-vm -g $rg -l $location --image Ubuntu2404 --generate-ssh-keys \
         --admin-username "$username" \
         --admin-password "$password" \
         --public-ip-address spoke1-vm-pip --vnet-name $spoke1_name --size Standard_B1s --subnet $spoke1_vm_subnet_name -o none
@@ -83,7 +83,7 @@ az network vnet create -g $rg -n $spoke2_name --address-prefix $spoke2_prefix --
 
 
 # Create test VM in spoke2
-az vm create -n spoke2-vm -g $rg -l $location --image ubuntuLTS --generate-ssh-keys \
+az vm create -n spoke2-vm -g $rg -l $location --image Ubuntu2404 --generate-ssh-keys \
         --admin-username "$username" \
         --admin-password "$password" \
         --public-ip-address spoke2-vm-pip --vnet-name $spoke2_name --size Standard_B1s --subnet $spoke2_vm_subnet_name -o none
